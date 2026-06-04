@@ -3,209 +3,646 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>eKickHub Admin Dashboard</title>
+<title>eKickHub — Admin Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Exo+2:wght@300;400;500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
 :root{
-  --bg:#07090f;--bg2:#0d1117;--bg3:#111827;--bg4:#1a2235;
-  --cyan:#00e5ff;--green:#39ff14;--pink:#ff0066;--orange:#ff6b00;
-  --gold:#ffd700;--purple:#a855f7;--red:#ff3b30;--blue:#3b82f6;
-  --border:rgba(0,229,255,.1);--border2:rgba(255,255,255,.06);
-  --txt:#ddeeff;--muted:#4a6a88;--muted2:#8aa4bb;
-  --sidebar:220px;
-  --font-d:'Orbitron',sans-serif;--font-b:'Exo 2',sans-serif;--font-r:'Rajdhani',sans-serif;
-  --radius:10px;
+  --bg:#07090f;--bg2:#0d1117;--bg3:#111827;
+  --c:#00e5ff;--g:#39ff14;--pk:#ff0066;--or:#ff6b00;
+  --gd:#ffd700;--pu:#a855f7;--rd:#ff3b30;--bl:#3b82f6;
+  --bdr:rgba(0,229,255,.1);--bdr2:rgba(255,255,255,.06);
+  --tx:#ddeeff;--mu:#4a6a88;--mu2:#8aa4bb;
+  --sw:220px;
+  --fd:'Orbitron',sans-serif;--fb:'Exo 2',sans-serif;
+  --r:10px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;overflow:hidden}
-body{background:var(--bg);color:var(--txt);font-family:var(--font-b);display:flex;flex-direction:column}
-.topbar{height:54px;background:rgba(7,9,15,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:200;flex-shrink:0}
-.topbar-left{display:flex;align-items:center;gap:14px}
-.menu-btn{background:none;border:none;color:var(--muted2);cursor:pointer;font-size:18px;padding:6px;border-radius:6px;transition:.2s;display:none}
-.menu-btn:hover{color:var(--cyan);background:rgba(0,229,255,.08)}
-.tb-logo{font-family:var(--font-d);font-size:16px;font-weight:900;letter-spacing:2px;text-decoration:none;display:flex;align-items:center;gap:2px}
-.tb-logo .le{background:linear-gradient(90deg,var(--cyan),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.tb-logo .hub{background:linear-gradient(90deg,var(--pink),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.tb-logo .lk{color:#fff}
-.tb-badge{font-family:var(--font-d);font-size:8px;font-weight:700;letter-spacing:2px;color:var(--bg);background:linear-gradient(90deg,var(--cyan),var(--green));padding:3px 9px;border-radius:3px;text-transform:uppercase}
-.topbar-right{display:flex;align-items:center;gap:8px}
-.tb-icon-btn{position:relative;width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;color:var(--muted2);font-size:14px;cursor:pointer;transition:.2s}
-.tb-icon-btn:hover{background:rgba(0,229,255,.08);border-color:var(--border);color:var(--cyan)}
-.tb-notif{position:absolute;top:-3px;right:-3px;width:16px;height:16px;border-radius:50%;background:var(--pink);border:2px solid var(--bg);font-size:8px;font-weight:700;display:flex;align-items:center;justify-content:center;color:#fff}
-.tb-avatar{width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,var(--cyan),var(--blue));display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--bg);font-weight:700;cursor:pointer;border:2px solid rgba(0,229,255,.3);overflow:hidden}
-.tb-avatar img{width:100%;height:100%;object-fit:cover}
-.tb-user-info{display:flex;flex-direction:column;cursor:pointer}
-.tb-user-info span:first-child{font-size:12px;font-weight:700;color:var(--txt)}
-.tb-user-info span:last-child{font-size:10px;color:var(--muted2)}
-@media(max-width:600px){.tb-user-info{display:none}}
+body{background:var(--bg);color:var(--tx);font-family:var(--fb);display:flex;flex-direction:column}
+
+/* TOPBAR */
+.tb{height:54px;background:rgba(7,9,15,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:200;flex-shrink:0}
+.tb-l{display:flex;align-items:center;gap:12px}
+.mbtn{background:none;border:none;color:var(--mu2);cursor:pointer;font-size:18px;padding:6px;border-radius:6px;transition:.2s;display:none}
+.mbtn:hover{color:var(--c);background:rgba(0,229,255,.08)}
+.logo{font-family:var(--fd);font-size:17px;font-weight:900;letter-spacing:2px;text-decoration:none;display:flex;align-items:center}
+.logo .le{background:linear-gradient(90deg,#00e5ff,#39ff14);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.logo .lk{color:#fff}
+.logo .lh{background:linear-gradient(90deg,#ff0066,#ff6b00);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.admbadge{font-family:var(--fd);font-size:8px;font-weight:700;letter-spacing:2px;color:#07090f;background:linear-gradient(90deg,#00e5ff,#39ff14);padding:3px 10px;border-radius:3px}
+.tb-r{display:flex;align-items:center;gap:8px}
+.ib{position:relative;width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid var(--bdr2);display:flex;align-items:center;justify-content:center;color:var(--mu2);font-size:14px;cursor:pointer;transition:.2s}
+.ib:hover{background:rgba(0,229,255,.08);border-color:var(--bdr);color:var(--c)}
+.noti{position:absolute;top:-3px;right:-3px;width:16px;height:16px;border-radius:50%;background:var(--pk);border:2px solid var(--bg);font-size:8px;font-weight:700;display:flex;align-items:center;justify-content:center;color:#fff}
+.uav{width:34px;height:34px;border-radius:8px;border:2px solid rgba(0,229,255,.35);overflow:hidden;cursor:pointer}
+.uav img{width:100%;height:100%;object-fit:cover}
+.uinf{display:flex;flex-direction:column}
+.uinf span:first-child{font-size:12px;font-weight:700;color:var(--tx)}
+.uinf span:last-child{font-size:10px;color:var(--mu2)}
+@media(max-width:600px){.uinf{display:none}}
+
+/* ROLE BAR */
+.rvbar{display:flex;align-items:center;gap:8px;padding:7px 18px;background:rgba(0,229,255,.05);border-bottom:1px solid rgba(0,229,255,.1);font-family:var(--fd);font-size:9px;font-weight:700;letter-spacing:2px;color:var(--c);text-transform:uppercase;flex-shrink:0}
+
+/* LAYOUT */
 .layout{display:flex;flex:1;overflow:hidden}
-.sidebar{width:var(--sidebar);background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;flex-shrink:0;transition:transform .3s ease;scrollbar-width:none}
-.sidebar::-webkit-scrollbar{display:none}
-.role-switcher{padding:16px 14px 12px}
-.rs-label{font-family:var(--font-d);font-size:8px;font-weight:700;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:10px;display:block}
-.rs-btn{display:flex;align-items:center;gap:9px;width:100%;padding:9px 12px;border-radius:8px;border:1px solid var(--border2);background:rgba(255,255,255,.03);color:var(--muted2);font-family:var(--font-b);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;margin-bottom:6px;letter-spacing:.5px;text-transform:uppercase}
-.rs-btn i{font-size:12px;width:16px;text-align:center}
-.rs-btn:hover{background:rgba(0,229,255,.07);border-color:rgba(0,229,255,.2);color:var(--cyan)}
-.rs-btn.active{background:rgba(0,229,255,.1);border-color:rgba(0,229,255,.35);color:var(--cyan);box-shadow:0 0 16px rgba(0,229,255,.1)}
-.rs-btn.role-mod.active{background:rgba(168,85,247,.1);border-color:rgba(168,85,247,.35);color:var(--purple)}
-.rs-btn.role-ref.active{background:rgba(255,107,0,.1);border-color:rgba(255,107,0,.35);color:var(--orange)}
-.rs-btn.role-mgr.active{background:rgba(255,215,0,.1);border-color:rgba(255,215,0,.35);color:var(--gold)}
-.rs-btn.role-player.active{background:rgba(57,255,20,.1);border-color:rgba(57,255,20,.35);color:var(--green)}
-.sb-divider{height:1px;background:var(--border2);margin:4px 14px 8px}
-.sb-nav{padding:0 10px;flex:1}
-.sb-section-label{font-family:var(--font-d);font-size:7px;font-weight:700;letter-spacing:3px;color:var(--muted);text-transform:uppercase;padding:10px 6px 6px;display:block}
-.sb-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;color:var(--muted2);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;margin-bottom:2px;text-decoration:none;letter-spacing:.3px;position:relative}
-.sb-item i{font-size:13px;width:18px;text-align:center;flex-shrink:0}
-.sb-item:hover{background:rgba(255,255,255,.05);color:var(--txt)}
-.sb-item.active{background:rgba(0,229,255,.08);color:var(--cyan);border-left:2px solid var(--cyan)}
-.sb-item.active i{color:var(--cyan)}
-.sb-badge{margin-left:auto;font-family:var(--font-d);font-size:8px;font-weight:700;padding:2px 7px;border-radius:10px}
-.sb-badge.red{background:rgba(255,59,48,.15);color:var(--red);border:1px solid rgba(255,59,48,.3)}
-.sb-badge.cyan{background:rgba(0,229,255,.12);color:var(--cyan);border:1px solid rgba(0,229,255,.25)}
-.sb-badge.gold{background:rgba(255,215,0,.12);color:var(--gold);border:1px solid rgba(255,215,0,.25)}
-.sb-bottom{padding:12px 10px}
-.sb-item.logout{color:rgba(255,59,48,.7)}
-.sb-item.logout:hover{background:rgba(255,59,48,.1);color:var(--red)}
-.main{flex:1;overflow-y:auto;background:var(--bg);scrollbar-width:thin;scrollbar-color:rgba(0,229,255,.2) transparent}
+
+/* SIDEBAR */
+.sb{width:var(--sw);background:var(--bg2);border-right:1px solid var(--bdr);display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0;transition:transform .3s;scrollbar-width:none}
+.sb::-webkit-scrollbar{display:none}
+.rs-wrap{padding:14px 12px 10px}
+.rs-lbl{font-family:var(--fd);font-size:7px;font-weight:700;letter-spacing:3px;color:var(--mu);text-transform:uppercase;margin-bottom:9px;display:block}
+.rsb{display:flex;align-items:center;gap:8px;width:100%;padding:8px 11px;border-radius:7px;border:1px solid var(--bdr2);background:rgba(255,255,255,.03);color:var(--mu2);font-family:var(--fb);font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px}
+.rsb i{font-size:11px;width:15px;text-align:center}
+.rsb:hover{background:rgba(0,229,255,.07);border-color:rgba(0,229,255,.2);color:var(--c)}
+.rsb.act{background:rgba(0,229,255,.1);border-color:rgba(0,229,255,.35);color:var(--c)}
+.rsb.rmod.act{background:rgba(168,85,247,.1);border-color:rgba(168,85,247,.35);color:var(--pu)}
+.rsb.rmgr.act{background:rgba(255,215,0,.1);border-color:rgba(255,215,0,.35);color:var(--gd)}
+.rsb.rref.act{background:rgba(255,107,0,.1);border-color:rgba(255,107,0,.35);color:var(--or)}
+.rsb.rply.act{background:rgba(57,255,20,.1);border-color:rgba(57,255,20,.35);color:var(--g)}
+.sdv{height:1px;background:var(--bdr2);margin:4px 12px 8px}
+.snav{padding:0 8px;flex:1}
+.slbl{font-family:var(--fd);font-size:7px;font-weight:700;letter-spacing:3px;color:var(--mu);text-transform:uppercase;padding:10px 6px 6px;display:block}
+.si{display:flex;align-items:center;gap:9px;padding:8px 9px;border-radius:7px;color:var(--mu2);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;margin-bottom:2px;text-decoration:none;letter-spacing:.3px}
+.si i{font-size:12px;width:17px;text-align:center;flex-shrink:0}
+.si:hover{background:rgba(255,255,255,.05);color:var(--tx)}
+.si.act{background:rgba(0,229,255,.08);color:var(--c);border-left:2px solid var(--c)}
+.si.act i{color:var(--c)}
+.sbd{margin-left:auto;font-family:var(--fd);font-size:8px;font-weight:700;padding:2px 7px;border-radius:10px}
+.sbd.red{background:rgba(255,59,48,.15);color:var(--rd);border:1px solid rgba(255,59,48,.3)}
+.sbd.cy{background:rgba(0,229,255,.12);color:var(--c);border:1px solid rgba(0,229,255,.25)}
+.sbd.go{background:rgba(255,215,0,.12);color:var(--gd);border:1px solid rgba(255,215,0,.25)}
+.sbot{padding:10px 8px}
+.si.lo{color:rgba(255,59,48,.7)}
+.si.lo:hover{background:rgba(255,59,48,.1);color:var(--rd)}
+
+/* MAIN */
+.main{flex:1;overflow-y:auto;background:var(--bg);scrollbar-width:thin;scrollbar-color:rgba(0,229,255,.15) transparent}
 .main::-webkit-scrollbar{width:4px}
 .main::-webkit-scrollbar-thumb{background:rgba(0,229,255,.2);border-radius:2px}
-.page{display:none;padding:24px;animation:fadeIn .25s ease}
-.page.active{display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-.pg-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px}
-.pg-title{font-family:var(--font-d);font-size:18px;font-weight:700;color:#fff;letter-spacing:1px}
-.pg-sub{font-family:var(--font-b);font-size:12px;color:var(--muted2);margin-top:4px}
-.pg-actions{display:flex;gap:8px;flex-wrap:wrap}
-.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
-@media(max-width:900px){.stat-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:500px){.stat-grid{grid-template-columns:repeat(2,1fr);gap:10px}}
-.stat-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius);padding:18px;position:relative;overflow:hidden;transition:.3s;cursor:default}
-.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--sc-grad,linear-gradient(90deg,var(--cyan),var(--blue)));opacity:.7}
-.stat-card:hover{border-color:rgba(0,229,255,.2);transform:translateY(-2px)}
-.sc-icon{width:38px;height:38px;border-radius:9px;background:var(--sc-ibg,rgba(0,229,255,.1));display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--sc-color,var(--cyan));margin-bottom:12px}
-.sc-val{font-family:var(--font-d);font-size:26px;font-weight:900;color:#fff;line-height:1}
-.sc-label{font-family:var(--font-d);font-size:8px;font-weight:700;letter-spacing:2px;color:var(--muted2);text-transform:uppercase;margin-top:6px}
-.sc-delta{position:absolute;top:16px;right:16px;font-family:var(--font-b);font-size:11px;font-weight:600;display:flex;align-items:center;gap:4px}
-.sc-delta.up{color:var(--green)}
-.tbl-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius);overflow:hidden;margin-bottom:20px}
-.tbl-head{padding:16px 20px;border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
-.tbl-title{font-family:var(--font-d);font-size:12px;font-weight:700;color:#fff;letter-spacing:1px;display:flex;align-items:center;gap:8px}
-.tbl-title i{color:var(--cyan)}
-.tbl-search{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.04);border:1px solid var(--border2);border-radius:7px;padding:7px 12px;min-width:220px}
-.tbl-search i{color:var(--muted);font-size:11px}
-.tbl-search input{background:none;border:none;outline:none;color:var(--txt);font-family:var(--font-b);font-size:12px;flex:1}
-.tbl-search input::placeholder{color:var(--muted)}
+.pg{display:none;padding:22px;animation:fdi .25s ease}
+.pg.act{display:block}
+@keyframes fdi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+
+/* PAGE HEAD */
+.ph{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:12px}
+.pt{font-family:var(--fd);font-size:17px;font-weight:700;color:#fff;letter-spacing:1px}
+.ps{font-family:var(--fb);font-size:12px;color:var(--mu2);margin-top:4px}
+.pa{display:flex;gap:8px;flex-wrap:wrap}
+
+/* STAT CARDS */
+.sg{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+@media(max-width:900px){.sg{grid-template-columns:repeat(2,1fr)}}
+.sc{background:var(--bg2);border:1px solid var(--bdr2);border-radius:var(--r);padding:17px;position:relative;overflow:hidden;transition:.3s}
+.sc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--scg,linear-gradient(90deg,var(--c),var(--bl)));opacity:.75}
+.sc:hover{border-color:rgba(0,229,255,.2);transform:translateY(-2px)}
+.sci{width:37px;height:37px;border-radius:9px;background:var(--scib,rgba(0,229,255,.1));display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--scc,var(--c));margin-bottom:11px}
+.scv{font-family:var(--fd);font-size:26px;font-weight:900;color:#fff;line-height:1}
+.scl{font-family:var(--fd);font-size:8px;font-weight:700;letter-spacing:2px;color:var(--mu2);text-transform:uppercase;margin-top:5px}
+.scd{position:absolute;top:15px;right:14px;font-family:var(--fb);font-size:11px;font-weight:600;display:flex;align-items:center;gap:3px;color:var(--g)}
+
+/* TABLE CARD */
+.tc{background:var(--bg2);border:1px solid var(--bdr2);border-radius:var(--r);overflow:hidden;margin-bottom:18px}
+.tch{padding:14px 18px;border-bottom:1px solid var(--bdr2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.tct{font-family:var(--fd);font-size:11px;font-weight:700;color:#fff;letter-spacing:1px;display:flex;align-items:center;gap:8px}
+.tct i{color:var(--c)}
+.tsr{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.04);border:1px solid var(--bdr2);border-radius:7px;padding:6px 11px;min-width:200px}
+.tsr i{color:var(--mu);font-size:11px}
+.tsr input{background:none;border:none;outline:none;color:var(--tx);font-family:var(--fb);font-size:12px;flex:1}
+.tsr input::placeholder{color:var(--mu)}
+.tw{overflow-x:auto;scrollbar-width:thin;scrollbar-color:rgba(0,229,255,.1) transparent}
+.tw::-webkit-scrollbar{height:3px}
+.tw::-webkit-scrollbar-thumb{background:rgba(0,229,255,.15)}
 table{width:100%;border-collapse:collapse}
-thead th{font-family:var(--font-d);font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:12px 16px;border-bottom:1px solid var(--border2);text-align:left;white-space:nowrap}
+thead th{font-family:var(--fd);font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--mu);padding:11px 15px;border-bottom:1px solid var(--bdr2);text-align:left;white-space:nowrap}
 tbody tr{border-bottom:1px solid rgba(255,255,255,.03);transition:.15s}
-tbody tr:hover{background:rgba(255,255,255,.025)}
+tbody tr:hover{background:rgba(255,255,255,.022)}
 tbody tr:last-child{border-bottom:none}
-td{padding:12px 16px;font-size:12px;vertical-align:middle}
-.player-cell{display:flex;align-items:center;gap:10px}
-.p-avatar{width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,var(--cyan),var(--blue));display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--bg);font-weight:700;flex-shrink:0;overflow:hidden}
-.p-avatar img{width:100%;height:100%;object-fit:cover}
-.p-name{font-weight:700;color:var(--txt);font-size:12px}
-.p-email{font-size:10px;color:var(--muted2)}
-.pid{font-family:var(--font-d);font-size:10px;font-weight:700;color:var(--cyan)}
-.badge{display:inline-flex;align-items:center;gap:4px;font-family:var(--font-d);font-size:8px;font-weight:700;letter-spacing:1px;padding:3px 9px;border-radius:4px;text-transform:uppercase;margin:2px 2px 2px 0}
-.badge-player{background:rgba(0,229,255,.12);color:var(--cyan);border:1px solid rgba(0,229,255,.25)}
-.badge-admin{background:rgba(255,0,102,.12);color:var(--pink);border:1px solid rgba(255,0,102,.25)}
-.badge-mod{background:rgba(168,85,247,.12);color:var(--purple);border:1px solid rgba(168,85,247,.25)}
-.badge-mgr{background:rgba(255,215,0,.12);color:var(--gold);border:1px solid rgba(255,215,0,.25)}
-.badge-ref{background:rgba(255,107,0,.12);color:var(--orange);border:1px solid rgba(255,107,0,.25)}
-.status-badge{font-family:var(--font-d);font-size:8px;font-weight:700;letter-spacing:1.5px;padding:4px 10px;border-radius:4px;text-transform:uppercase}
-.st-approved{background:rgba(57,255,20,.12);color:var(--green);border:1px solid rgba(57,255,20,.25)}
-.st-pending{background:rgba(255,215,0,.12);color:var(--gold);border:1px solid rgba(255,215,0,.25)}
-.st-banned{background:rgba(255,59,48,.12);color:var(--red);border:1px solid rgba(255,59,48,.25)}
-.action-btns{display:flex;gap:5px;flex-wrap:wrap}
-.ab{display:inline-flex;align-items:center;gap:4px;font-family:var(--font-d);font-size:8px;font-weight:700;letter-spacing:1px;padding:5px 10px;border-radius:6px;cursor:pointer;transition:all .2s;border:none;white-space:nowrap}
-.ab-role{background:rgba(168,85,247,.15);color:var(--purple);border:1px solid rgba(168,85,247,.3)}
-.ab-role:hover{background:rgba(168,85,247,.3)}
-.ab-email{background:rgba(59,130,246,.15);color:var(--blue);border:1px solid rgba(59,130,246,.3)}
-.ab-email:hover{background:rgba(59,130,246,.3)}
-.ab-ban{background:rgba(255,107,0,.15);color:var(--orange);border:1px solid rgba(255,107,0,.3)}
-.ab-ban:hover{background:rgba(255,107,0,.3)}
-.ab-del{background:rgba(255,59,48,.15);color:var(--red);border:1px solid rgba(255,59,48,.3)}
-.ab-del:hover{background:rgba(255,59,48,.3)}
-.ab-approve{background:rgba(57,255,20,.15);color:var(--green);border:1px solid rgba(57,255,20,.3)}
-.ab-approve:hover{background:rgba(57,255,20,.3)}
-.ab-reject{background:rgba(255,59,48,.15);color:var(--red);border:1px solid rgba(255,59,48,.3)}
-.ab-reject:hover{background:rgba(255,59,48,.3)}
-.ab-primary{background:linear-gradient(90deg,var(--cyan),var(--blue));color:var(--bg);border:none}
-.ab-primary:hover{box-shadow:0 4px 16px rgba(0,229,255,.35)}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
-@media(max-width:768px){.grid2{grid-template-columns:1fr}}
-.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px}
-@media(max-width:768px){.grid3{grid-template-columns:1fr 1fr}}
-@media(max-width:480px){.grid3{grid-template-columns:1fr}}
-.panel{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius);padding:20px;margin-bottom:16px}
-.panel-title{font-family:var(--font-d);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);margin-bottom:16px;display:flex;align-items:center;gap:8px}
-.panel-title i{font-size:12px}
-.fin-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04)}
-.fin-row:last-child{border-bottom:none}
-.fr-left{display:flex;align-items:center;gap:10px}
-.fr-icon{width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
-.fr-label{font-size:12px;font-weight:600;color:var(--txt)}
-.fr-sub{font-size:10px;color:var(--muted2)}
-.fr-amount{font-family:var(--font-d);font-size:13px;font-weight:700}
-.fr-amount.pos{color:var(--green)}
-.fr-amount.neg{color:var(--red)}
-.vc-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04)}
-.vc-row:last-child{border-bottom:none}
-.vc-info{flex:1}
-.vc-name{font-size:12px;font-weight:700;color:var(--txt)}
-.vc-meta{font-size:10px;color:var(--muted2)}
-.vc-amount{font-family:var(--font-d);font-size:12px;font-weight:700;color:var(--gold);margin-right:12px}
-.vc-grant-btn{font-family:var(--font-d);font-size:8px;font-weight:700;letter-spacing:1px;padding:5px 11px;border-radius:6px;cursor:pointer;background:rgba(255,215,0,.15);color:var(--gold);border:1px solid rgba(255,215,0,.3);transition:.2s}
-.vc-grant-btn:hover{background:rgba(255,215,0,.3)}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
-@media(max-width:500px){.form-row{grid-template-columns:1fr}}
-.form-group{display:flex;flex-direction:column;gap:5px}
-.form-group label{font-family:var(--font-d);font-size:8px;font-weight:700;letter-spacing:2px;color:var(--muted2);text-transform:uppercase}
-.form-control{background:rgba(255,255,255,.04);border:1px solid var(--border2);border-radius:7px;padding:9px 13px;color:var(--txt);font-family:var(--font-b);font-size:12px;outline:none;transition:.2s;appearance:none;-webkit-appearance:none}
-.form-control:focus{border-color:rgba(0,229,255,.4);background:rgba(0,229,255,.04)}
-.form-control option{background:var(--bg3)}
-.theme-swatches{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-.swatch{width:32px;height:32px;border-radius:8px;cursor:pointer;border:2px solid transparent;transition:.2s}
-.swatch:hover,.swatch.active{border-color:#fff;transform:scale(1.1)}
-.mini-chart{height:60px;display:flex;align-items:flex-end;gap:3px;padding:0 4px}
-.bar{flex:1;border-radius:3px 3px 0 0;transition:height .5s ease;cursor:pointer;min-height:4px}
-.bar:hover{opacity:.75}
-.ads-zone-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
-@media(max-width:700px){.ads-zone-grid{grid-template-columns:1fr 1fr}}
-.az-card{background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:8px;padding:14px;cursor:pointer;transition:.2s}
-.az-card:hover{border-color:rgba(0,229,255,.25);background:rgba(0,229,255,.04)}
-.az-card.active-zone{border-color:rgba(0,229,255,.5);background:rgba(0,229,255,.08);box-shadow:0 0 16px rgba(0,229,255,.1)}
-.az-icon{font-size:20px;margin-bottom:8px}
-.az-name{font-family:var(--font-d);font-size:10px;font-weight:700;color:var(--txt);letter-spacing:.5px;margin-bottom:4px}
-.az-count{font-size:10px;color:var(--muted2)}
-.az-toggle{margin-top:8px;display:flex;align-items:center;gap:6px;font-size:10px;color:var(--muted2)}
-.toggle-sw{width:28px;height:14px;border-radius:7px;background:rgba(255,255,255,.1);position:relative;cursor:pointer;transition:.3s}
-.toggle-sw.on{background:rgba(57,255,20,.4)}
-.toggle-sw::after{content:'';position:absolute;top:2px;left:2px;width:10px;height:10px;border-radius:50%;background:#fff;transition:.3s}
-.toggle-sw.on::after{left:16px;background:var(--green)}
-.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);z-index:500;align-items:center;justify-content:center;padding:20px}
-.modal-bg.open{display:flex}
-.modal{background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:24px;max-width:440px;width:100%;position:relative;animation:modalIn .25s ease}
-@keyframes modalIn{from{transform:scale(.94);opacity:0}to{transform:scale(1);opacity:1}}
-.modal-title{font-family:var(--font-d);font-size:14px;font-weight:700;color:#fff;margin-bottom:16px;display:flex;align-items:center;gap:8px}
-.modal-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--muted2);font-size:18px;cursor:pointer;transition:.2s}
-.modal-close:hover{color:var(--pink)}
-.role-check-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
-.role-check{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:8px;background:rgba(255,255,255,.03);border:1px solid var(--border2);cursor:pointer;transition:.2s}
-.role-check.checked{background:rgba(0,229,255,.08);border-color:rgba(0,229,255,.3)}
-.role-check input{accent-color:var(--cyan)}
-.role-check span{font-family:var(--font-b);font-size:12px;font-weight:600;color:var(--txt)}
-#toast{position:fixed;bottom:20px;right:20px;z-index:9999;background:var(--bg3);border:1px solid var(--green);border-radius:9px;padding:12px 18px;font-family:var(--font-b);font-size:12px;color:var(--green);display:none;align-items:center;gap:9px;box-shadow:0 8px 28px rgba(57,255,20,.2);animation:tin .35s ease}
+td{padding:11px 15px;font-size:12px;vertical-align:middle}
+.pc{display:flex;align-items:center;gap:9px}
+.av{width:33px;height:33px;border-radius:8px;overflow:hidden;flex-shrink:0;background:linear-gradient(135deg,var(--c),var(--bl))}
+.av img{width:100%;height:100%;object-fit:cover}
+.pn{font-weight:700;color:var(--tx);font-size:12px}
+.pe{font-size:10px;color:var(--mu2)}
+.pid{font-family:var(--fd);font-size:10px;font-weight:700;color:var(--c)}
+
+/* BADGES */
+.bx{display:inline-flex;align-items:center;gap:3px;font-family:var(--fd);font-size:8px;font-weight:700;letter-spacing:1px;padding:3px 8px;border-radius:4px;text-transform:uppercase;margin:2px 2px 2px 0}
+.bp{background:rgba(0,229,255,.12);color:var(--c);border:1px solid rgba(0,229,255,.25)}
+.ba{background:rgba(255,0,102,.12);color:var(--pk);border:1px solid rgba(255,0,102,.25)}
+.bm{background:rgba(168,85,247,.12);color:var(--pu);border:1px solid rgba(168,85,247,.25)}
+.bmg{background:rgba(255,215,0,.12);color:var(--gd);border:1px solid rgba(255,215,0,.25)}
+.br{background:rgba(255,107,0,.12);color:var(--or);border:1px solid rgba(255,107,0,.25)}
+.stb{font-family:var(--fd);font-size:8px;font-weight:700;letter-spacing:1.5px;padding:4px 9px;border-radius:4px;text-transform:uppercase}
+.stap{background:rgba(57,255,20,.12);color:var(--g);border:1px solid rgba(57,255,20,.25)}
+.stpe{background:rgba(255,215,0,.12);color:var(--gd);border:1px solid rgba(255,215,0,.25)}
+.stbn{background:rgba(255,59,48,.12);color:var(--rd);border:1px solid rgba(255,59,48,.25)}
+
+/* ACTION BTNS */
+.abs{display:flex;gap:4px;flex-wrap:wrap}
+.ab{display:inline-flex;align-items:center;gap:3px;font-family:var(--fd);font-size:8px;font-weight:700;letter-spacing:1px;padding:5px 9px;border-radius:5px;cursor:pointer;transition:all .2s;border:none;white-space:nowrap}
+.ab-rl{background:rgba(168,85,247,.15);color:var(--pu);border:1px solid rgba(168,85,247,.3)}
+.ab-rl:hover{background:rgba(168,85,247,.3)}
+.ab-em{background:rgba(59,130,246,.15);color:var(--bl);border:1px solid rgba(59,130,246,.3)}
+.ab-em:hover{background:rgba(59,130,246,.3)}
+.ab-bn{background:rgba(255,107,0,.15);color:var(--or);border:1px solid rgba(255,107,0,.3)}
+.ab-bn:hover{background:rgba(255,107,0,.3)}
+.ab-dl{background:rgba(255,59,48,.15);color:var(--rd);border:1px solid rgba(255,59,48,.3)}
+.ab-dl:hover{background:rgba(255,59,48,.3)}
+.ab-ok{background:rgba(57,255,20,.15);color:var(--g);border:1px solid rgba(57,255,20,.3)}
+.ab-ok:hover{background:rgba(57,255,20,.3)}
+.ab-no{background:rgba(255,59,48,.15);color:var(--rd);border:1px solid rgba(255,59,48,.3)}
+.ab-no:hover{background:rgba(255,59,48,.3)}
+.ab-pr{background:linear-gradient(90deg,var(--c),var(--bl));color:var(--bg);border:none}
+.ab-pr:hover{box-shadow:0 4px 16px rgba(0,229,255,.35)}
+
+/* PANELS */
+.pn{background:var(--bg2);border:1px solid var(--bdr2);border-radius:var(--r);padding:18px;margin-bottom:15px}
+.pnt{font-family:var(--fd);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--c);margin-bottom:14px;display:flex;align-items:center;gap:7px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-bottom:18px}
+@media(max-width:768px){.g2{grid-template-columns:1fr}}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-bottom:18px}
+@media(max-width:768px){.g3{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.g3{grid-template-columns:1fr}}
+
+/* FINANCE ROWS */
+.fr{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.fr:last-child{border-bottom:none}
+.frl{display:flex;align-items:center;gap:9px}
+.fri{width:31px;height:31px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.frt{font-size:12px;font-weight:600;color:var(--tx)}
+.frs{font-size:10px;color:var(--mu2)}
+.fra{font-family:var(--fd);font-size:13px;font-weight:700}
+.fra.p{color:var(--g)}
+.fra.n{color:var(--rd)}
+
+/* VC ROWS */
+.vcr{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.vcr:last-child{border-bottom:none}
+.vci{flex:1;margin-left:9px}
+.vcn{font-size:12px;font-weight:700;color:var(--tx)}
+.vcm{font-size:10px;color:var(--mu2)}
+.vca{font-family:var(--fd);font-size:12px;font-weight:700;color:var(--gd);margin-right:10px}
+.vcb{font-family:var(--fd);font-size:8px;font-weight:700;padding:5px 10px;border-radius:5px;cursor:pointer;background:rgba(255,215,0,.15);color:var(--gd);border:1px solid rgba(255,215,0,.3);transition:.2s}
+.vcb:hover{background:rgba(255,215,0,.3)}
+
+/* FORM */
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:11px}
+@media(max-width:500px){.frow{grid-template-columns:1fr}}
+.fg{display:flex;flex-direction:column;gap:5px}
+.fg label{font-family:var(--fd);font-size:8px;font-weight:700;letter-spacing:2px;color:var(--mu2);text-transform:uppercase}
+.fc{background:rgba(255,255,255,.04);border:1px solid var(--bdr2);border-radius:7px;padding:9px 12px;color:var(--tx);font-family:var(--fb);font-size:12px;outline:none;transition:.2s;-webkit-appearance:none}
+.fc:focus{border-color:rgba(0,229,255,.4);background:rgba(0,229,255,.04)}
+.fc option{background:var(--bg3)}
+
+/* THEME SWATCHES */
+.sw-wrap{display:flex;gap:7px;flex-wrap:wrap;margin-top:6px}
+.sw{width:30px;height:30px;border-radius:7px;cursor:pointer;border:2px solid transparent;transition:.2s}
+.sw:hover,.sw.act{border-color:#fff;transform:scale(1.1)}
+
+/* MINI CHART */
+.mch{height:58px;display:flex;align-items:flex-end;gap:3px;padding:0 2px}
+.bar{flex:1;border-radius:3px 3px 0 0;min-height:4px;cursor:pointer;transition:opacity .2s}
+.bar:hover{opacity:.7}
+
+/* ADS */
+.azg{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin-bottom:14px}
+@media(max-width:700px){.azg{grid-template-columns:1fr 1fr}}
+.azc{background:rgba(255,255,255,.03);border:1px solid var(--bdr2);border-radius:8px;padding:13px;cursor:pointer;transition:.2s}
+.azc:hover{border-color:rgba(0,229,255,.25);background:rgba(0,229,255,.04)}
+.azc.az-on{border-color:rgba(0,229,255,.5);background:rgba(0,229,255,.07)}
+.az-ic{font-size:20px;margin-bottom:7px}
+.az-nm{font-family:var(--fd);font-size:9px;font-weight:700;color:var(--tx);margin-bottom:3px}
+.az-ct{font-size:10px;color:var(--mu2)}
+.az-tg{margin-top:7px;display:flex;align-items:center;gap:6px;font-size:10px;color:var(--mu2)}
+.tsw{width:26px;height:13px;border-radius:7px;background:rgba(255,255,255,.1);position:relative;cursor:pointer;transition:.3s}
+.tsw.on{background:rgba(57,255,20,.4)}
+.tsw::after{content:'';position:absolute;top:2px;left:2px;width:9px;height:9px;border-radius:50%;background:#fff;transition:.3s}
+.tsw.on::after{left:15px;background:var(--g)}
+
+/* MODAL */
+.mbg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(6px);z-index:500;align-items:center;justify-content:center;padding:16px}
+.mbg.open{display:flex}
+.mo{background:var(--bg3);border:1px solid var(--bdr);border-radius:13px;padding:22px;max-width:430px;width:100%;position:relative;animation:moi .25s ease}
+@keyframes moi{from{transform:scale(.94);opacity:0}to{transform:scale(1);opacity:1}}
+.mot{font-family:var(--fd);font-size:13px;font-weight:700;color:#fff;margin-bottom:14px;display:flex;align-items:center;gap:7px}
+.mcl{position:absolute;top:14px;right:14px;background:none;border:none;color:var(--mu2);font-size:17px;cursor:pointer;transition:.2s}
+.mcl:hover{color:var(--pk)}
+.rcg{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:14px}
+.rck{display:flex;align-items:center;gap:7px;padding:8px 11px;border-radius:7px;background:rgba(255,255,255,.03);border:1px solid var(--bdr2);cursor:pointer;transition:.2s}
+.rck.on{background:rgba(0,229,255,.08);border-color:rgba(0,229,255,.3)}
+.rck input{accent-color:var(--c)}
+.rck span{font-family:var(--fb);font-size:12px;font-weight:600;color:var(--tx)}
+
+/* TOAST */
+#toast{position:fixed;bottom:18px;right:18px;z-index:9999;background:var(--bg3);border:1px solid var(--g);border-radius:9px;padding:11px 17px;font-family:var(--fb);font-size:12px;color:var(--g);display:none;align-items:center;gap:8px;box-shadow:0 8px 28px rgba(57,255,20,.18);animation:tin .3s ease}
 #toast.show{display:flex}
-@keyframes tin{from{transform:translateX(60px);opacity:0}to{transform:none;opacity:1}}
-.role-view-bar{display:flex;align-items:center;gap:10px;padding:8px 16px;background:rgba(0,229,255,.06);border-bottom:1px solid rgba(0,229,255,.12);font-family:var(--font-d);font-size:9px;font-weight:700;letter-spacing:2px;color:var(--cyan);text-transform:uppercase}
-.tbl-wrap{overflow-x:auto;scrollbar-width:thin;scrollbar-color:rgba(0,229,255,.1) transparent}
-.tbl-wrap::-webkit-scrollbar{height:3px}
-.tbl-wrap::-webkit-scrollbar-thumb{background:rgba(0,229,255,.2)}
-@media(max-width:768px){.menu-btn{display:flex}.sidebar{position:fixed;top:54px;left:0;bottom:0;z-index:300;transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}.stat-grid{grid-template-columns:1fr 1fr}table{font-size:11px}thead th,td{padding:9px 10px}.ads-zone-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:400px){.stat-grid{grid-template-columns:1fr 1fr}.grid3{grid-template-columns:1fr}.pg-title{font-size:15px}}
+@keyframes tin{from{transform:translateX(55px);opacity:0}to{transform:none;opacity:1}}
+
+/* MOBILE */
+@media(max-width:768px){
+  .mbtn{display:flex}
+  .sb{position:fixed;top:54px;left:0;bottom:0;z-index:300;transform:translateX(-100%)}
+  .sb.open{transform:translateX(0)}
+  .sg{grid-template-columns:1fr 1fr}
+  table{font-size:11px}
+  thead th,td{padding:8px 10px}
+}
+@media(max-width:420px){.pt{font-size:14px}.scv{font-size:22px}.g3{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
+
+<!-- TOPBAR -->
+<div class="tb">
+  <div class="tb-l">
+    <button class="mbtn" onclick="toggleSB()"><i class="fa-solid fa-bars"></i></button>
+    <a href="#" class="logo"><span class="le">e</span><span class="lk">Kick</span><span class="lh">Hub</span></a>
+    <span class="admbadge">Admin</span>
+  </div>
+  <div class="tb-r">
+    <div class="ib" onclick="toast('No new notifications','var(--c)')">
+      <i class="fa-regular fa-bell"></i><span class="noti">3</span>
+    </div>
+    <div class="ib" onclick="toast('Opening inbox…','var(--bl)')"><i class="fa-regular fa-envelope"></i></div>
+    <div class="uav"><img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Rashedul&backgroundColor=00e5ff" alt=""></div>
+    <div class="uinf">
+      <span>Md Rashedul</span>
+      <span id="rlabel">Super Admin</span>
+    </div>
+  </div>
+</div>
+
+<!-- ROLE BAR -->
+<div class="rvbar" id="rvbar"><i class="fa-solid fa-eye"></i><span id="rvtxt">Viewing as: SUPER ADMIN</span></div>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+<!-- SIDEBAR -->
+<div class="sb" id="sidebar">
+  <div class="rs-wrap">
+    <span class="rs-lbl"><i class="fa-solid fa-shuffle" style="margin-right:5px"></i>Switch Role View</span>
+    <button class="rsb act" onclick="switchRole('super','var(--c)','SUPER ADMIN',this)"><i class="fa-solid fa-crown"></i>Super Admin</button>
+    <button class="rsb" onclick="switchRole('admin','var(--pk)','ADMIN',this)"><i class="fa-solid fa-user-shield"></i>Admin</button>
+    <button class="rsb rmod" onclick="switchRole('mod','var(--pu)','MODERATOR',this)"><i class="fa-solid fa-users-gear"></i>Moderator</button>
+    <button class="rsb rmgr" onclick="switchRole('mgr','var(--gd)','MANAGER',this)"><i class="fa-solid fa-briefcase"></i>Manager</button>
+    <button class="rsb rref" onclick="switchRole('ref','var(--or)','REFEREE',this)"><i class="fa-solid fa-whistle"></i>Referee</button>
+    <button class="rsb rply" onclick="switchRole('ply','var(--g)','PLAYER',this)"><i class="fa-solid fa-person-running"></i>Player</button>
+  </div>
+  <div class="sdv"></div>
+  <div class="snav">
+    <span class="slbl">Main</span>
+    <a class="si act" onclick="showPg('dash',this)"><i class="fa-solid fa-gauge-high"></i>Dashboard</a>
+    <a class="si" onclick="showPg('appr',this)"><i class="fa-solid fa-user-check"></i>Player Approval<span class="sbd red">1</span></a>
+    <a class="si" onclick="showPg('users',this)"><i class="fa-solid fa-users"></i>User Management</a>
+    <a class="si" onclick="showPg('roles',this)"><i class="fa-solid fa-shield-halved"></i>Roles &amp; Access</a>
+    <span class="slbl">Club &amp; Players</span>
+    <a class="si" onclick="showPg('comp',this)"><i class="fa-solid fa-trophy"></i>Competition<span class="sbd cy">New</span></a>
+    <a class="si" onclick="showPg('prof',this)"><i class="fa-solid fa-id-card"></i>Profile Editor</a>
+    <a class="si" onclick="showPg('trnf',this)"><i class="fa-solid fa-right-left"></i>Transfers<span class="sbd go">4</span></a>
+    <span class="slbl">Finance</span>
+    <a class="si" onclick="showPg('fin',this)"><i class="fa-solid fa-chart-line"></i>Finance Overview</a>
+    <a class="si" onclick="showPg('vc',this)"><i class="fa-solid fa-coins"></i>Virtual Coins (VC)</a>
+    <span class="slbl">System</span>
+    <a class="si" onclick="showPg('ads',this)"><i class="fa-solid fa-rectangle-ad"></i>Ads Manager</a>
+    <a class="si" onclick="showPg('set',this)"><i class="fa-solid fa-gear"></i>Settings</a>
+  </div>
+  <div class="sbot">
+    <div class="sdv"></div>
+    <a class="si lo" onclick="toast('Logging out…','var(--rd)')"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main" id="main">
+
+<!-- DASHBOARD -->
+<div class="pg act" id="pg-dash">
+  <div class="ph"><div><div class="pt"><i class="fa-solid fa-gauge-high" style="color:var(--c);margin-right:8px"></i>Dashboard</div><div class="ps">Welcome back, Md Rashedul &nbsp;·&nbsp; Last login: Today 10:42 AM</div></div><div class="pa"><button class="ab ab-pr" onclick="toast('Data refreshed','var(--c)')"><i class="fa-solid fa-rotate"></i>Refresh</button></div></div>
+  <div class="sg">
+    <div class="sc" style="--scg:linear-gradient(90deg,#00e5ff,#3b82f6);--scib:rgba(0,229,255,.12);--scc:var(--c)"><div class="sci"><i class="fa-solid fa-users"></i></div><div class="scv">7</div><div class="scl">Total Users</div><div class="scd"><i class="fa-solid fa-arrow-up"></i>+2 today</div></div>
+    <div class="sc" style="--scg:linear-gradient(90deg,#ffd700,#ff6b00);--scib:rgba(255,215,0,.12);--scc:var(--gd)"><div class="sci"><i class="fa-solid fa-clock-rotate-left" style="color:var(--gd)"></i></div><div class="scv">1</div><div class="scl">Pending Approval</div><div class="scd" style="color:var(--gd)"><i class="fa-solid fa-circle-dot"></i>New</div></div>
+    <div class="sc" style="--scg:linear-gradient(90deg,#a855f7,#ff0066);--scib:rgba(168,85,247,.12);--scc:var(--pu)"><div class="sci"><i class="fa-solid fa-shield-halved" style="color:var(--pu)"></i></div><div class="scv">2</div><div class="scl">Admins</div></div>
+    <div class="sc" style="--scg:linear-gradient(90deg,#ff3b30,#ff0066);--scib:rgba(255,59,48,.12);--scc:var(--rd)"><div class="sci"><i class="fa-solid fa-ban" style="color:var(--rd)"></i></div><div class="scv">0</div><div class="scl">Banned Users</div></div>
+  </div>
+  <div class="g3">
+    <div class="pn"><div class="pnt"><i class="fa-solid fa-coins"></i>VC Issued</div><div style="font-family:var(--fd);font-size:26px;font-weight:900;color:var(--gd)">12,450<span style="font-size:11px;color:var(--mu2);margin-left:5px">VC</span></div><div style="font-size:11px;color:var(--mu2);margin-top:4px">Across 7 users</div></div>
+    <div class="pn"><div class="pnt"><i class="fa-solid fa-right-left"></i>Transfer Earn</div><div style="font-family:var(--fd);font-size:26px;font-weight:900;color:var(--g)">৳4,800</div><div style="font-size:11px;color:var(--mu2);margin-top:4px">From 4 transfers</div></div>
+    <div class="pn"><div class="pnt"><i class="fa-solid fa-rectangle-ad"></i>Ad Zones Active</div><div style="font-family:var(--fd);font-size:26px;font-weight:900;color:var(--c)">5<span style="font-size:12px;color:var(--mu2);margin-left:5px">/ 9</span></div><div style="font-size:11px;color:var(--mu2);margin-top:4px">Zones running</div></div>
+  </div>
+  <div class="pn"><div class="pnt"><i class="fa-solid fa-chart-bar"></i>Weekly Revenue (৳)</div>
+    <div class="mch" id="mch"></div>
+    <div style="display:flex;justify-content:space-between;margin-top:5px">
+      <span style="font-size:9px;color:var(--mu2)">Mon</span><span style="font-size:9px;color:var(--mu2)">Tue</span><span style="font-size:9px;color:var(--mu2)">Wed</span><span style="font-size:9px;color:var(--mu2)">Thu</span><span style="font-size:9px;color:var(--mu2)">Fri</span><span style="font-size:9px;color:var(--mu2)">Sat</span><span style="font-size:9px;color:var(--mu2)">Sun</span>
+    </div>
+  </div>
+</div>
+
+<!-- PLAYER APPROVAL -->
+<div class="pg" id="pg-appr">
+  <div class="ph"><div><div class="pt"><i class="fa-solid fa-user-check" style="color:var(--c);margin-right:8px"></i>Player Approval Queue</div><div class="ps">Review and approve new player registrations</div></div></div>
+  <div class="tc">
+    <div class="tch"><span class="tct"><i class="fa-solid fa-hourglass-half"></i>Pending (1)</span></div>
+    <div class="tw"><table><thead><tr><th>Player</th><th>ID</th><th>Country</th><th>Position</th><th>Joined</th><th>Action</th></tr></thead>
+    <tbody><tr>
+      <td><div class="pc"><div class="av"><img src="https://api.dicebear.com/7.x/adventurer/svg?seed=CR7&backgroundColor=ff6b00" alt=""></div><div><div class="pn">CR7 Fan</div><div class="pe">businessdeal7928@gmail.com</div></div></div></td>
+      <td><span class="pid">EKH-000006</span></td>
+      <td>🇧🇩 Bangladesh</td>
+      <td><span class="bx bp">LWF</span></td>
+      <td style="font-size:10px;color:var(--mu2)">2 Jun 2025</td>
+      <td><div class="abs"><button class="ab ab-ok" onclick="approveRow(this)"><i class="fa-solid fa-check"></i>Approve</button><button class="ab ab-no" onclick="rejectRow(this)"><i class="fa-solid fa-xmark"></i>Reject</button></div></td>
+    </tr></tbody></table></div>
+  </div>
+  <div class="tc">
+    <div class="tch"><span class="tct"><i class="fa-solid fa-clock-rotate-left"></i>Recently Reviewed</span></div>
+    <div class="tw"><table><thead><tr><th>Player</th><th>ID</th><th>Position</th><th>Status</th><th>Reviewed</th></tr></thead>
+    <tbody>
+      <tr><td><div class="pc"><div class="av"><img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Rashedul&backgroundColor=00e5ff" alt=""></div><div><div class="pn">Md Rashedul Hasan</div><div class="pe">mdrashedulhasan02@gmail.com</div></div></div></td><td><span class="pid">EKH-000001</span></td><td><span class="bx bp">CMF</span></td><td><span class="stb stap">Approved</span></td><td style="font-size:10px;color:var(--mu2)">1 Jun 2025</td></tr>
+      <tr><td><div class="pc"><div class="av"><img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Mirajul&backgroundColor=a855f7" alt=""></div><div><div class="pn">Md.Mirajul Islam Shoriyat</div><div class="pe">msmiraj121@gmail.com</div></div></div></td><td><span class="pid">EKH-000004</span></td><td><span class="bx bp">CB</span></td><td><span class="stb stap">Approved</span></td><td style="font-size:10px;color:var(--mu2)">31 May 2025</td></tr>
+    </tbody></table></div>
+  </div>
+</div>
+
+<!-- USER MANAGEMENT -->
+<div class="pg" id="pg-users">
+  <div class="ph"><div><div class="pt"><i class="fa-solid fa-users" style="color:var(--c);margin-right:8px"></i>User Management</div><div class="ps">Manage all registered users, roles and access</div></div><div class="pa"><button class="ab ab-pr" onclick="toast('CSV exported!','var(--g)')"><i class="fa-solid fa-file-export"></i>Export CSV</button></div></div>
+  <div class="tc">
+    <div class="tch">
+      <span class="tct"><i class="fa-solid fa-users"></i>All Users (7)</span>
+      <div class="tsr"><i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Search user / player ID / email" oninput="filterU(this.value)"></div>
+    </div>
+    <div class="tw"><table><thead><tr><th>Player</th><th>Player ID</th><th>Roles</th><th>Status</th><th>Action</th></tr></thead>
+    <tbody id="utb">
+      <tr><td><div class="pc"><div class="av"><img src="https://api.dicebear.com/7.x/adventurer/svg?seed=CR7&backgroundColor=ff6b00" alt=""></div><div><div class="pn">CR7 Fan</div><div class="pe">businessdeal7928@gmail.com</div></div></div></td><td><span class="pid">EKH-000006</span></td><td><span class="bx bp">player</span></td><td><span class="stb stpe">Pending</span></td><td><div class="abs"><button class="ab ab-rl" onclick="openRM('CR7 Fan')"><i class="fa-solid fa-shield-halved"></i>Role</button><button class="ab ab-em" onclick="toast('Email sent','var(--bl)')"><i class="fa-solid fa-envelope"></i>Email</button><button class="ab ab-bn" onclick="toast('User banned','var(--or)')"><i class="fa-solid fa-ban"></i>Ban</button><button class="ab ab-dl" onclick="toast('User deleted','var(--rd)')"><i class="fa-solid fa-trash"></i>Del</button></div></td></tr>
+      <tr><td><div class="pc"><div class="av"><img src="https://api.dicebear.com/7.x/adventurer/svg?seed=none&backgroundColor=39ff14" alt=""></div><div><div class="pn">none</div><div class="pe">moniruzzamanshakib232@gmail.com</div></div></div></td><td><span class="pid">EKH-000007</span></td><td><span class="bx bp">player</span><span class="bx ba">admin</span><span class="bx bm">mod</span></td><td><span class="stb stap">Approved</span></td><td><div class="abs"><button class="ab ab-rl" onclick="openRM('none')"><i class="fa-solid fa-shield-halved"></i>Role</button><button class="ab ab-em" onclick="toast('Email sent','var(--bl)')"><i class="fa-solid fa-envelope"></i>Email</button><button class="ab ab-bn" onclick="toast('Banned','var(--or)')"><i class="fa-solid fa-ban"></i>Ban</button><button class="ab ab-dl" onclick="toast('Deleted','var(--rd)')"><i class="fa-solid fa-trash"></i>Del</button></div></td></tr>
+      <tr><td><div class="pc"><div class="av"><img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Rashedul&backgroundColor=00e5ff" alt=""></div><div><div class="pn">Md Rashedul Hasan</div><div class="pe">mdrashedulhasan02@gmail.com</div></div></div></td><td><span class="pid">EKH-000001</span></td><td><span class="bx bp">player</span><span class="bx ba">admin</span><span class="bx bm">mod</span></td><td><span class="stb stap">Approved</span></td><td><div class="abs"><button class="ab ab-rl" onclick="openRM('Md Rashedul Hasan')"><i class="fa-solid fa-shield-halved"></i>Role</button><button class="ab ab-em" onclick="toast('Email sent','var(--bl)')"><i class="fa-solid fa-envelope"></i>Email</button><button class="ab ab-bn" onclick="toast('Banned','var(--or)')"><i class="fa-solid fa-ban"></i>Ban</button><button class="ab ab-dl" onclick="toast('Deleted','var(--rd)')"><i class="fa-solid fa-trash"></i>Del</button></div></td></tr>
+      <tr><td><div class="pc"><div class="av"><img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Business&backgroundColor=ffd700" alt=""></div><div><div class="pn">Business Deal</div><div class="pe">businessdealbd2025@gmail.com</div></div></div></td><td><span class="pid">EKH-000005</span></td><td><span class="bx bp">player</span></td><td><span class="stb stap">Approved</span></td><td><div class="abs"><button class="ab ab-rl" onclick="openRM('Business Deal')"><i class="fa-solid fa-shield-halved"></i>Role</button><button class="ab ab-em" onclick="toast('Email sent','var(--bl)')"><i class="fa-solid fa-envelope"></i>Email</button><button class="ab ab-bn" onclick="toast('Banned','var(--or)')"><i class="fa-solid fa-ban"></i>Ban</button><button class="ab ab-dl" onclick="toast('Deleted','var(--rd)')"><i class="fa-solid fa-trash"></i>Del</button></div></td></tr>
+      <tr><td><div class="pc"><div class="av"><img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Mirajul&backgroundColor=a855f7" alt=""></div><div><div class="pn">Md.Mirajul Islam Shoriyat</div><div class="pe">msmiraj121@gmail.com</div></div></div></td><td><span class="pid">EKH-000004</span></td><td><span class="bx bp">player</span></td><td><span class="stb stap">Approved</span></td><td><div class="abs"><button class="ab ab-rl" onclick="openRM('Mirajul')"><i class="fa-solid fa-shield-halved"></i>Role</button><button class="ab ab-em" onclick="toast('Email sent','var(--bl)')"><i class="fa-solid fa-envelope"></i>Email</button><button class="ab ab-bn" onclick="toast('Banned','var(--or)')"><i class="fa-solid fa-ban"></i>Ban</button><button class="ab ab-dl" onclick="toast('Deleted','var(--rd)')"><i class="fa-solid fa-trash"></i>Del</button></div></td></tr>
+    </tbody></table></div>
+  </div>
+</div>
+
+<!-- ROLES -->
+<div class="pg" id="pg-roles">
+  <div class="ph"><div><div class="pt"><i class="fa-solid fa-shield-halved" style="color:var(--c);margin-right:8px"></i>Roles &amp; Access Control</div><div class="ps">Define permissions per role</div></div></div>
+  <div class="g2">
+    <div class="pn"><div class="pnt"><i class="fa-solid fa-crown"></i>Role Hierarchy</div>
+      <div style="display:flex;flex-direction:column;gap:7px">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 13px;background:rgba(0,229,255,.06);border:1px solid rgba(0,229,255,.2);border-radius:8px"><span style="display:flex;align-items:center;gap:8px;font-weight:700;font-size:12px"><i class="fa-solid fa-crown" style="color:var(--c)"></i>Super Admin</span><span style="font-size:10px;color:var(--mu2)">Full Access</span></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 13px;background:rgba(255,0,102,.06);border:1px solid rgba(255,0,102,.2);border-radius:8px"><span style="display:flex;align-items:center;gap:8px;font-weight:700;font-size:12px"><i class="fa-solid fa-user-shield" style="color:var(--pk)"></i>Admin</span><span style="font-size:10px;color:var(--mu2)">Users, Finance</span></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 13px;background:rgba(168,85,247,.06);border:1px solid rgba(168,85,247,.2);border-radius:8px"><span style="display:flex;align-items:center;gap:8px;font-weight:700;font-size:12px"><i class="fa-solid fa-users-gear" style="color:var(--pu)"></i>Moderator</span><span style="font-size:10px;color:var(--mu2)">Approvals, Content</span></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 13px;background:rgba(255,215,0,.06);border:1px solid rgba(255,215,0,.2);border-radius:8px"><span style="display:flex;align-items:center;gap:8px;font-weight:700;font-size:12px"><i class="fa-solid fa-briefcase" style="color:var(--gd)"></i>Manager</span><span style="font-size:10px;color:var(--mu2)">Club Management</span></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 13px;background:rgba(255,107,0,.06);border:1px solid rgba(255,107,0,.2);border-radius:8px"><span style="display:flex;align-items:center;gap:8px;font-weight:700;font-size:12px"><i class="fa-solid fa-whistle" style="color:var(--or)"></i>Referee</span><span style="font-size:10px;color:var(--mu2)">Match Oversight</span></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 13px;background:rgba(57,255,20,.06);border:1px solid rgba(57,255,20,.2);border-radius:8px"><span style="display:flex;align-items:center;gap:8px;font-weight:700;font-size:12px"><i class="fa-solid fa-person-running" style="color:var(--g)"></i>Player</span><span style="font-size:10px;color:var(--mu2)">Play, Transfer, VC</span></div>
+      </div>
+    </div>
+    <div class="pn"><div class="pnt"><i class="fa-solid fa-key"></i>Permission Matrix</div>
+      <div class="tw"><table><thead><tr><th>Permission</th><th>Admin</th><th>Mod</th><th>Mgr</th><th>Ply</th></tr></thead>
+      <tbody>
+        <tr><td style="font-size:11px">User Mgmt</td><td style="color:var(--g)">✔</td><td style="color:var(--rd)">✘</td><td style="color:var(--rd)">✘</td><td style="color:var(--rd)">✘</td></tr>
+        <tr><td style="font-size:11px">Approve Players</td><td style="color:var(--g)">✔</td><td style="color:var(--g)">✔</td><td style="color:var(--rd)">✘</td><td style="color:var(--rd)">✘</td></tr>
+        <tr><td style="font-size:11px">Competition</td><td style="color:var(--g)">✔</td><td style="color:var(--g)">✔</td><td style="color:var(--g)">✔</td><td style="color:var(--rd)">✘</td></tr>
+        <tr><td style="font-size:11px">Transfer Approval</td><td style="color:var(--g)">✔</td><td style="color:var(--g)">✔</td><td style="color:var(--g)">✔</td><td style="color:var(--rd)">✘</td></tr>
+        <tr><td style="font-size:11px">Finance View</td><td style="color:var(--g)">✔</td><td style="color:var(--rd)">✘</td><td style="color:var(--rd)">✘</td><td style="color:var(--rd)">✘</td></tr>
+        <tr><td style="font-size:11px">VC Grant</td><td style="color:var(--g)">✔</td><td style="color:var(--rd)">✘</td><td style="color:var(--rd)">✘</td><td style="color:var(--rd)">✘</td></tr>
+        <tr><td style="font-size:11px">Ads Manager</td><td style="color:var(--g)">✔</td><td style="color:var(--rd)">✘</td><td style="color:var(--rd)">✘</td><td style="color:var(--rd)">✘</td></tr>
+        <tr><td style="font-size:11px">Profile Edit</td><td style="color:var(--g)">✔</td><td style="color:var(--g)">✔</td><td style="color:var(--g)">✔</td><td style="color:var(--gd)">Own</td></tr>
+      </tbody></table></div>
+    </div>
+  </div>
+</div>
+
+<!-- COMPETITION -->
+<div class="pg" id="pg-comp">
+  <div class="ph"><div><div class="pt"><i class="fa-solid fa-trophy" style="color:var(--gd);margin-right:8px"></i>Competition Manager</div><div class="ps">Create and manage tournaments &amp; leagues</div></div><div class="pa"><button class="ab ab-pr" onclick="toast('Competition created!','var(--g)')"><i class="fa-solid fa-plus"></i>New Competition</button></div></div>
+  <div class="pn"><div class="pnt"><i class="fa-solid fa-plus-circle"></i>Create Competition</div>
+    <div class="frow"><div class="fg"><label>Competition Name</label><input class="fc" placeholder="e.g. eKickHub Champions League S4"></div><div class="fg"><label>Type</label><select class="fc"><option>Tournament (Knockout)</option><option>League (Round Robin)</option><option>Group + Knockout</option><option>Friendly Cup</option></select></div></div>
+    <div class="frow"><div class="fg"><label>Start Date</label><input class="fc" type="date"></div><div class="fg"><label>End Date</label><input class="fc" type="date"></div></div>
+    <div class="frow"><div class="fg"><label>Max Teams</label><input class="fc" type="number" placeholder="16"></div><div class="fg"><label>Entry Fee (VC)</label><input class="fc" type="number" placeholder="100"></div></div>
+    <div class="frow"><div class="fg"><label>Prize Pool (৳)</label><input class="fc" placeholder="৳5000"></div><div class="fg"><label>Status</label><select class="fc"><option>Draft</option><option>Open Registration</option><option>Ongoing</option><option>Completed</option></select></div></div>
+    <button class="ab ab-pr" style="margin-top:6px" onclick="toast('Competition saved!','var(--g)')"><i class="fa-solid fa-floppy-disk"></i>Save Competition</button>
+  </div>
+  <div class="tc"><div class="tch"><span class="tct"><i class="fa-solid fa-list"></i>All Competitions (3)</span></div>
+    <div class="tw"><table><thead><tr><th>Name</th><th>Type</th><th>Teams</th><th>Prize</th><th>Status</th><th>Action</th></tr></thead>
+    <tbody>
+      <tr><td style="font-weight:700;font-size:12px">Champions League S3</td><td style="font-size:11px">Knockout</td><td style="font-size:11px">8/16</td><td style="color:var(--g);font-family:var(--fd);font-size:11px">৳5,000</td><td><span class="stb stap">Open</span></td><td><div class="abs"><button class="ab ab-rl" onclick="toast('Opening editor','var(--c)')"><i class="fa-solid fa-pen"></i>Edit</button><button class="ab ab-dl"><i class="fa-solid fa-trash"></i></button></div></td></tr>
+      <tr><td style="font-weight:700;font-size:12px">Season League S2</td><td style="font-size:11px">Round Robin</td><td style="font-size:11px">12/12</td><td style="color:var(--g);font-family:var(--fd);font-size:11px">৳3,000</td><td><span class="stb" style="background:rgba(0,229,255,.12);color:var(--c);border:1px solid rgba(0,229,255,.25)">Ongoing</span></td><td><div class="abs"><button class="ab ab-rl"><i class="fa-solid fa-pen"></i>Edit</button><button class="ab ab-dl"><i class="fa-solid fa-trash"></i></button></div></td></tr>
+      <tr><td style="font-weight:700;font-size:12px">Friendly Cup</td><td style="font-size:11px">Knockout</td><td style="font-size:11px">4/8</td><td style="color:var(--gd);font-family:var(--fd);font-size:11px">500 VC</td><td><span class="stb stpe">Draft</span></td><td><div class="abs"><button class="ab ab-rl"><i class="fa-solid fa-pen"></i>Edit</button><button class="ab ab-dl"><i class="fa-solid fa-trash"></i></button></div></td></tr>
+    </tbody></table></div>
+  </div>
+</div>
+
+<!-- PROFILE EDITOR -->
+<div class="pg" id="pg-prof">
+  <div class="ph"><div><div class="pt"><i class="fa-solid fa-id-card" style="color:var(--c);margin-right:8px"></i>Profile Editor</div><div class="ps">Edit player/club themes, colors and approve update requests</div></div></div>
+  <div class="g2">
+    <div class="pn"><div class="pnt"><i class="fa-solid fa-palette"></i>Theme Editor</div>
+      <div class="fg" style="margin-bottom:11px"><label>Select Player / Club</label><select class="fc"><option>Md Rashedul Hasan (EKH-000001)</option><option>CR7 Fan (EKH-000006)</option><option>Business Deal (EKH-000005)</option></select></div>
+      <div class="fg" style="margin-bottom:11px"><label>Profile Theme</label><select class="fc"><option>Dark Gaming</option><option>Neon Cyan</option><option>Fire Orange</option><option>Royal Gold</option><option>Midnight Purple</option></select></div>
+      <div class="fg" style="margin-bottom:11px"><label>Accent Color</label>
+        <div class="sw-wrap">
+          <div class="sw act" style="background:linear-gradient(135deg,#00e5ff,#3b82f6)" onclick="pickSw(this)"></div>
+          <div class="sw" style="background:linear-gradient(135deg,#39ff14,#00e5ff)" onclick="pickSw(this)"></div>
+          <div class="sw" style="background:linear-gradient(135deg,#ff0066,#ff6b00)" onclick="pickSw(this)"></div>
+          <div class="sw" style="background:linear-gradient(135deg,#ffd700,#ff6b00)" onclick="pickSw(this)"></div>
+          <div class="sw" style="background:linear-gradient(135deg,#a855f7,#ff0066)" onclick="pickSw(this)"></div>
+          <div class="sw" style="background:linear-gradient(135deg,#fff,#8aa4bb)" onclick="pickSw(this)"></div>
+        </div>
+      </div>
+      <div class="fg" style="margin-bottom:14px"><label>Banner URL</label><input class="fc" placeholder="https://…/banner.jpg"></div>
+      <button class="ab ab-pr" onclick="toast('Theme saved!','var(--g)')"><i class="fa-solid fa-floppy-disk"></i>Save Theme</button>
+    </div>
+    <div class="pn"><div class="pnt"><i class="fa-solid fa-clock-rotate-left"></i>Update Approvals</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="background:rgba(255,215,0,.05);border:1px solid rgba(255,215,0,.2);border-radius:8px;padding:11px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:7px"><div style="display:flex;align-items:center;gap:8px"><div class="av" style="width:26px;height:26px"><img src="https://api.dicebear.com/7.x/adventurer/svg?seed=CR7&backgroundColor=ff6b00" alt=""></div><span style="font-size:12px;font-weight:700">CR7 Fan</span></div><span class="stb stpe">Pending</span></div>
+          <div style="font-size:11px;color:var(--mu2);margin-bottom:9px">Change position <b style="color:var(--tx)">LWF</b> → <b style="color:var(--c)">SS</b> · Update avatar</div>
+          <div class="abs"><button class="ab ab-ok" onclick="toast('Profile update approved','var(--g)')"><i class="fa-solid fa-check"></i>Approve</button><button class="ab ab-no" onclick="toast('Rejected','var(--rd)')"><i class="fa-solid fa-xmark"></i>Reject</button></div>
+        </div>
+        <div style="background:rgba(57,255,20,.04);border:1px solid rgba(57,255,20,.2);border-radius:8px;padding:11px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><div style="display:flex;align-items:center;gap:8px"><div class="av" style="width:26px;height:26px"><img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Business&backgroundColor=ffd700" alt=""></div><span style="font-size:12px;font-weight:700">Business Deal</span></div><span class="stb stap">Approved</span></div>
+          <div style="font-size:11px;color:var(--mu2)">Club banner updated · Theme → Fire Orange · 2 Jun 2025</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TRANSFERS -->
+<div class="pg" id="pg-trnf">
+  <div class="ph"><div><div class="pt"><i class="fa-solid fa-right-left" style="color:var(--c);margin-right:8px"></i>Transfer Management</div><div class="ps">Track player transfers, fees and approvals</div></div></div>
+  <div class="sg" style="grid-template-columns:repeat(3,1fr)">
+    <div class="sc" style="--scg:linear-gradient(90deg,#39ff14,#00e5ff);--scib:rgba(57,255,20,.1);--scc:var(--g)"><div class="sci"><i class="fa-solid fa-sack-dollar" style="color:var(--g)"></i></div><div class="scv">৳4,800</div><div class="scl">Total Earn</div></div>
+    <div class="sc" style="--scg:linear-gradient(90deg,#ffd700,#ff6b00);--scib:rgba(255,215,0,.1);--scc:var(--gd)"><div class="sci"><i class="fa-solid fa-hourglass-half" style="color:var(--gd)"></i></div><div class="scv">2</div><div class="scl">Pending</div></div>
+    <div class="sc" style="--scg:linear-gradient(90deg,#00e5ff,#3b82f6);--scib:rgba(0,229,255,.1);--scc:var(--c)"><div class="sci"><i class="fa-solid fa-check-double" style="color:var(--c)"></i></div><div class="scv">4</div><div class="scl">Approved</div></div>
+  </div>
+  <div class="tc"><div class="tch"><span class="tct"><i class="fa-solid fa-list-check"></i>Transfer Queue</span></div>
+    <div class="tw"><table><thead><tr><th>Player</th><th>From</th><th>To</th><th>Fee</th><th>Site Earn 10%</th><th>Date</th><th>Status</th><th>Action</th></tr></thead>
+    <tbody>
+      <tr><td><div class="pc"><div class="av" style="width:28px;height:28px"><img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Mirajul&backgroundColor=a855f7" alt=""></div><div><div class="pn">Mirajul Islam</div></div></div></td><td style="font-size:11px;color:var(--mu2)">GOAT FC</td><td style="font-size:11px;color:var(--c)">Dragon XI</td><td style="font-family:var(--fd);font-size:11px">৳2,000</td><td style="font-family:var(--fd);font-size:11px;color:var(--g)">৳200</td><td style="font-size:10px;color:var(--mu2)">3 Jun</td><td><span class="stb stpe">Pending</span></td><td><div class="abs"><button class="ab ab-ok" onclick="toast('Transfer approved! +৳200 earned','var(--g)')"><i class="fa-solid fa-check"></i>OK</button><button class="ab ab-no"><i class="fa-solid fa-xmark"></i></button></div></td></tr>
+      <tr><td><div class="pc"><div class="av" style="width:28px;height:28px"><img src="https://api.dicebear.com/7.x/adventurer/svg?seed=CR7&backgroundColor=ff6b00" alt=""></div><div><div class="pn">CR7 Fan</div></div></div></td><td style="font-size:11px;color:var(--mu2)">Free Agent</td><td style="font-size:11px;color:var(--c)">GOAT FC</td><td style="font-family:var(--fd);font-size:11px">৳1,500</td><td style="font-family:var(--fd);font-size:11px;color:var(--g)">৳150</td><td style="font-size:10px;color:var(--mu2)">2 Jun</td><td><span class="stb stpe">Pending</span></td><td><div class="abs"><button class="ab ab-ok" onclick="toast('Approved! +৳150','var(--g)')"><i class="fa-solid fa-check"></i>OK</button><button class="ab ab-no"><i class="fa-solid fa-xmark"></i></button></div></td></tr>
+      <tr><td><div class="pc"><div class="av" style="width:28px;height:28px"><img src="https://api.dicebear.com/7.x/adventurer/svg?seed=none&backgroundColor=39ff14" alt=""></div><div><div class="pn">none</div></div></div></td><td style="font-size:11px;color:var(--mu2)">Dragon XI</td><td style="font-size:11px;color:var(--c)">GOAT FC</td><td style="font-family:var(--fd);font-size:11px">৳3,000</td><td style="font-family:var(--fd);font-size:11px;color:var(--g)">৳300</td><td style="font-size:10px;color:var(--mu2)">1 Jun</td><td><span class="stb stap">Approved</span></td><td style="font-size:10px;color:var(--mu2)">Done</td></tr>
+    </tbody></table></div>
+  </div>
+</div>
+
+<!-- FINANCE -->
+<div class="pg" id="pg-fin">
+  <div class="ph"><div><div class="pt"><i class="fa-solid fa-chart-line" style="color:var(--g);margin-right:8px"></i>Finance Overview</div><div class="ps">Revenue, earnings and financial summary</div></div><div class="pa"><button class="ab ab-pr" onclick="toast('Exporting…','var(--g)')"><i class="fa-solid fa-file-export"></i>Export</button></div></div>
+  <div class="sg">
+    <div class="sc" style="--scg:linear-gradient(90deg,#39ff14,#00e5ff);--scib:rgba(57,255,20,.1);--scc:var(--g)"><div class="sci"><i class="fa-solid fa-bangladeshi-taka-sign" style="color:var(--g)"></i></div><div class="scv">৳18,450</div><div class="scl">Total Revenue</div><div class="scd"><i class="fa-solid fa-arrow-up"></i>+12% week</div></div>
+    <div class="sc" style="--scg:linear-gradient(90deg,#00e5ff,#3b82f6);--scib:rgba(0,229,255,.1);--scc:var(--c)"><div class="sci"><i class="fa-solid fa-store" style="color:var(--c)"></i></div><div class="scv">৳9,200</div><div class="scl">Shop Earnings</div></div>
+    <div class="sc" style="--scg:linear-gradient(90deg,#ffd700,#ff6b00);--scib:rgba(255,215,0,.1);--scc:var(--gd)"><div class="sci"><i class="fa-solid fa-right-left" style="color:var(--gd)"></i></div><div class="scv">৳4,800</div><div class="scl">Transfer Fees</div></div>
+    <div class="sc" style="--scg:linear-gradient(90deg,#a855f7,#ff0066);--scib:rgba(168,85,247,.1);--scc:var(--pu)"><div class="sci"><i class="fa-solid fa-rectangle-ad" style="color:var(--pu)"></i></div><div class="scv">৳4,450</div><div class="scl">Ad Revenue</div></div>
+  </div>
+  <div class="g2">
+    <div class="pn"><div class="pnt"><i class="fa-solid fa-clock-rotate-left"></i>Recent Transactions</div>
+      <div class="fr"><div class="frl"><div class="fri" style="background:rgba(57,255,20,.12);color:var(--g)"><i class="fa-solid fa-coins"></i></div><div><div class="frt">eFootball Coins Sale</div><div class="frs">businessdeal7928 · Jun 3</div></div></div><span class="fra p">+৳799</span></div>
+      <div class="fr"><div class="frl"><div class="fri" style="background:rgba(0,229,255,.12);color:var(--c)"><i class="fa-solid fa-right-left"></i></div><div><div class="frt">Transfer Fee (10%)</div><div class="frs">none → GOAT FC · Jun 1</div></div></div><span class="fra p">+৳300</span></div>
+      <div class="fr"><div class="frl"><div class="fri" style="background:rgba(255,215,0,.12);color:var(--gd)"><i class="fa-solid fa-shirt"></i></div><div><div class="frt">Jersey Order</div><div class="frs">msmiraj121 · May 31</div></div></div><span class="fra p">+৳950</span></div>
+      <div class="fr"><div class="frl"><div class="fri" style="background:rgba(168,85,247,.12);color:var(--pu)"><i class="fa-solid fa-trophy"></i></div><div><div class="frt">Tournament Entry Fee</div><div class="frs">Season League S2 · May 30</div></div></div><span class="fra p">+৳1,200</span></div>
+      <div class="fr"><div class="frl"><div class="fri" style="background:rgba(255,59,48,.12);color:var(--rd)"><i class="fa-solid fa-server"></i></div><div><div class="frt">Server Cost</div><div class="frs">Monthly · Jun 1</div></div></div><span class="fra n">-৳500</span></div>
+    </div>
+    <div class="pn"><div class="pnt"><i class="fa-solid fa-chart-pie"></i>Revenue Breakdown</div>
+      <div style="display:flex;flex-direction:column;gap:11px">
+        <div><div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:12px;font-weight:600">Shop Sales</span><span style="font-family:var(--fd);font-size:11px;color:var(--c)">49.9%</span></div><div style="height:6px;background:rgba(255,255,255,.06);border-radius:3px"><div style="height:100%;width:49.9%;background:linear-gradient(90deg,var(--c),var(--bl));border-radius:3px"></div></div></div>
+        <div><div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:12px;font-weight:600">Transfers</span><span style="font-family:var(--fd);font-size:11px;color:var(--gd)">26%</span></div><div style="height:6px;background:rgba(255,255,255,.06);border-radius:3px"><div style="height:100%;width:26%;background:linear-gradient(90deg,var(--gd),var(--or));border-radius:3px"></div></div></div>
+        <div><div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:12px;font-weight:600">Ad Revenue</span><span style="font-family:var(--fd);font-size:11px;color:var(--pu)">24.1%</span></div><div style="height:6px;background:rgba(255,255,255,.06);border-radius:3px"><div style="height:100%;width:24.1%;background:linear-gradient(90deg,var(--pu),var(--pk));border-radius:3px"></div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VIRTUAL COINS -->
+<div class="pg" id="pg-vc">
+  <div class="ph"><div><div class="pt"><i class="fa-solid fa-coins" style="color:var(--gd);margin-right:8px"></i>Virtual Coin (VC) System</div><div class="ps">Issue, track and manage VC for all players and clubs</div></div><div class="pa"><button class="ab ab-pr" style="background:linear-gradient(90deg,var(--gd),var(--or))" onclick="toast('Bulk grant mode','var(--gd)')"><i class="fa-solid fa-coins"></i>Bulk Grant</button></div></div>
+  <div class="sg" style="grid-template-columns:repeat(3,1fr)">
+    <div class="sc" style="--scg:linear-gradient(90deg,#ffd700,#ff6b00);--scib:rgba(255,215,0,.1);--scc:var(--gd)"><div class="sci"><i class="fa-solid fa-coins" style="color:var(--gd)"></i></div><div class="scv">12,450</div><div class="scl">Total VC Issued</div></div>
+    <div class="sc" style="--scg:linear-gradient(90deg,#39ff14,#00e5ff);--scib:rgba(57,255,20,.1);--scc:var(--g)"><div class="sci"><i class="fa-solid fa-bangladeshi-taka-sign" style="color:var(--g)"></i></div><div class="scv">৳6,225</div><div class="scl">VC Revenue</div></div>
+    <div class="sc" style="--scg:linear-gradient(90deg,#00e5ff,#3b82f6);--scib:rgba(0,229,255,.1);--scc:var(--c)"><div class="sci"><i class="fa-solid fa-users" style="color:var(--c)"></i></div><div class="scv">5</div><div class="scl">Active Holders</div></div>
+  </div>
+  <div class="pn"><div class="pnt"><i class="fa-solid fa-list"></i>Player VC Balances</div>
+    <div class="vcr"><div class="av" style="width:28px;height:28px;flex-shrink:0"><img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Rashedul&backgroundColor=00e5ff" alt=""></div><div class="vci"><div class="vcn">Md Rashedul Hasan</div><div class="vcm">EKH-000001 · Last used: Jun 2</div></div><span class="vca">3,200 VC</span><button class="vcb" onclick="toast('VC granted to Rashedul','var(--gd)')"><i class="fa-solid fa-plus"></i>Grant</button></div>
+    <div class="vcr"><div class="av" style="width:28px;height:28px;flex-shrink:0"><img src="https://api.dicebear.com/7.x/adventurer/svg?seed=none&backgroundColor=39ff14" alt=""></div><div class="vci"><div class="vcn">none</div><div class="vcm">EKH-000007 · Last used: Jun 1</div></div><span class="vca">2,750 VC</span><button class="vcb" onclick="toast('VC granted','var(--gd)')"><i class="fa-solid fa-plus"></i>Grant</button></div>
+    <div class="vcr"><div class="av" style="width:28px;height:28px;flex-shrink:0"><img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Business&backgroundColor=ffd700" alt=""></div><div class="vci"><div class="vcn">Business Deal</div><div class="vcm">EKH-000005 · Last used: May 30</div></div><span class="vca">1,500 VC</span><button class="vcb" onclick="toast('VC granted','var(--gd)')"><i class="fa-solid fa-plus"></i>Grant</button></div>
+    <div class="vcr"><div class="av" style="width:28px;height:28px;flex-shrink:0"><img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Mirajul&backgroundColor=a855f7" alt=""></div><div class="vci"><div class="vcn">Md.Mirajul Islam</div><div class="vcm">EKH-000004 · Last used: May 28</div></div><span class="vca">4,200 VC</span><button class="vcb" onclick="toast('VC granted','var(--gd)')"><i class="fa-solid fa-plus"></i>Grant</button></div>
+    <div class="vcr"><div class="av" style="width:28px;height:28px;flex-shrink:0"><img src="https://api.dicebear.com/7.x/adventurer/svg?seed=CR7&backgroundColor=ff6b00" alt=""></div><div class="vci"><div class="vcn">CR7 Fan</div><div class="vcm">EKH-000006 · Never used</div></div><span class="vca">800 VC</span><button class="vcb" onclick="toast('VC granted','var(--gd)')"><i class="fa-solid fa-plus"></i>Grant</button></div>
+  </div>
+  <div class="pn"><div class="pnt"><i class="fa-solid fa-plus-circle"></i>Manual VC Grant</div>
+    <div class="frow"><div class="fg"><label>Player / Club</label><select class="fc"><option>Select user…</option><option>Md Rashedul Hasan</option><option>none</option><option>Business Deal</option><option>Mirajul Islam</option></select></div><div class="fg"><label>Amount (VC)</label><input class="fc" type="number" placeholder="e.g. 500"></div></div>
+    <div class="fg" style="margin-bottom:13px"><label>Note / Reason</label><input class="fc" placeholder="e.g. Tournament prize, welcome bonus…"></div>
+    <button class="ab ab-pr" style="background:linear-gradient(90deg,var(--gd),var(--or))" onclick="toast('VC granted successfully!','var(--gd)')"><i class="fa-solid fa-paper-plane"></i>Grant VC</button>
+  </div>
+</div>
+
+<!-- ADS MANAGER -->
+<div class="pg" id="pg-ads">
+  <div class="ph"><div><div class="pt"><i class="fa-solid fa-rectangle-ad" style="color:var(--c);margin-right:8px"></i>Ads Manager</div><div class="ps">Control ad zones across the platform</div></div><div class="pa"><button class="ab ab-pr" onclick="toast('New ad created','var(--g)')"><i class="fa-solid fa-plus"></i>New Ad</button></div></div>
+  <div class="pn"><div class="pnt"><i class="fa-solid fa-map-pin"></i>Ad Zones</div>
+    <div class="azg">
+      <div class="azc az-on" onclick="selZone(this)"><div class="az-ic">👤</div><div class="az-nm">Player Profile</div><div class="az-ct">2 active ads</div><div class="az-tg"><div class="tsw on" onclick="tglAd(this,event)"></div><span>Enabled</span></div></div>
+      <div class="azc az-on" onclick="selZone(this)"><div class="az-ic">🛡️</div><div class="az-nm">Club Profile</div><div class="az-ct">1 active ad</div><div class="az-tg"><div class="tsw on" onclick="tglAd(this,event)"></div><span>Enabled</span></div></div>
+      <div class="azc az-on" onclick="selZone(this)"><div class="az-ic">🏆</div><div class="az-nm">Competition Page</div><div class="az-ct">3 active ads</div><div class="az-tg"><div class="tsw on" onclick="tglAd(this,event)"></div><span>Enabled</span></div></div>
+      <div class="azc" onclick="selZone(this)"><div class="az-ic">🏠</div><div class="az-nm">Home Banner</div><div class="az-ct">0 active ads</div><div class="az-tg"><div class="tsw" onclick="tglAd(this,event)"></div><span>Disabled</span></div></div>
+      <div class="azc az-on" onclick="selZone(this)"><div class="az-ic">📊</div><div class="az-nm">Leaderboard</div><div class="az-ct">1 active ad</div><div class="az-tg"><div class="tsw on" onclick="tglAd(this,event)"></div><span>Enabled</span></div></div>
+      <div class="azc" onclick="selZone(this)"><div class="az-ic">💸</div><div class="az-nm">Transfer Page</div><div class="az-ct">0 active ads</div><div class="az-tg"><div class="tsw" onclick="tglAd(this,event)"></div><span>Disabled</span></div></div>
+      <div class="azc az-on" onclick="selZone(this)"><div class="az-ic">🎮</div><div class="az-nm">Match Center</div><div class="az-ct">2 active ads</div><div class="az-tg"><div class="tsw on" onclick="tglAd(this,event)"></div><span>Enabled</span></div></div>
+      <div class="azc" onclick="selZone(this)"><div class="az-ic">📱</div><div class="az-nm">Mobile Sidebar</div><div class="az-ct">0 active ads</div><div class="az-tg"><div class="tsw" onclick="tglAd(this,event)"></div><span>Disabled</span></div></div>
+      <div class="azc" onclick="selZone(this)"><div class="az-ic">🛒</div><div class="az-nm">Shop Page</div><div class="az-ct">0 active ads</div><div class="az-tg"><div class="tsw" onclick="tglAd(this,event)"></div><span>Disabled</span></div></div>
+    </div>
+  </div>
+  <div class="pn"><div class="pnt"><i class="fa-solid fa-plus"></i>Create / Edit Ad</div>
+    <div class="frow"><div class="fg"><label>Ad Title</label><input class="fc" placeholder="e.g. GoalKing Promo"></div><div class="fg"><label>Target Zone</label><select class="fc"><option>Player Profile</option><option>Club Profile</option><option>Competition Page</option><option>Home Banner</option><option>Match Center</option></select></div></div>
+    <div class="frow"><div class="fg"><label>Ad Image URL</label><input class="fc" placeholder="https://…/ad.jpg"></div><div class="fg"><label>Redirect URL</label><input class="fc" placeholder="https://…"></div></div>
+    <div class="frow"><div class="fg"><label>Start Date</label><input class="fc" type="date"></div><div class="fg"><label>End Date</label><input class="fc" type="date"></div></div>
+    <button class="ab ab-pr" onclick="toast('Ad saved and live!','var(--g)')"><i class="fa-solid fa-floppy-disk"></i>Save Ad</button>
+  </div>
+</div>
+
+<!-- SETTINGS -->
+<div class="pg" id="pg-set">
+  <div class="ph"><div><div class="pt"><i class="fa-solid fa-gear" style="color:var(--c);margin-right:8px"></i>Settings</div><div class="ps">Platform configuration and preferences</div></div></div>
+  <div class="g2">
+    <div class="pn"><div class="pnt"><i class="fa-solid fa-sliders"></i>General Settings</div>
+      <div class="frow" style="grid-template-columns:1fr"><div class="fg"><label>Site Name</label><input class="fc" value="eKickHub"></div></div>
+      <div class="frow" style="grid-template-columns:1fr"><div class="fg"><label>Contact Email</label><input class="fc" value="goatfcbd@gmail.com"></div></div>
+      <div class="frow"><div class="fg"><label>Transfer Fee % (site cut)</label><input class="fc" type="number" value="10"></div><div class="fg"><label>VC Rate (1 VC = ৳)</label><input class="fc" type="number" value="0.5"></div></div>
+      <button class="ab ab-pr" onclick="toast('Settings saved!','var(--g)')"><i class="fa-solid fa-floppy-disk"></i>Save</button>
+    </div>
+    <div class="pn"><div class="pnt"><i class="fa-solid fa-shield-halved"></i>Security</div>
+      <div class="frow" style="grid-template-columns:1fr"><div class="fg"><label>Admin Secret Token</label><input class="fc" type="password" placeholder="••••••••••••"></div></div>
+      <div class="frow" style="grid-template-columns:1fr"><div class="fg"><label>Session Timeout (minutes)</label><input class="fc" type="number" value="60"></div></div>
+      <button class="ab ab-pr" onclick="toast('Security updated!','var(--g)')"><i class="fa-solid fa-lock"></i>Update</button>
+    </div>
+  </div>
+</div>
+
+</div><!-- /main -->
+</div><!-- /layout -->
+
+<!-- ROLE MODAL -->
+<div class="mbg" id="rmodal">
+  <div class="mo">
+    <div class="mot"><i class="fa-solid fa-shield-halved" style="color:var(--c)"></i>Assign Roles — <span id="muname"></span></div>
+    <button class="mcl" onclick="closeRM()"><i class="fa-solid fa-xmark"></i></button>
+    <div class="rcg">
+      <label class="rck on"><input type="checkbox" checked><span>Player</span></label>
+      <label class="rck"><input type="checkbox"><span>Admin</span></label>
+      <label class="rck"><input type="checkbox"><span>Moderator</span></label>
+      <label class="rck"><input type="checkbox"><span>Manager</span></label>
+      <label class="rck"><input type="checkbox"><span>Referee</span></label>
+      <label class="rck"><input type="checkbox"><span>Super Admin</span></label>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button class="ab ab-rl" onclick="closeRM()">Cancel</button>
+      <button class="ab ab-pr" onclick="saveRM()"><i class="fa-solid fa-floppy-disk"></i>Save Roles</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"><i class="fa-solid fa-circle-check"></i><span id="tmsg">Done!</span></div>
+
+<script>
+function showPg(id,el){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('act'));
+  document.querySelectorAll('.si').forEach(i=>i.classList.remove('act'));
+  document.getElementById('pg-'+id).classList.add('act');
+  if(el)el.classList.add('act');
+  if(window.innerWidth<=768)document.getElementById('sidebar').classList.remove('open');
+}
+function toggleSB(){document.getElementById('sidebar').classList.toggle('open')}
+function switchRole(r,col,lbl,btn){
+  document.querySelectorAll('.rsb').forEach(b=>b.classList.remove('act'));
+  btn.classList.add('act');
+  document.getElementById('rvtxt').textContent='Viewing as: '+lbl;
+  document.getElementById('rvbar').style.color=col.replace(/var\(([^)]+)\)/,(_,v)=>getComputedStyle(document.documentElement).getPropertyValue(v).trim()||col);
+  document.getElementById('rlabel').textContent=lbl.charAt(0)+lbl.slice(1).toLowerCase().replace(/-/,' ');
+  toast('Role view: '+lbl,col);
+}
+function openRM(n){document.getElementById('muname').textContent=n;document.getElementById('rmodal').classList.add('open')}
+function closeRM(){document.getElementById('rmodal').classList.remove('open')}
+function saveRM(){closeRM();toast('Roles saved!','var(--g)')}
+document.querySelectorAll('.rck').forEach(r=>r.addEventListener('click',function(){this.classList.toggle('on')}));
+function approveRow(btn){const r=btn.closest('tr');r.style.opacity='0';r.style.transition='.3s';setTimeout(()=>r.remove(),350);toast('Player approved!','var(--g)')}
+function rejectRow(btn){const r=btn.closest('tr');r.style.opacity='0';r.style.transition='.3s';setTimeout(()=>r.remove(),350);toast('Player rejected','var(--or)')}
+function filterU(q){document.querySelectorAll('#utb tr').forEach(r=>{r.style.display=r.textContent.toLowerCase().includes(q.toLowerCase())?'':'none'})}
+function pickSw(el){document.querySelectorAll('.sw').forEach(s=>s.classList.remove('act'));el.classList.add('act');toast('Color selected','var(--c)')}
+function tglAd(sw,e){e.stopPropagation();sw.classList.toggle('on');sw.nextElementSibling.textContent=sw.classList.contains('on')?'Enabled':'Disabled';toast(sw.classList.contains('on')?'Zone enabled':'Zone disabled',sw.classList.contains('on')?'var(--g)':'var(--or)')}
+function selZone(c){document.querySelectorAll('.azc').forEach(z=>z.classList.remove('az-on'));c.classList.add('az-on')}
+let _tt;
+function toast(msg,col='var(--g)'){
+  const t=document.getElementById('toast'),s=document.getElementById('tmsg');
+  s.textContent=msg;t.style.borderColor=col;t.style.color=col;
+  t.classList.add('show');clearTimeout(_tt);_tt=setTimeout(()=>t.classList.remove('show'),3000);
+}
+// mini chart
+const vals=[45,78,62,91,55,83,68],colors=['#00e5ff','#3b82f6','#a855f7','#ff0066','#ffd700','#39ff14','#00e5ff'],mx=Math.max(...vals);
+const mc=document.getElementById('mch');
+if(mc)vals.forEach((v,i)=>{const b=document.createElement('div');b.className='bar';b.style.cssText='height:'+(v/mx*54)+'px;background:'+colors[i]+';opacity:.75';b.title='৳'+(v*100);b.onclick=()=>toast('৳'+(v*100)+' revenue','var(--c)');mc.appendChild(b)});
+document.getElementById('main').addEventListener('click',()=>{if(window.innerWidth<=768)document.getElementById('sidebar').classList.remove('open')});
+</script>
+</body>
+</html>
