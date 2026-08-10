@@ -1,2349 +1,421 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>eKickHub Competition Center</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Rashed & Jerin — Wedding Countdown</title>
 <style>
-  :root {
-    --neon-blue: #00d4ff;
-    --neon-purple: #b400ff;
-    --neon-green: #00ff88;
-    --neon-orange: #ff6b00;
-    --bg-dark: #030712;
-    --bg-card: #0d1117;
-    --bg-panel: #111827;
-    --border-glow: rgba(0,212,255,0.3);
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    background: var(--bg-dark);
-    font-family: 'Rajdhani', sans-serif;
-    color: #e2e8f0;
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  html, body {
+    width: 100%;
     overflow-x: hidden;
   }
-  body::before {
-    content: '';
+
+  body {
+    min-height: 100vh;
+    min-height: 100dvh;
+    background: linear-gradient(135deg, #1a0a1f 0%, #3d1730 25%, #6b2545 50%, #8b3a5c 75%, #3d1730 100%);
+    background-size: 300% 300%;
+    animation: gradientBG 18s ease infinite;
+    font-family: 'Georgia', 'Segoe UI', serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    color: #fff8f0;
+    text-align: center;
+    padding: 24px 16px;
+  }
+
+  @keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Soft gold sparkles floating */
+  .sparkle {
     position: fixed;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 80% 50% at 20% -10%, rgba(0,212,255,0.06) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 40% at 80% 110%, rgba(180,0,255,0.05) 0%, transparent 60%);
+    top: 100%;
     pointer-events: none;
-    z-index: 0;
+    user-select: none;
+    z-index: 1;
+    animation: floatUp linear infinite;
+    filter: drop-shadow(0 0 4px rgba(255,215,150,0.8));
   }
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: var(--bg-dark); }
-  ::-webkit-scrollbar-thumb { background: var(--neon-blue); border-radius: 2px; }
 
-  .font-orbitron { font-family: 'Orbitron', monospace; }
-  .font-mono-tech { font-family: 'Share Tech Mono', monospace; }
+  @keyframes floatUp {
+    0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+    8% { opacity: 1; }
+    92% { opacity: 1; }
+    100% { transform: translateY(-105vh) translateX(20px) rotate(360deg); opacity: 0; }
+  }
 
-  /* Sidebar */
-  #sidebar {
-    position: fixed; left: 0; top: 0; bottom: 0; width: 260px;
-    background: linear-gradient(180deg, #0a0e1a 0%, #060b14 100%);
-    border-right: 1px solid rgba(0,212,255,0.15);
-    z-index: 100;
-    transition: transform 0.3s ease;
-    overflow-y: auto;
+  /* Petal fall */
+  .petal {
+    position: fixed;
+    top: -5%;
+    pointer-events: none;
+    z-index: 1;
+    animation: petalFall linear infinite;
+    opacity: 0.85;
   }
-  #sidebar::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; height: 1px;
-    background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
+
+  @keyframes petalFall {
+    0% { transform: translateY(0) translateX(0) rotate(0deg); }
+    50% { transform: translateY(50vh) translateX(30px) rotate(180deg); }
+    100% { transform: translateY(105vh) translateX(-20px) rotate(360deg); }
   }
-  .sidebar-logo {
-    padding: 24px 20px 16px;
-    border-bottom: 1px solid rgba(0,212,255,0.1);
+
+  .frame {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    max-width: 480px;
+    background: linear-gradient(160deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03));
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 28px;
+    padding: 38px 24px 30px;
+    box-shadow:
+      0 20px 60px rgba(0,0,0,0.45),
+      inset 0 1px 0 rgba(255,255,255,0.25);
+    border: 1px solid rgba(255,215,180,0.35);
+    animation: revealCard 1.1s cubic-bezier(0.22,1,0.36,1);
   }
-  .logo-icon {
-    width: 42px; height: 42px;
-    background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+
+  @keyframes revealCard {
+    0% { transform: translateY(30px) scale(0.94); opacity: 0; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+  }
+
+  .ornament-top {
+    font-size: 1.6rem;
+    letter-spacing: 10px;
+    color: #f7c98e;
+    opacity: 0.85;
+    margin-bottom: 6px;
+  }
+
+  .rings {
+    font-size: 2.4rem;
+    margin: 6px 0 14px;
+    animation: sway 3s ease-in-out infinite;
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.35));
+  }
+
+  @keyframes sway {
+    0%, 100% { transform: rotate(-6deg); }
+    50% { transform: rotate(6deg); }
+  }
+
+  .label-top {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: #f0c9a8;
+    opacity: 0.9;
+    margin-bottom: 12px;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .names {
+    font-size: clamp(1.8rem, 8vw, 2.6rem);
+    font-weight: 700;
+    line-height: 1.25;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    font-family: 'Georgia', serif;
+  }
+
+  .names .name {
+    background: linear-gradient(90deg, #ffe8c9, #ffffff, #ffd9a0);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 4s linear infinite;
+  }
+
+  @keyframes shine {
+    to { background-position: 200% center; }
+  }
+
+  .beating-heart {
+    display: inline-block;
+    font-size: clamp(1.5rem, 6vw, 2rem);
+    animation: beat 1.15s ease-in-out infinite;
+    filter: drop-shadow(0 0 10px rgba(255,90,120,0.75));
+  }
+
+  @keyframes beat {
+    0%, 100% { transform: scale(1); }
+    25% { transform: scale(1.22); }
+    40% { transform: scale(0.94); }
+    60% { transform: scale(1.12); }
+  }
+
+  .divider {
+    width: 70px;
+    height: 2px;
+    margin: 16px auto;
+    background: linear-gradient(90deg, transparent, #f0c9a8, transparent);
+  }
+
+  .wedding-date {
+    font-size: 0.98rem;
+    letter-spacing: 1.5px;
+    color: #ffe4c4;
+    font-family: 'Segoe UI', sans-serif;
+    margin-bottom: 4px;
+  }
+
+  .quote {
+    margin-top: 10px;
+    font-style: italic;
+    font-size: 0.92rem;
+    opacity: 0.85;
+    font-family: 'Segoe UI', sans-serif;
+    line-height: 1.5;
+  }
+
+  .countdown {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+
+  .time-box {
+    background: linear-gradient(160deg, rgba(255,255,255,0.16), rgba(255,255,255,0.04));
+    border-radius: 16px;
+    padding: 14px 4px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,215,180,0.3);
+    transition: transform 0.3s;
+  }
+
+  .time-box:active {
+    transform: scale(0.96);
+  }
+
+  .time-number {
+    font-size: clamp(1.5rem, 7vw, 2.1rem);
+    font-weight: 800;
+    color: #fff6ea;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    font-variant-numeric: tabular-nums;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .time-label {
+    margin-top: 4px;
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: #f0c9a8;
+    opacity: 0.9;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .progress-wrap {
+    margin-top: 28px;
+  }
+
+  .progress-bar {
+    width: 100%;
+    height: 14px;
     border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px;
-    box-shadow: 0 0 20px rgba(0,212,255,0.4);
-  }
-  .nav-section-label {
-    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
-    color: rgba(0,212,255,0.4); padding: 16px 20px 6px;
-    font-family: 'Orbitron', monospace;
-  }
-  .nav-item {
-    display: flex; align-items: center; gap: 12px;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: all 0.2s;
-    position: relative;
-    border-left: 2px solid transparent;
-    font-size: 14px; font-weight: 500; letter-spacing: 0.5px;
-    color: rgba(226,232,240,0.6);
-  }
-  .nav-item:hover, .nav-item.active {
-    color: var(--neon-blue);
-    background: rgba(0,212,255,0.06);
-    border-left-color: var(--neon-blue);
-  }
-  .nav-item.active { color: #fff; background: rgba(0,212,255,0.1); }
-  .nav-item .nav-icon { width: 18px; text-align: center; font-size: 13px; }
-  .nav-badge {
-    margin-left: auto;
-    background: var(--neon-orange);
-    color: #fff; font-size: 10px; font-weight: 700;
-    padding: 1px 6px; border-radius: 10px;
-    font-family: 'Orbitron', monospace;
+    background: rgba(255,255,255,0.12);
+    overflow: hidden;
+    border: 1px solid rgba(255,215,180,0.3);
   }
 
-  /* Main content */
-  #main { margin-left: 260px; min-height: 100vh; position: relative; z-index: 1; }
-
-  /* Top header */
-  .top-header {
-    background: rgba(10,14,26,0.95);
-    border-bottom: 1px solid rgba(0,212,255,0.12);
-    padding: 12px 28px;
-    display: flex; align-items: center; justify-content: space-between;
-    position: sticky; top: 0; z-index: 50;
-    backdrop-filter: blur(12px);
+  .progress-fill {
+    height: 100%;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #f7c98e, #ff9eb5, #f7c98e);
+    background-size: 200% 100%;
+    animation: shimmer 3s linear infinite;
+    width: 0%;
+    transition: width 1s ease;
   }
 
-  /* Neon glow effects */
-  .glow-blue { box-shadow: 0 0 20px rgba(0,212,255,0.3), 0 0 40px rgba(0,212,255,0.1); }
-  .glow-purple { box-shadow: 0 0 20px rgba(180,0,255,0.3), 0 0 40px rgba(180,0,255,0.1); }
-  .glow-green { box-shadow: 0 0 20px rgba(0,255,136,0.3), 0 0 40px rgba(0,255,136,0.1); }
-  .glow-orange { box-shadow: 0 0 20px rgba(255,107,0,0.3); }
-
-  .text-neon-blue { color: var(--neon-blue); }
-  .text-neon-purple { color: var(--neon-purple); }
-  .text-neon-green { color: var(--neon-green); }
-  .text-neon-orange { color: var(--neon-orange); }
-
-  /* Cards */
-  .card {
-    background: var(--bg-card);
-    border: 1px solid rgba(0,212,255,0.12);
-    border-radius: 12px;
-    transition: all 0.3s ease;
-  }
-  .card:hover { border-color: rgba(0,212,255,0.3); transform: translateY(-2px); }
-  .card-glass {
-    background: rgba(13,17,23,0.8);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(0,212,255,0.15);
-    border-radius: 12px;
+  @keyframes shimmer {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
   }
 
-  /* Hero banner */
-  .hero-banner {
-    background: linear-gradient(135deg, #050a18 0%, #0a0521 40%, #050a18 100%);
-    border-bottom: 1px solid rgba(0,212,255,0.1);
-    position: relative; overflow: hidden;
-    padding: 48px 28px;
-  }
-  .hero-banner::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2300d4ff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  }
-  .hero-grid-lines {
-    position: absolute; inset: 0; overflow: hidden; opacity: 0.2;
-    background-image: linear-gradient(rgba(0,212,255,0.1) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(0,212,255,0.1) 1px, transparent 1px);
-    background-size: 40px 40px;
+  .progress-text {
+    margin-top: 8px;
+    font-size: 0.78rem;
+    opacity: 0.85;
+    font-family: 'Segoe UI', sans-serif;
+    letter-spacing: 0.5px;
   }
 
-  /* Stat cards */
-  .stat-card {
-    background: rgba(13,17,23,0.9);
-    border: 1px solid rgba(0,212,255,0.15);
-    border-radius: 12px; padding: 20px;
-    position: relative; overflow: hidden;
-    transition: all 0.3s;
-  }
-  .stat-card::before {
-    content: ''; position: absolute;
-    top: 0; left: 0; right: 0; height: 2px;
-    background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
-  }
-  .stat-card:hover { border-color: rgba(0,212,255,0.35); transform: translateY(-3px); }
-  .stat-value {
-    font-family: 'Orbitron', monospace;
-    font-size: 28px; font-weight: 900;
-    background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  .ornament-bottom {
+    margin-top: 26px;
+    font-size: 1.3rem;
+    color: #f7c98e;
+    opacity: 0.7;
+    letter-spacing: 8px;
   }
 
-  /* Tabs */
-  .tab-bar { display: flex; gap: 4px; border-bottom: 1px solid rgba(0,212,255,0.12); padding: 0 28px; }
-  .tab-btn {
-    padding: 12px 20px; font-size: 13px; font-weight: 600;
-    letter-spacing: 0.5px; cursor: pointer; position: relative;
-    color: rgba(226,232,240,0.5); border-bottom: 2px solid transparent;
-    transition: all 0.2s; white-space: nowrap;
-    font-family: 'Orbitron', monospace;
-  }
-  .tab-btn:hover { color: var(--neon-blue); }
-  .tab-btn.active { color: var(--neon-blue); border-bottom-color: var(--neon-blue); }
-
-  /* Buttons */
-  .btn-neon {
-    background: transparent;
-    border: 1px solid var(--neon-blue);
-    color: var(--neon-blue);
-    padding: 8px 20px; border-radius: 6px;
-    font-family: 'Orbitron', monospace;
-    font-size: 11px; font-weight: 700; letter-spacing: 1px;
-    cursor: pointer; transition: all 0.2s;
-    text-transform: uppercase;
-  }
-  .btn-neon:hover {
-    background: var(--neon-blue); color: #000;
-    box-shadow: 0 0 20px rgba(0,212,255,0.5);
-  }
-  .btn-solid {
-    background: linear-gradient(135deg, var(--neon-blue), #0066aa);
-    color: #fff; border: none;
-    padding: 10px 24px; border-radius: 8px;
-    font-family: 'Orbitron', monospace;
-    font-size: 11px; font-weight: 700; letter-spacing: 1px;
-    cursor: pointer; transition: all 0.2s;
-    text-transform: uppercase;
-  }
-  .btn-solid:hover { transform: translateY(-1px); box-shadow: 0 0 24px rgba(0,212,255,0.5); }
-  .btn-purple {
-    background: linear-gradient(135deg, var(--neon-purple), #6600aa);
-    color: #fff; border: none;
-    padding: 10px 24px; border-radius: 8px;
-    font-family: 'Orbitron', monospace;
-    font-size: 11px; font-weight: 700;
-    cursor: pointer; transition: all 0.2s;
-    letter-spacing: 1px; text-transform: uppercase;
-  }
-  .btn-purple:hover { transform: translateY(-1px); box-shadow: 0 0 24px rgba(180,0,255,0.5); }
-  .btn-green {
-    background: linear-gradient(135deg, var(--neon-green), #008844);
-    color: #000; border: none;
-    padding: 8px 18px; border-radius: 6px;
-    font-family: 'Orbitron', monospace;
-    font-size: 10px; font-weight: 700;
-    cursor: pointer; transition: all 0.2s;
-  }
-  .btn-green:hover { box-shadow: 0 0 20px rgba(0,255,136,0.4); }
-  .btn-danger {
-    background: linear-gradient(135deg, #ff3366, #aa0033);
-    color: #fff; border: none;
-    padding: 6px 14px; border-radius: 6px;
-    font-size: 11px; font-weight: 600; cursor: pointer;
+  .footer-msg {
+    margin-top: 10px;
+    font-size: 0.72rem;
+    opacity: 0.6;
+    font-family: 'Segoe UI', sans-serif;
+    letter-spacing: 1px;
   }
 
-  /* Badges */
-  .badge {
-    display: inline-flex; align-items: center; gap: 4px;
-    padding: 3px 10px; border-radius: 20px;
-    font-size: 10px; font-weight: 700; letter-spacing: 1px;
-    text-transform: uppercase; font-family: 'Orbitron', monospace;
-  }
-  .badge-live {
-    background: rgba(255,51,51,0.15); color: #ff3333;
-    border: 1px solid rgba(255,51,51,0.3);
-    animation: pulseBadge 1.5s infinite;
-  }
-  .badge-upcoming { background: rgba(0,212,255,0.15); color: var(--neon-blue); border: 1px solid rgba(0,212,255,0.3); }
-  .badge-completed { background: rgba(0,255,136,0.1); color: var(--neon-green); border: 1px solid rgba(0,255,136,0.2); }
-  .badge-pending { background: rgba(255,200,0,0.1); color: #ffc800; border: 1px solid rgba(255,200,0,0.25); }
-  .badge-approved { background: rgba(0,255,136,0.1); color: var(--neon-green); border: 1px solid rgba(0,255,136,0.3); }
-  .badge-rejected { background: rgba(255,51,51,0.1); color: #ff3333; border: 1px solid rgba(255,51,51,0.3); }
-  .badge-reg-open { background: rgba(0,255,136,0.1); color: var(--neon-green); border: 1px solid rgba(0,255,136,0.3); }
-  .badge-qualified { background: rgba(0,212,255,0.15); color: var(--neon-blue); }
-  .badge-eliminated { background: rgba(255,51,51,0.1); color: #ff3333; }
-
-  @keyframes pulseBadge {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
+  .celebration {
+    font-size: clamp(1.6rem, 7vw, 2.2rem);
+    font-weight: 700;
+    color: #ffe4c4;
+    font-family: 'Georgia', serif;
+    animation: pulseGlow 1.5s ease-in-out infinite;
   }
 
-  /* Competition cards */
-  .comp-card {
-    background: var(--bg-card);
-    border: 1px solid rgba(0,212,255,0.12);
-    border-radius: 14px; overflow: hidden;
-    transition: all 0.3s;
-    position: relative;
-  }
-  .comp-card:hover {
-    border-color: rgba(0,212,255,0.4);
-    transform: translateY(-4px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 30px rgba(0,212,255,0.1);
-  }
-  .comp-card-header {
-    height: 120px; position: relative; overflow: hidden;
-    background: linear-gradient(135deg, #0a1628 0%, #150a28 100%);
-    display: flex; align-items: center; justify-content: center;
-  }
-  .comp-card-body { padding: 16px; }
-  .slot-bar {
-    height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px;
-    margin-top: 8px; overflow: hidden;
-  }
-  .slot-fill {
-    height: 100%; border-radius: 2px;
-    background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
-    transition: width 0.6s ease;
+  @keyframes pulseGlow {
+    0%, 100% { text-shadow: 0 0 20px rgba(255,220,150,0.6); }
+    50% { text-shadow: 0 0 40px rgba(255,220,150,1); }
   }
 
-  /* Tournament bracket */
-  .bracket-wrapper { overflow-x: auto; padding: 20px; }
-  .bracket { display: flex; gap: 0; align-items: center; min-width: 900px; }
-  .bracket-round { display: flex; flex-direction: column; justify-content: space-around; flex: 1; }
-  .bracket-round-label {
-    font-family: 'Orbitron', monospace; font-size: 11px; letter-spacing: 2px;
-    color: var(--neon-blue); text-align: center; margin-bottom: 16px;
-    text-transform: uppercase;
+  @media (max-width: 360px) {
+    .frame { padding: 30px 16px 24px; border-radius: 22px; }
+    .countdown { gap: 6px; }
+    .time-box { padding: 10px 2px; border-radius: 12px; }
   }
-  .bracket-match {
-    background: rgba(13,17,23,0.9);
-    border: 1px solid rgba(0,212,255,0.18);
-    border-radius: 8px; margin: 6px 8px; padding: 2px;
-    position: relative;
-  }
-  .bracket-team {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 7px 10px; border-radius: 6px; font-size: 12px; font-weight: 600;
-    transition: background 0.2s;
-  }
-  .bracket-team.winner { background: rgba(0,212,255,0.12); color: var(--neon-blue); }
-  .bracket-team.loser { color: rgba(226,232,240,0.35); }
-  .bracket-score {
-    font-family: 'Orbitron', monospace; font-size: 13px; font-weight: 700;
-  }
-
-  /* Group tables */
-  .group-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  .group-table th {
-    text-align: center; padding: 8px 10px;
-    font-family: 'Orbitron', monospace; font-size: 10px; letter-spacing: 1px;
-    color: var(--neon-blue); border-bottom: 1px solid rgba(0,212,255,0.15);
-    background: rgba(0,212,255,0.04);
-  }
-  .group-table td { padding: 8px 10px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.04); }
-  .group-table tr:hover td { background: rgba(0,212,255,0.04); }
-  .group-table td:first-child { text-align: left; font-weight: 600; }
-  .team-rank-pos {
-    width: 22px; height: 22px; border-radius: 50%;
-    display: inline-flex; align-items: center; justify-content: center;
-    font-family: 'Orbitron', monospace; font-size: 10px; font-weight: 700;
-    margin-right: 8px;
-  }
-
-  /* Fixture cards */
-  .fixture-card {
-    background: var(--bg-card);
-    border: 1px solid rgba(0,212,255,0.1);
-    border-radius: 12px; padding: 16px;
-    display: flex; align-items: center; gap: 16px;
-    transition: all 0.2s;
-  }
-  .fixture-card:hover { border-color: rgba(0,212,255,0.3); background: rgba(13,17,23,0.95); }
-  .team-logo {
-    width: 44px; height: 44px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px; font-weight: 900;
-    font-family: 'Orbitron', monospace;
-    border: 2px solid rgba(0,212,255,0.2);
-  }
-  .vs-badge {
-    font-family: 'Orbitron', monospace; font-size: 14px; font-weight: 900;
-    color: var(--neon-orange);
-    padding: 4px 10px;
-    border: 1px solid rgba(255,107,0,0.3);
-    border-radius: 6px;
-  }
-
-  /* Modal */
-  .modal-overlay {
-    position: fixed; inset: 0; z-index: 1000;
-    background: rgba(0,0,0,0.85); backdrop-filter: blur(6px);
-    display: flex; align-items: center; justify-content: center;
-    padding: 20px; opacity: 0; pointer-events: none;
-    transition: opacity 0.3s;
-  }
-  .modal-overlay.open { opacity: 1; pointer-events: all; }
-  .modal-box {
-    background: var(--bg-panel);
-    border: 1px solid rgba(0,212,255,0.2);
-    border-radius: 16px; width: 100%; max-width: 640px;
-    max-height: 85vh; overflow-y: auto;
-    transform: scale(0.95); transition: transform 0.3s;
-  }
-  .modal-overlay.open .modal-box { transform: scale(1); }
-  .modal-header {
-    padding: 20px 24px; border-bottom: 1px solid rgba(0,212,255,0.12);
-    display: flex; align-items: center; justify-content: space-between;
-    position: sticky; top: 0; background: var(--bg-panel); z-index: 1;
-  }
-
-  /* Participation card */
-  .participation-card {
-    background: linear-gradient(135deg, #050a18 0%, #0d0521 50%, #050a18 100%);
-    border: 2px solid rgba(0,212,255,0.3);
-    border-radius: 16px; padding: 24px;
-    position: relative; overflow: hidden;
-    box-shadow: 0 0 40px rgba(0,212,255,0.15);
-    max-width: 340px; margin: 0 auto;
-  }
-  .participation-card::before {
-    content: '';
-    position: absolute; top: -40%; left: -40%; width: 180%; height: 180%;
-    background: conic-gradient(from 0deg, transparent 0deg, rgba(0,212,255,0.04) 60deg, transparent 120deg);
-    animation: rotateGlow 8s linear infinite;
-  }
-  @keyframes rotateGlow {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-
-  /* Rankings */
-  .rank-row {
-    display: flex; align-items: center; gap: 12px;
-    padding: 12px 16px; border-radius: 8px;
-    border: 1px solid rgba(0,212,255,0.07);
-    background: rgba(13,17,23,0.6);
-    transition: all 0.2s; margin-bottom: 6px;
-  }
-  .rank-row:hover { background: rgba(13,17,23,0.9); border-color: rgba(0,212,255,0.2); }
-  .rank-number {
-    width: 32px; height: 32px;
-    font-family: 'Orbitron', monospace; font-size: 13px; font-weight: 900;
-    display: flex; align-items: center; justify-content: center;
-    border-radius: 6px;
-  }
-  .rank-1 { background: linear-gradient(135deg, #ffd700, #ff8c00); color: #000; }
-  .rank-2 { background: linear-gradient(135deg, #c0c0c0, #888); color: #000; }
-  .rank-3 { background: linear-gradient(135deg, #cd7f32, #8b4513); color: #fff; }
-  .rank-other { background: rgba(0,212,255,0.1); color: var(--neon-blue); border: 1px solid rgba(0,212,255,0.2); }
-
-  /* Division cards */
-  .division-card {
-    background: var(--bg-card);
-    border: 1px solid rgba(0,212,255,0.12);
-    border-radius: 12px; padding: 20px;
-    text-align: center; position: relative;
-    transition: all 0.3s; cursor: pointer;
-  }
-  .division-card:hover { transform: translateY(-4px); border-color: rgba(0,212,255,0.35); }
-  .division-card.locked { opacity: 0.5; filter: grayscale(0.4); }
-  .division-badge {
-    width: 56px; height: 56px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Orbitron', monospace; font-size: 16px; font-weight: 900;
-    margin: 0 auto 12px;
-  }
-
-  /* Activity feed */
-  .activity-item {
-    display: flex; align-items: start; gap: 12px;
-    padding: 10px 0; border-bottom: 1px solid rgba(0,212,255,0.06);
-  }
-  .activity-dot {
-    width: 8px; height: 8px; border-radius: 50%; margin-top: 6px; flex-shrink: 0;
-  }
-
-  /* Score form */
-  .score-input {
-    background: rgba(0,212,255,0.05);
-    border: 1px solid rgba(0,212,255,0.2);
-    border-radius: 8px; padding: 10px 16px;
-    color: #fff; font-family: 'Orbitron', monospace;
-    font-size: 28px; font-weight: 900; text-align: center;
-    width: 80px; outline: none;
-    transition: border-color 0.2s;
-  }
-  .score-input:focus { border-color: var(--neon-blue); box-shadow: 0 0 12px rgba(0,212,255,0.2); }
-  .form-input {
-    background: rgba(0,212,255,0.04);
-    border: 1px solid rgba(0,212,255,0.15);
-    border-radius: 8px; padding: 10px 14px;
-    color: #e2e8f0; width: 100%; outline: none;
-    font-family: 'Rajdhani', sans-serif; font-size: 14px;
-    transition: border-color 0.2s;
-  }
-  .form-input:focus { border-color: var(--neon-blue); }
-  .form-input::placeholder { color: rgba(226,232,240,0.3); }
-  select.form-input option { background: #0d1117; }
-
-  /* Notification panel */
-  .notif-item {
-    padding: 12px 16px; border-bottom: 1px solid rgba(0,212,255,0.07);
-    transition: background 0.2s; cursor: pointer; display: flex; gap: 10px;
-  }
-  .notif-item:hover { background: rgba(0,212,255,0.04); }
-  .notif-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
-
-  /* Confetti */
-  .confetti-piece {
-    position: fixed; width: 8px; height: 8px;
-    top: -10px; border-radius: 2px;
-    animation: confettiFall linear forwards;
-  }
-  @keyframes confettiFall {
-    to { transform: translateY(105vh) rotate(720deg); opacity: 0; }
-  }
-
-  /* Loading spinner */
-  .spinner {
-    width: 40px; height: 40px; border-radius: 50%;
-    border: 3px solid rgba(0,212,255,0.1);
-    border-top-color: var(--neon-blue);
-    animation: spin 0.8s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* Page loading */
-  #loading-screen {
-    position: fixed; inset: 0; z-index: 9999;
-    background: var(--bg-dark);
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    transition: opacity 0.5s, visibility 0.5s;
-  }
-  #loading-screen.hidden { opacity: 0; visibility: hidden; }
-  .loading-bar {
-    width: 240px; height: 3px;
-    background: rgba(0,212,255,0.1); border-radius: 2px;
-    overflow: hidden; margin-top: 24px;
-  }
-  .loading-fill {
-    height: 100%; background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
-    border-radius: 2px; animation: loadBar 2s ease-out forwards;
-  }
-  @keyframes loadBar { from { width: 0; } to { width: 100%; } }
-
-  /* Countdown */
-  .countdown-box {
-    background: rgba(0,212,255,0.06);
-    border: 1px solid rgba(0,212,255,0.15);
-    border-radius: 6px; padding: 4px 8px; text-align: center;
-    min-width: 40px;
-  }
-  .countdown-val {
-    font-family: 'Orbitron', monospace; font-size: 16px; font-weight: 900;
-    color: var(--neon-blue);
-  }
-  .countdown-lbl { font-size: 9px; letter-spacing: 1px; color: rgba(226,232,240,0.4); }
-
-  /* Animated gradient border */
-  .gradient-border {
-    position: relative; border-radius: 12px; padding: 1px;
-    background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple), var(--neon-blue));
-    background-size: 200% 200%;
-    animation: gradientShift 3s linear infinite;
-  }
-  @keyframes gradientShift { to { background-position: 200% 200%; } }
-  .gradient-border-inner { background: var(--bg-card); border-radius: 11px; }
-
-  /* Success animation */
-  .success-check {
-    width: 60px; height: 60px; border-radius: 50%;
-    background: rgba(0,255,136,0.1); border: 2px solid var(--neon-green);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 24px; color: var(--neon-green);
-    animation: popIn 0.4s cubic-bezier(0.68,-0.55,0.265,1.55);
-  }
-  @keyframes popIn {
-    from { transform: scale(0); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-  }
-
-  /* Tables */
-  .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  .data-table th {
-    padding: 10px 14px; text-align: left;
-    font-family: 'Orbitron', monospace; font-size: 10px; letter-spacing: 1px;
-    color: var(--neon-blue); border-bottom: 1px solid rgba(0,212,255,0.15);
-    background: rgba(0,212,255,0.03); white-space: nowrap;
-  }
-  .data-table td { padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: middle; }
-  .data-table tr:hover td { background: rgba(0,212,255,0.03); }
-
-  /* Hamburger */
-  #hamburger { display: none; }
-
-  /* Online indicator */
-  .online-dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: var(--neon-green);
-    box-shadow: 0 0 6px rgba(0,255,136,0.6);
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.3); opacity: 0.7; }
-  }
-
-  /* Overlay for sidebar on mobile */
-  #sidebar-overlay {
-    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
-    z-index: 99; backdrop-filter: blur(4px);
-  }
-
-  @media (max-width: 768px) {
-    #sidebar { transform: translateX(-100%); }
-    #sidebar.open { transform: translateX(0); }
-    #main { margin-left: 0; }
-    #hamburger { display: flex; }
-    #sidebar-overlay { display: block; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
-    #sidebar-overlay.open { opacity: 1; pointer-events: all; }
-    .hero-banner { padding: 28px 16px; }
-    .tab-bar { overflow-x: auto; padding: 0 16px; }
-    .bracket { min-width: 700px; }
-  }
-
-  /* Progress bars */
-  .prog-bar {
-    height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden;
-  }
-  .prog-fill { height: 100%; border-radius: 3px; transition: width 1s ease; }
-
-  /* Chart container */
-  .chart-container { position: relative; height: 200px; }
-
-  /* Section header */
-  .section-header {
-    display: flex; align-items: center; gap: 12px; margin-bottom: 20px;
-  }
-  .section-line {
-    flex: 1; height: 1px;
-    background: linear-gradient(90deg, rgba(0,212,255,0.3), transparent);
-  }
-
-  /* Smooth page transitions */
-  .page { display: none; }
-  .page.active { display: block; animation: fadeSlide 0.3s ease; }
-  @keyframes fadeSlide { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 </head>
 <body>
 
-<!-- Loading Screen -->
-<div id="loading-screen">
-  <div class="logo-icon" style="width:64px;height:64px;font-size:28px;margin-bottom:16px;">⚡</div>
-  <div class="font-orbitron" style="font-size:24px;font-weight:900;color:var(--neon-blue);letter-spacing:3px;">eKickHub</div>
-  <div style="font-size:12px;color:rgba(0,212,255,0.5);margin-top:4px;letter-spacing:4px;font-family:'Share Tech Mono'">COMPETITION CENTER</div>
-  <div class="loading-bar"><div class="loading-fill"></div></div>
-  <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:12px;font-family:'Share Tech Mono'">INITIALIZING SYSTEMS...</div>
-</div>
+<div class="frame">
+  <div class="ornament-top">✦ ✦ ✦</div>
+  <div class="rings">💍</div>
+  <div class="label-top">Save The Date</div>
 
-<!-- Sidebar Overlay (mobile) -->
-<div id="sidebar-overlay" onclick="closeSidebar()"></div>
+  <div class="names">
+    <span class="name">Rashed</span>
+    <span class="beating-heart">❤️</span>
+    <span class="name">Jerin</span>
+  </div>
 
-<!-- Sidebar -->
-<nav id="sidebar">
-  <div class="sidebar-logo">
-    <div style="display:flex;align-items:center;gap:12px;">
-      <div class="logo-icon">⚡</div>
-      <div>
-        <div class="font-orbitron" style="font-size:14px;font-weight:900;color:#fff;letter-spacing:1px;">eKickHub</div>
-        <div style="font-size:10px;color:var(--neon-blue);letter-spacing:2px;font-family:'Share Tech Mono'">COMPETITION CTR</div>
-      </div>
+  <div class="divider"></div>
+
+  <div class="wedding-date">Friday, September 11, 2026</div>
+  <div class="quote">"Two hearts, one journey — counting every moment until forever begins."</div>
+
+  <div class="countdown" id="countdown">
+    <div class="time-box">
+      <div class="time-number" id="days">00</div>
+      <div class="time-label">Days</div>
     </div>
-    <div style="display:flex;align-items:center;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid rgba(0,212,255,0.08);">
-      <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#0066aa,var(--neon-purple));display:flex;align-items:center;justify-content:center;font-size:13px;">🎮</div>
-      <div>
-        <div style="font-size:12px;font-weight:700;color:#fff;">ProPlayer_X</div>
-        <div style="font-size:10px;color:var(--neon-green);">● Online</div>
-      </div>
-      <div class="online-dot" style="margin-left:auto;"></div>
+    <div class="time-box">
+      <div class="time-number" id="hours">00</div>
+      <div class="time-label">Hours</div>
+    </div>
+    <div class="time-box">
+      <div class="time-number" id="minutes">00</div>
+      <div class="time-label">Minutes</div>
+    </div>
+    <div class="time-box">
+      <div class="time-number" id="seconds">00</div>
+      <div class="time-label">Seconds</div>
     </div>
   </div>
 
-  <div class="nav-section-label">MAIN MENU</div>
-  <div class="nav-item active" onclick="showPage('dashboard',this)">
-    <span class="nav-icon"><i class="fas fa-th-large"></i></span> Dashboard
-  </div>
-  <div class="nav-item" onclick="showPage('competition-center',this)">
-    <span class="nav-icon"><i class="fas fa-trophy"></i></span> Competition Center
-    <span class="nav-badge">8</span>
+  <div class="progress-wrap">
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-text" id="progressText">0% of the journey to "I Do"</div>
   </div>
 
-  <div class="nav-section-label">COMPETITIONS</div>
-  <div class="nav-item" onclick="showPage('running',this)">
-    <span class="nav-icon"><i class="fas fa-play-circle"></i></span> Running Competition
-    <span class="nav-badge" style="background:var(--neon-orange);">3</span>
-  </div>
-  <div class="nav-item" onclick="showPage('registration',this)">
-    <span class="nav-icon"><i class="fas fa-user-plus"></i></span> Registration On
-    <span class="nav-badge" style="background:var(--neon-green);color:#000;">5</span>
-  </div>
-  <div class="nav-item" onclick="showPage('upcoming',this)">
-    <span class="nav-icon"><i class="fas fa-clock"></i></span> Upcoming Competition
-  </div>
-  <div class="nav-item" onclick="showPage('completed',this)">
-    <span class="nav-icon"><i class="fas fa-check-circle"></i></span> Completed Competition
-  </div>
-  <div class="nav-item" onclick="showPage('friendly',this)">
-    <span class="nav-icon"><i class="fas fa-handshake"></i></span> Friendly Challenge
-  </div>
-
-  <div class="nav-section-label">MATCH CENTER</div>
-  <div class="nav-item" onclick="showPage('fixtures',this)">
-    <span class="nav-icon"><i class="fas fa-calendar-alt"></i></span> Match Fixtures
-  </div>
-  <div class="nav-item" onclick="showPage('score-submit',this)">
-    <span class="nav-icon"><i class="fas fa-futbol"></i></span> Score Submit
-  </div>
-  <div class="nav-item" onclick="showPage('match-logs',this)">
-    <span class="nav-icon"><i class="fas fa-list-alt"></i></span> Match Logs
-  </div>
-
-  <div class="nav-section-label">PLAYERS</div>
-  <div class="nav-item" onclick="showPage('rankings',this)">
-    <span class="nav-icon"><i class="fas fa-medal"></i></span> Rankings
-  </div>
-  <div class="nav-item" onclick="showPage('settings',this)">
-    <span class="nav-icon"><i class="fas fa-cog"></i></span> Settings
-  </div>
-
-  <!-- Sidebar Footer -->
-  <div style="padding:16px 20px;border-top:1px solid rgba(0,212,255,0.08);margin-top:12px;">
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
-      <div class="online-dot"></div>
-      <span id="online-count" style="font-size:12px;color:rgba(255,255,255,0.5);">-- players online</span>
-    </div>
-    <div class="prog-bar">
-      <div class="prog-fill" id="season-prog" style="width:0%;background:linear-gradient(90deg,var(--neon-blue),var(--neon-purple));"></div>
-    </div>
-    <div style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:4px;">Season 7 Progress</div>
-  </div>
-</nav>
-
-<!-- Main Content -->
-<div id="main">
-  <!-- Top Header -->
-  <div class="top-header">
-    <div style="display:flex;align-items:center;gap:14px;">
-      <button id="hamburger" onclick="toggleSidebar()" style="background:transparent;border:none;color:var(--neon-blue);font-size:18px;cursor:pointer;">
-        <i class="fas fa-bars"></i>
-      </button>
-      <div id="page-breadcrumb" class="font-orbitron" style="font-size:13px;color:rgba(255,255,255,0.4);">
-        <span style="color:var(--neon-blue);">Home</span> › Dashboard
-      </div>
-    </div>
-    <div style="display:flex;align-items:center;gap:14px;">
-      <div style="position:relative;">
-        <button onclick="toggleNotifications()" style="background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.15);color:var(--neon-blue);width:36px;height:36px;border-radius:8px;cursor:pointer;font-size:14px;">
-          <i class="fas fa-bell"></i>
-        </button>
-        <div id="notif-badge" style="position:absolute;top:-4px;right:-4px;width:16px;height:16px;background:var(--neon-orange);border-radius:50%;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;">4</div>
-        <!-- Notif panel -->
-        <div id="notif-panel" style="position:absolute;right:0;top:46px;width:320px;background:var(--bg-panel);border:1px solid rgba(0,212,255,0.15);border-radius:12px;z-index:200;display:none;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
-          <div style="padding:14px 16px;border-bottom:1px solid rgba(0,212,255,0.1);font-family:'Orbitron',monospace;font-size:12px;color:var(--neon-blue);">NOTIFICATIONS</div>
-          <div class="notif-item">
-            <div class="notif-dot" style="background:var(--neon-orange);"></div>
-            <div><div style="font-size:13px;font-weight:600;">Match Reminder</div><div style="font-size:11px;color:rgba(255,255,255,0.4);">Your match starts in 30 mins • 2m ago</div></div>
-          </div>
-          <div class="notif-item">
-            <div class="notif-dot" style="background:var(--neon-green);"></div>
-            <div><div style="font-size:13px;font-weight:600;">Score Approved</div><div style="font-size:11px;color:rgba(255,255,255,0.4);">eFC Warriors 3-1 result verified • 1h ago</div></div>
-          </div>
-          <div class="notif-item">
-            <div class="notif-dot" style="background:var(--neon-blue);"></div>
-            <div><div style="font-size:13px;font-weight:600;">New Competition Open</div><div style="font-size:11px;color:rgba(255,255,255,0.4);">Summer Cup 2025 registrations open • 3h ago</div></div>
-          </div>
-          <div class="notif-item">
-            <div class="notif-dot" style="background:var(--neon-purple);"></div>
-            <div><div style="font-size:13px;font-weight:600;">Division Promotion!</div><div style="font-size:11px;color:rgba(255,255,255,0.4);">Promoted to Division 5 • Yesterday</div></div>
-          </div>
-          <div style="padding:10px 16px;text-align:center;"><span style="font-size:11px;color:var(--neon-blue);cursor:pointer;">View All Notifications</span></div>
-        </div>
-      </div>
-      <div onclick="toggleDark()" style="background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.15);color:var(--neon-blue);width:36px;height:36px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;">
-        <i id="theme-icon" class="fas fa-moon"></i>
-      </div>
-      <div style="display:flex;align-items:center;gap:8px;background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.15);border-radius:8px;padding:6px 12px;cursor:pointer;">
-        <div style="width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#0066aa,var(--neon-purple));display:flex;align-items:center;justify-content:center;font-size:11px;">🎮</div>
-        <div>
-          <div style="font-size:11px;font-weight:700;color:#fff;">ProPlayer_X</div>
-          <div style="font-size:10px;color:var(--neon-blue);font-family:'Share Tech Mono'">ID: #KNM-4921</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- PAGES -->
-  <div style="padding:24px 28px;" id="pages-container">
-
-    <!-- ======================== DASHBOARD ======================== -->
-    <div id="page-dashboard" class="page active">
-      <!-- Hero Stats Row -->
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:28px;">
-        <div class="stat-card">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-            <span style="font-size:12px;color:rgba(255,255,255,0.4);letter-spacing:1px;">ACTIVE PLAYERS</span>
-            <i class="fas fa-users" style="color:var(--neon-blue);opacity:0.5;"></i>
-          </div>
-          <div class="stat-value" id="stat-players">3,847</div>
-          <div style="font-size:11px;color:var(--neon-green);margin-top:4px;"><i class="fas fa-arrow-up"></i> +12% this week</div>
-        </div>
-        <div class="stat-card" style="border-top-color:var(--neon-purple);">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-            <span style="font-size:12px;color:rgba(255,255,255,0.4);letter-spacing:1px;">RUNNING</span>
-            <i class="fas fa-play-circle" style="color:var(--neon-purple);opacity:0.5;"></i>
-          </div>
-          <div class="stat-value" style="background:linear-gradient(135deg,var(--neon-purple),#ff6b00);">3</div>
-          <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px;">Competitions live</div>
-        </div>
-        <div class="stat-card" style="border-top-color:var(--neon-orange);">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-            <span style="font-size:12px;color:rgba(255,255,255,0.4);letter-spacing:1px;">TOTAL PRIZE</span>
-            <i class="fas fa-dollar-sign" style="color:var(--neon-orange);opacity:0.5;"></i>
-          </div>
-          <div class="stat-value" style="background:linear-gradient(135deg,var(--neon-orange),#ffd700);">$28K</div>
-          <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px;">Season 7 pool</div>
-        </div>
-        <div class="stat-card" style="border-top-color:var(--neon-green);">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-            <span style="font-size:12px;color:rgba(255,255,255,0.4);letter-spacing:1px;">MATCHES TODAY</span>
-            <i class="fas fa-futbol" style="color:var(--neon-green);opacity:0.5;"></i>
-          </div>
-          <div class="stat-value" style="background:linear-gradient(135deg,var(--neon-green),#0066ff);">64</div>
-          <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px;">Scheduled today</div>
-        </div>
-        <div class="stat-card">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-            <span style="font-size:12px;color:rgba(255,255,255,0.4);letter-spacing:1px;">YOUR RANK</span>
-            <i class="fas fa-medal" style="color:#ffd700;opacity:0.8;"></i>
-          </div>
-          <div class="stat-value" style="background:linear-gradient(135deg,#ffd700,#ff8c00);">#127</div>
-          <div style="font-size:11px;color:var(--neon-green);margin-top:4px;"><i class="fas fa-arrow-up"></i> +14 positions</div>
-        </div>
-        <div class="stat-card" style="border-top-color:#ff3333;">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-            <span style="font-size:12px;color:rgba(255,255,255,0.4);letter-spacing:1px;">LIVE NOW</span>
-            <i class="fas fa-broadcast-tower" style="color:#ff3333;animation:pulseBadge 1s infinite;"></i>
-          </div>
-          <div class="stat-value" style="background:linear-gradient(135deg,#ff3333,#ff6b00);">18</div>
-          <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px;">Matches in progress</div>
-        </div>
-      </div>
-
-      <!-- Charts + Activity -->
-      <div style="display:grid;grid-template-columns:1fr 1fr 340px;gap:20px;margin-bottom:24px;">
-        <!-- Chart 1 -->
-        <div class="card" style="padding:20px;">
-          <div style="font-family:'Orbitron',monospace;font-size:12px;color:var(--neon-blue);margin-bottom:16px;letter-spacing:1px;">MATCH RESULTS TREND</div>
-          <div class="chart-container"><canvas id="lineChart"></canvas></div>
-        </div>
-        <!-- Chart 2 -->
-        <div class="card" style="padding:20px;">
-          <div style="font-family:'Orbitron',monospace;font-size:12px;color:var(--neon-purple);margin-bottom:16px;letter-spacing:1px;">COMPETITION TYPES</div>
-          <div style="height:200px;display:flex;align-items:center;justify-content:center;"><canvas id="doughnutChart" style="max-height:180px;max-width:180px;"></canvas></div>
-        </div>
-        <!-- Activity Feed -->
-        <div class="card" style="padding:20px;overflow:hidden;">
-          <div style="font-family:'Orbitron',monospace;font-size:12px;color:var(--neon-green);margin-bottom:12px;letter-spacing:1px;">LIVE ACTIVITY</div>
-          <div id="activity-feed" style="max-height:200px;overflow:hidden;"></div>
-        </div>
-      </div>
-
-      <!-- Recent Fixtures -->
-      <div style="margin-bottom:24px;">
-        <div class="section-header">
-          <div class="font-orbitron" style="font-size:13px;color:#fff;letter-spacing:2px;white-space:nowrap;">RECENT FIXTURES</div>
-          <div class="section-line"></div>
-          <button class="btn-neon" onclick="showPage('fixtures',document.querySelector('.nav-item:nth-child(12)'))">View All</button>
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;">
-          <div class="fixture-card">
-            <div class="team-logo" style="background:linear-gradient(135deg,#003366,#0066cc);">FC</div>
-            <div style="flex:1;text-align:center;">
-              <div style="font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:#fff;">2 <span style="color:rgba(255,255,255,0.3);">-</span> 1</div>
-              <div style="margin-top:4px;"><span class="badge badge-completed">FT</span></div>
-            </div>
-            <div class="team-logo" style="background:linear-gradient(135deg,#660033,#cc0066);">RB</div>
-          </div>
-          <div class="fixture-card">
-            <div class="team-logo" style="background:linear-gradient(135deg,#003300,#006600);">GS</div>
-            <div style="flex:1;text-align:center;">
-              <div class="badge badge-live" style="margin-bottom:6px;">● LIVE</div>
-              <div style="font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:#fff;">1 <span style="color:rgba(255,255,255,0.3);">-</span> 0</div>
-            </div>
-            <div class="team-logo" style="background:linear-gradient(135deg,#330066,#6600cc);">ST</div>
-          </div>
-          <div class="fixture-card">
-            <div class="team-logo" style="background:linear-gradient(135deg,#660000,#cc0000);">MX</div>
-            <div style="flex:1;text-align:center;">
-              <div style="font-family:'Orbitron',monospace;font-size:14px;color:var(--neon-blue);font-weight:700;">vs</div>
-              <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px;"><i class="fas fa-clock"></i> 20:00</div>
-              <div style="margin-top:4px;"><span class="badge badge-upcoming">Today</span></div>
-            </div>
-            <div class="team-logo" style="background:linear-gradient(135deg,#335500,#66aa00);">DZ</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Your Stats Row -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
-        <div class="card" style="padding:20px;">
-          <div class="font-orbitron" style="font-size:12px;color:var(--neon-blue);margin-bottom:16px;letter-spacing:1px;">YOUR PERFORMANCE</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-            <div style="text-align:center;padding:12px;background:rgba(0,212,255,0.05);border-radius:8px;border:1px solid rgba(0,212,255,0.1);">
-              <div class="font-orbitron" style="font-size:22px;font-weight:900;color:var(--neon-blue);">47</div>
-              <div style="font-size:11px;color:rgba(255,255,255,0.4);">Wins</div>
-            </div>
-            <div style="text-align:center;padding:12px;background:rgba(255,51,51,0.05);border-radius:8px;border:1px solid rgba(255,51,51,0.1);">
-              <div class="font-orbitron" style="font-size:22px;font-weight:900;color:#ff3333;">18</div>
-              <div style="font-size:11px;color:rgba(255,255,255,0.4);">Losses</div>
-            </div>
-            <div style="text-align:center;padding:12px;background:rgba(0,255,136,0.05);border-radius:8px;border:1px solid rgba(0,255,136,0.1);">
-              <div class="font-orbitron" style="font-size:22px;font-weight:900;color:var(--neon-green);">72%</div>
-              <div style="font-size:11px;color:rgba(255,255,255,0.4);">Win Rate</div>
-            </div>
-            <div style="text-align:center;padding:12px;background:rgba(255,107,0,0.05);border-radius:8px;border:1px solid rgba(255,107,0,0.1);">
-              <div class="font-orbitron" style="font-size:22px;font-weight:900;color:var(--neon-orange);">138</div>
-              <div style="font-size:11px;color:rgba(255,255,255,0.4);">Goals</div>
-            </div>
-          </div>
-        </div>
-        <div class="card" style="padding:20px;">
-          <div class="font-orbitron" style="font-size:12px;color:var(--neon-purple);margin-bottom:16px;letter-spacing:1px;">UPCOMING MATCHES</div>
-          <div style="display:flex;flex-direction:column;gap:10px;">
-            <div style="display:flex;align-items:center;gap:10px;padding:10px;background:rgba(0,212,255,0.05);border-radius:8px;">
-              <div style="font-size:11px;font-family:'Orbitron',monospace;color:var(--neon-orange);">20:00</div>
-              <div style="flex:1;font-size:13px;font-weight:600;">vs <span style="color:var(--neon-blue);">CyberKings FC</span></div>
-              <span class="badge badge-upcoming">Today</span>
-            </div>
-            <div style="display:flex;align-items:center;gap:10px;padding:10px;background:rgba(0,212,255,0.05);border-radius:8px;">
-              <div style="font-size:11px;font-family:'Orbitron',monospace;color:var(--neon-orange);">18:30</div>
-              <div style="flex:1;font-size:13px;font-weight:600;">vs <span style="color:var(--neon-blue);">Dragon Squad</span></div>
-              <span class="badge badge-upcoming">Tomorrow</span>
-            </div>
-            <div style="display:flex;align-items:center;gap:10px;padding:10px;background:rgba(0,212,255,0.05);border-radius:8px;">
-              <div style="font-size:11px;font-family:'Orbitron',monospace;color:var(--neon-orange);">21:00</div>
-              <div style="flex:1;font-size:13px;font-weight:600;">vs <span style="color:var(--neon-blue);">Phantom XI</span></div>
-              <span class="badge badge-upcoming">Fri</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ======================== COMPETITION CENTER ======================== -->
-    <div id="page-competition-center" class="page">
-      <!-- Hero -->
-      <div class="hero-banner" style="border-radius:14px;margin-bottom:20px;">
-        <div class="hero-grid-lines"></div>
-        <div style="position:relative;z-index:1;">
-          <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
-            <span class="badge badge-live">● SEASON 7 LIVE</span>
-            <span class="badge badge-upcoming">8 COMPETITIONS</span>
-          </div>
-          <h1 class="font-orbitron" style="font-size:clamp(24px,4vw,40px);font-weight:900;color:#fff;line-height:1.1;">
-            eKickHub<br><span style="color:var(--neon-blue);">Competition</span> Center
-          </h1>
-          <p style="color:rgba(255,255,255,0.5);margin-top:10px;font-size:14px;max-width:520px;">
-            Compete in professional esports tournaments. Rise through the ranks. Claim your glory.
-          </p>
-          <div style="display:flex;gap:14px;margin-top:20px;flex-wrap:wrap;">
-            <button class="btn-solid" onclick="showPage('registration',document.querySelector('[onclick*=registration]'))">Join Now</button>
-            <button class="btn-neon" onclick="showPage('running',document.querySelector('[onclick*=running]'))">View Live</button>
-          </div>
-        </div>
-        <div style="position:absolute;right:40px;bottom:0;top:0;display:flex;align-items:center;opacity:0.15;font-size:120px;pointer-events:none;">🏆</div>
-      </div>
-
-      <!-- Competition Tabs -->
-      <div class="tab-bar" id="comp-tab-bar">
-        <div class="tab-btn active" onclick="switchCompTab('all',this)">All (8)</div>
-        <div class="tab-btn" onclick="switchCompTab('running',this)">Running (3)</div>
-        <div class="tab-btn" onclick="switchCompTab('reg-open',this)">Registration (5)</div>
-        <div class="tab-btn" onclick="switchCompTab('upcoming',this)">Upcoming (4)</div>
-        <div class="tab-btn" onclick="switchCompTab('completed',this)">Completed (6)</div>
-        <div class="tab-btn" onclick="switchCompTab('friendly',this)">Friendly</div>
-      </div>
-
-      <div style="padding-top:24px;">
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;" id="comp-cards-grid">
-          <!-- Cards injected by JS -->
-        </div>
-      </div>
-    </div>
-
-    <!-- ======================== RUNNING COMPETITION ======================== -->
-    <div id="page-running" class="page">
-      <div class="section-header">
-        <div class="font-orbitron" style="font-size:16px;font-weight:900;color:#fff;">Running Competitions</div>
-        <div class="section-line"></div>
-        <span class="badge badge-live">● 3 LIVE</span>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;" id="running-cards"></div>
-
-      <!-- Group Stage Section -->
-      <div style="margin-top:32px;">
-        <div class="section-header">
-          <div class="font-orbitron" style="font-size:13px;color:var(--neon-blue);letter-spacing:2px;">GROUP STAGE — PREMIER LEAGUE S7</div>
-          <div class="section-line"></div>
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:18px;" id="group-tables-container"></div>
-      </div>
-
-      <!-- Knockout -->
-      <div style="margin-top:32px;">
-        <div class="section-header">
-          <div class="font-orbitron" style="font-size:13px;color:var(--neon-orange);letter-spacing:2px;">KNOCKOUT STAGE</div>
-          <div class="section-line"></div>
-        </div>
-        <div class="card" style="padding:20px;">
-          <div class="bracket-wrapper">
-            <div class="bracket" id="bracket-container"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ======================== REGISTRATION ======================== -->
-    <div id="page-registration" class="page">
-      <div class="section-header">
-        <div class="font-orbitron" style="font-size:16px;font-weight:900;color:#fff;">Registration Open</div>
-        <div class="section-line"></div>
-        <span class="badge badge-reg-open">5 OPEN</span>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;" id="reg-cards"></div>
-
-      <!-- Participant list -->
-      <div style="margin-top:32px;">
-        <div class="section-header">
-          <div class="font-orbitron" style="font-size:13px;color:var(--neon-purple);letter-spacing:2px;">PARTICIPANT APPROVAL</div>
-          <div class="section-line"></div>
-          <input type="text" placeholder="Search players..." class="form-input" style="width:200px;padding:7px 12px;font-size:12px;">
-        </div>
-        <div class="card" style="overflow:hidden;">
-          <div style="overflow-x:auto;">
-            <table class="data-table" id="participant-table">
-              <thead>
-                <tr>
-                  <th>PLAYER</th><th>KONAMI ID</th><th>DEVICE</th><th>COMPETITION</th><th>STATUS</th><th>ACTION</th>
-                </tr>
-              </thead>
-              <tbody id="participant-tbody"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ======================== UPCOMING ======================== -->
-    <div id="page-upcoming" class="page">
-      <div class="section-header">
-        <div class="font-orbitron" style="font-size:16px;font-weight:900;color:#fff;">Upcoming Competitions</div>
-        <div class="section-line"></div>
-        <span class="badge badge-upcoming">4 UPCOMING</span>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;" id="upcoming-cards"></div>
-    </div>
-
-    <!-- ======================== COMPLETED ======================== -->
-    <div id="page-completed" class="page">
-      <div class="section-header">
-        <div class="font-orbitron" style="font-size:16px;font-weight:900;color:#fff;">Completed Competitions</div>
-        <div class="section-line"></div>
-        <span class="badge badge-completed">6 ARCHIVED</span>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;" id="completed-cards"></div>
-    </div>
-
-    <!-- ======================== FRIENDLY CHALLENGE ======================== -->
-    <div id="page-friendly" class="page">
-      <div class="section-header">
-        <div class="font-orbitron" style="font-size:16px;font-weight:900;color:#fff;">Friendly Challenge</div>
-        <div class="section-line"></div>
-      </div>
-
-      <!-- Mode toggle -->
-      <div style="display:flex;gap:8px;margin-bottom:24px;">
-        <button class="btn-solid" id="mode-solo" onclick="setFriendlyMode('solo')">Solo Mode</button>
-        <button class="btn-neon" id="mode-club" onclick="setFriendlyMode('club')">Club Mode</button>
-      </div>
-
-      <!-- Division progression -->
-      <div class="section-header">
-        <div class="font-orbitron" style="font-size:13px;color:var(--neon-purple);letter-spacing:2px;">DIVISION PROGRESSION</div>
-        <div class="section-line"></div>
-      </div>
-
-      <!-- Progress arrow path -->
-      <div style="background:rgba(13,17,23,0.8);border:1px solid rgba(0,212,255,0.1);border-radius:12px;padding:24px;margin-bottom:24px;">
-        <div style="display:flex;align-items:center;gap:6px;overflow-x:auto;padding-bottom:8px;" id="division-path"></div>
-      </div>
-
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;" id="division-grid"></div>
-    </div>
-
-    <!-- ======================== FIXTURES ======================== -->
-    <div id="page-fixtures" class="page">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:gap;">
-        <div class="font-orbitron" style="font-size:16px;font-weight:900;color:#fff;">Match Fixtures</div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <select class="form-input" style="width:auto;font-size:12px;" id="fixture-comp-filter">
-            <option value="all">All Competitions</option>
-          </select>
-          <select class="form-input" style="width:auto;font-size:12px;" id="fixture-group-filter">
-            <option value="all">All Groups</option>
-            <option>Group A</option><option>Group B</option><option>Group C</option>
-            <option>Group D</option><option>Group E</option><option>Group F</option>
-          </select>
-        </div>
-      </div>
-      <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;" id="fixture-status-tabs">
-        <button class="btn-solid" onclick="filterFixtures('all',this)">All</button>
-        <button class="btn-neon" onclick="filterFixtures('live',this)"><i class="fas fa-circle" style="font-size:8px;"></i> Live</button>
-        <button class="btn-neon" onclick="filterFixtures('upcoming',this)">Upcoming</button>
-        <button class="btn-neon" onclick="filterFixtures('completed',this)">Completed</button>
-      </div>
-      <div id="fixtures-list" style="display:flex;flex-direction:column;gap:10px;"></div>
-    </div>
-
-    <!-- ======================== SCORE SUBMIT ======================== -->
-    <div id="page-score-submit" class="page">
-      <div class="section-header">
-        <div class="font-orbitron" style="font-size:16px;font-weight:900;color:#fff;">Score Submission</div>
-        <div class="section-line"></div>
-      </div>
-      <div style="max-width:680px;margin:0 auto;">
-        <div class="card" style="padding:28px;" id="score-form-container">
-          <div class="font-orbitron" style="font-size:13px;color:var(--neon-blue);margin-bottom:20px;letter-spacing:1px;">SUBMIT MATCH RESULT</div>
-
-          <div style="margin-bottom:16px;">
-            <label style="font-size:12px;color:rgba(255,255,255,0.5);display:block;margin-bottom:6px;letter-spacing:1px;">SELECT MATCH</label>
-            <select class="form-input" id="match-select">
-              <option value="">-- Select your match --</option>
-              <option>GRP-A | ProPlayer_X vs CyberKings FC</option>
-              <option>GRP-B | ProPlayer_X vs Dragon Squad</option>
-              <option>GRP-C | ProPlayer_X vs Phantom XI</option>
-            </select>
-          </div>
-
-          <div style="margin-bottom:16px;">
-            <label style="font-size:12px;color:rgba(255,255,255,0.5);display:block;margin-bottom:6px;letter-spacing:1px;">COMPETITION</label>
-            <select class="form-input">
-              <option>Premier League Season 7</option>
-              <option>eKickHub Super Cup</option>
-              <option>Champions Challenge</option>
-            </select>
-          </div>
-
-          <!-- Score inputs -->
-          <div style="background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.1);border-radius:10px;padding:20px;margin-bottom:16px;">
-            <div style="text-align:center;font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:16px;letter-spacing:2px;font-family:'Orbitron',monospace;">MATCH SCORE</div>
-            <div style="display:flex;align-items:center;justify-content:center;gap:20px;">
-              <div style="text-align:center;">
-                <div style="font-size:12px;color:var(--neon-blue);margin-bottom:8px;font-family:'Orbitron',monospace;">YOU</div>
-                <input type="number" class="score-input" id="my-score" value="0" min="0" max="20">
-              </div>
-              <div class="vs-badge">VS</div>
-              <div style="text-align:center;">
-                <div style="font-size:12px;color:#ff3333;margin-bottom:8px;font-family:'Orbitron',monospace;">OPP</div>
-                <input type="number" class="score-input" id="opp-score" value="0" min="0" max="20">
-              </div>
-            </div>
-          </div>
-
-          <div style="margin-bottom:16px;">
-            <label style="font-size:12px;color:rgba(255,255,255,0.5);display:block;margin-bottom:6px;letter-spacing:1px;">FACEBOOK POST LINK</label>
-            <input type="url" class="form-input" placeholder="https://facebook.com/posts/...">
-          </div>
-
-          <div style="margin-bottom:20px;">
-            <label style="font-size:12px;color:rgba(255,255,255,0.5);display:block;margin-bottom:6px;letter-spacing:1px;">PROOF SCREENSHOT</label>
-            <div style="border:2px dashed rgba(0,212,255,0.2);border-radius:8px;padding:20px;text-align:center;cursor:pointer;transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(0,212,255,0.4)'" onmouseout="this.style.borderColor='rgba(0,212,255,0.2)'">
-              <i class="fas fa-upload" style="font-size:24px;color:rgba(0,212,255,0.4);margin-bottom:8px;"></i>
-              <div style="font-size:12px;color:rgba(255,255,255,0.4);">Click to upload or drag & drop</div>
-            </div>
-          </div>
-
-          <button class="btn-solid" style="width:100%;padding:14px;" onclick="submitScore()">
-            <i class="fas fa-paper-plane" style="margin-right:8px;"></i>SUBMIT SCORE
-          </button>
-        </div>
-
-        <!-- Success message (hidden) -->
-        <div id="score-success" style="display:none;text-align:center;padding:40px;">
-          <div class="success-check" style="margin:0 auto 20px;">✓</div>
-          <div class="font-orbitron" style="font-size:18px;font-weight:900;color:var(--neon-green);">Score Submitted!</div>
-          <div style="color:rgba(255,255,255,0.5);margin-top:8px;">Your match result is under review</div>
-          <div style="display:flex;gap:10px;justify-content:center;margin-top:20px;">
-            <button class="btn-solid" onclick="resetScoreForm()">Submit Another</button>
-            <button class="btn-neon" onclick="showPage('match-logs',null)">View Match Log</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ======================== MATCH LOGS ======================== -->
-    <div id="page-match-logs" class="page">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px;">
-        <div class="font-orbitron" style="font-size:16px;font-weight:900;color:#fff;">Match Logs</div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <input type="text" placeholder="Search matches..." class="form-input" style="width:200px;" oninput="filterMatchLogs(this.value)">
-          <select class="form-input" style="width:auto;font-size:12px;" onchange="filterMatchLogsStatus(this.value)">
-            <option value="all">All Status</option>
-            <option value="approved">Approved</option>
-            <option value="pending">Pending</option>
-            <option value="disputed">Disputed</option>
-          </select>
-        </div>
-      </div>
-      <div class="card" style="overflow:hidden;">
-        <div style="overflow-x:auto;">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>MATCH ID</th><th>COMPETITION</th><th>PLAYERS</th><th>SCORE</th>
-                <th>SUBMITTED BY</th><th>TIMESTAMP</th><th>STATUS</th><th>ACTION</th>
-              </tr>
-            </thead>
-            <tbody id="match-logs-tbody"></tbody>
-          </table>
-        </div>
-      </div>
-      <!-- Pagination -->
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:16px;flex-wrap:wrap;gap:8px;">
-        <div style="font-size:12px;color:rgba(255,255,255,0.4);">Showing 1–10 of 48 matches</div>
-        <div style="display:flex;gap:6px;">
-          <button class="btn-neon" style="padding:6px 12px;">‹ Prev</button>
-          <button class="btn-solid" style="padding:6px 12px;">1</button>
-          <button class="btn-neon" style="padding:6px 12px;">2</button>
-          <button class="btn-neon" style="padding:6px 12px;">3</button>
-          <button class="btn-neon" style="padding:6px 12px;">Next ›</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- ======================== RANKINGS ======================== -->
-    <div id="page-rankings" class="page">
-      <div class="section-header">
-        <div class="font-orbitron" style="font-size:16px;font-weight:900;color:#fff;">Global Rankings</div>
-        <div class="section-line"></div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
-        <div>
-          <div class="font-orbitron" style="font-size:12px;color:var(--neon-blue);margin-bottom:14px;letter-spacing:2px;">TOP PLAYERS — SEASON 7</div>
-          <div id="rankings-list"></div>
-        </div>
-        <div>
-          <div class="font-orbitron" style="font-size:12px;color:var(--neon-purple);margin-bottom:14px;letter-spacing:2px;">TOP CLUBS</div>
-          <div id="club-rankings-list"></div>
-          <div style="margin-top:24px;">
-            <div class="font-orbitron" style="font-size:12px;color:var(--neon-orange);margin-bottom:14px;letter-spacing:2px;">GOALS CHART</div>
-            <div class="card" style="padding:16px;"><div style="height:180px;"><canvas id="barChart"></canvas></div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ======================== SETTINGS ======================== -->
-    <div id="page-settings" class="page">
-      <div class="section-header">
-        <div class="font-orbitron" style="font-size:16px;font-weight:900;color:#fff;">Settings</div>
-        <div class="section-line"></div>
-      </div>
-      <div style="max-width:640px;">
-        <div class="card" style="padding:24px;margin-bottom:16px;">
-          <div class="font-orbitron" style="font-size:12px;color:var(--neon-blue);margin-bottom:16px;letter-spacing:1px;">PROFILE SETTINGS</div>
-          <div style="display:grid;gap:14px;">
-            <div><label style="font-size:12px;color:rgba(255,255,255,0.4);display:block;margin-bottom:6px;">DISPLAY NAME</label>
-              <input type="text" class="form-input" value="ProPlayer_X"></div>
-            <div><label style="font-size:12px;color:rgba(255,255,255,0.4);display:block;margin-bottom:6px;">KONAMI ID</label>
-              <input type="text" class="form-input" value="#KNM-4921"></div>
-            <div><label style="font-size:12px;color:rgba(255,255,255,0.4);display:block;margin-bottom:6px;">DEVICE</label>
-              <select class="form-input"><option>PlayStation 5</option><option>Xbox Series X</option><option>PC</option><option>Mobile</option></select></div>
-            <div><label style="font-size:12px;color:rgba(255,255,255,0.4);display:block;margin-bottom:6px;">EMAIL</label>
-              <input type="email" class="form-input" value="proplayer@ekickhub.com"></div>
-          </div>
-          <button class="btn-solid" style="margin-top:16px;">Save Changes</button>
-        </div>
-        <div class="card" style="padding:24px;">
-          <div class="font-orbitron" style="font-size:12px;color:var(--neon-purple);margin-bottom:16px;letter-spacing:1px;">NOTIFICATIONS</div>
-          <div style="display:flex;flex-direction:column;gap:12px;">
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:rgba(0,212,255,0.04);border-radius:8px;">
-              <span style="font-size:13px;">Match Reminders</span>
-              <div onclick="this.classList.toggle('on')" style="width:44px;height:24px;background:var(--neon-blue);border-radius:12px;cursor:pointer;position:relative;"><div style="width:20px;height:20px;background:#fff;border-radius:50%;position:absolute;top:2px;right:2px;transition:right 0.2s;"></div></div>
-            </div>
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:rgba(0,212,255,0.04);border-radius:8px;">
-              <span style="font-size:13px;">Score Approved</span>
-              <div onclick="this.classList.toggle('on')" style="width:44px;height:24px;background:var(--neon-blue);border-radius:12px;cursor:pointer;position:relative;"><div style="width:20px;height:20px;background:#fff;border-radius:50%;position:absolute;top:2px;right:2px;transition:right 0.2s;"></div></div>
-            </div>
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:rgba(0,212,255,0.04);border-radius:8px;">
-              <span style="font-size:13px;">Division Promotions</span>
-              <div onclick="this.classList.toggle('on')" style="width:44px;height:24px;background:var(--neon-green);border-radius:12px;cursor:pointer;position:relative;"><div style="width:20px;height:20px;background:#fff;border-radius:50%;position:absolute;top:2px;right:2px;transition:right 0.2s;"></div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div><!-- /pages-container -->
-
-  <!-- Footer -->
-  <div style="border-top:1px solid rgba(0,212,255,0.08);padding:16px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;background:rgba(5,10,24,0.8);">
-    <div style="font-family:'Orbitron',monospace;font-size:11px;color:rgba(0,212,255,0.4);">© 2025 eKickHub Competition Center — Season 7</div>
-    <div style="display:flex;gap:16px;">
-      <span style="font-size:11px;color:rgba(255,255,255,0.3);">Version 2.4.1</span>
-      <span style="font-size:11px;color:rgba(255,255,255,0.3);">|</span>
-      <span style="font-size:11px;color:var(--neon-blue);cursor:pointer;">Support</span>
-      <span style="font-size:11px;color:rgba(255,255,255,0.3);">|</span>
-      <span style="font-size:11px;color:var(--neon-blue);cursor:pointer;">Discord</span>
-    </div>
-  </div>
-</div>
-
-<!-- ======================== MODALS ======================== -->
-<!-- Competition Details Modal -->
-<div class="modal-overlay" id="comp-modal">
-  <div class="modal-box" style="max-width:720px;">
-    <div class="modal-header">
-      <div>
-        <div class="font-orbitron" id="modal-comp-title" style="font-size:16px;font-weight:900;color:#fff;"></div>
-        <div id="modal-comp-status" style="margin-top:4px;"></div>
-      </div>
-      <button onclick="closeModal('comp-modal')" style="background:rgba(255,255,255,0.08);border:none;color:#fff;width:32px;height:32px;border-radius:6px;cursor:pointer;font-size:16px;">✕</button>
-    </div>
-    <div style="padding:24px;" id="modal-comp-body"></div>
-  </div>
-</div>
-
-<!-- Participation Confirmation Modal -->
-<div class="modal-overlay" id="participate-modal">
-  <div class="modal-box" style="max-width:480px;">
-    <div class="modal-header">
-      <div class="font-orbitron" style="font-size:14px;color:#fff;">JOIN COMPETITION</div>
-      <button onclick="closeModal('participate-modal')" style="background:rgba(255,255,255,0.08);border:none;color:#fff;width:32px;height:32px;border-radius:6px;cursor:pointer;">✕</button>
-    </div>
-    <div style="padding:24px;" id="participate-body"></div>
-  </div>
-</div>
-
-<!-- Participation Card Modal -->
-<div class="modal-overlay" id="card-modal">
-  <div class="modal-box" style="max-width:400px;">
-    <div class="modal-header">
-      <div class="font-orbitron" style="font-size:14px;color:#fff;">YOUR PARTICIPATION CARD</div>
-      <button onclick="closeModal('card-modal')" style="background:rgba(255,255,255,0.08);border:none;color:#fff;width:32px;height:32px;border-radius:6px;cursor:pointer;">✕</button>
-    </div>
-    <div style="padding:24px;" id="card-body"></div>
-  </div>
-</div>
-
-<!-- Complaint Modal -->
-<div class="modal-overlay" id="complaint-modal">
-  <div class="modal-box" style="max-width:480px;">
-    <div class="modal-header">
-      <div class="font-orbitron" style="font-size:14px;color:#ff3333;">FILE COMPLAINT</div>
-      <button onclick="closeModal('complaint-modal')" style="background:rgba(255,255,255,0.08);border:none;color:#fff;width:32px;height:32px;border-radius:6px;cursor:pointer;">✕</button>
-    </div>
-    <div style="padding:24px;">
-      <div style="margin-bottom:14px;">
-        <label style="font-size:12px;color:rgba(255,255,255,0.4);display:block;margin-bottom:6px;">COMPLAINT REASON</label>
-        <select class="form-input"><option>Wrong Score Submitted</option><option>Connection Issues</option><option>Unsportsmanlike Conduct</option><option>Other</option></select>
-      </div>
-      <div style="margin-bottom:14px;">
-        <label style="font-size:12px;color:rgba(255,255,255,0.4);display:block;margin-bottom:6px;">DESCRIPTION</label>
-        <textarea class="form-input" rows="4" placeholder="Describe the issue in detail..."></textarea>
-      </div>
-      <div style="margin-bottom:20px;">
-        <label style="font-size:12px;color:rgba(255,255,255,0.4);display:block;margin-bottom:6px;">UPLOAD PROOF</label>
-        <div style="border:2px dashed rgba(255,51,51,0.2);border-radius:8px;padding:16px;text-align:center;cursor:pointer;">
-          <i class="fas fa-upload" style="color:rgba(255,51,51,0.5);margin-bottom:4px;"></i>
-          <div style="font-size:11px;color:rgba(255,255,255,0.3);">Attach screenshot</div>
-        </div>
-      </div>
-      <div style="display:flex;gap:8px;">
-        <button class="btn-danger" style="flex:1;padding:12px;" onclick="closeModal('complaint-modal')">Submit Complaint</button>
-        <button class="btn-neon" style="flex:1;padding:12px;" onclick="closeModal('complaint-modal')">Cancel</button>
-      </div>
-      <div style="margin-top:16px;padding:12px;background:rgba(255,200,0,0.06);border:1px solid rgba(255,200,0,0.15);border-radius:8px;">
-        <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:4px;letter-spacing:1px;font-family:'Orbitron',monospace;">ADMIN REVIEW STATUS</div>
-        <span class="badge badge-pending">Under Review</span>
-        <span style="font-size:11px;color:rgba(255,255,255,0.4);margin-left:8px;">Avg response: 2-4 hours</span>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Result Celebration Modal -->
-<div class="modal-overlay" id="result-modal">
-  <div class="modal-box" style="max-width:480px;text-align:center;">
-    <div style="padding:40px 24px;" id="result-body"></div>
-  </div>
+  <div class="ornament-bottom">✦ ✦ ✦</div>
+  <div class="footer-msg">MADE WITH LOVE FOR RASHED &amp; JERIN'S WEDDING</div>
 </div>
 
 <script>
-// ============================
-// DATA
-// ============================
-const competitions = [
-  { id:1, name:'Premier League Season 7', prize:'$5,000', slots:64, filled:51, status:'running', format:'Solo', game:'eFootball 2025', startDate:'May 1', endDate:'Jun 15', groups:8, color:'#00d4ff' },
-  { id:2, name:'eKickHub Super Cup', prize:'$3,000', slots:32, filled:32, status:'running', format:'Solo', game:'eFootball 2025', startDate:'May 5', endDate:'May 30', groups:4, color:'#b400ff' },
-  { id:3, name:'Champions Challenge', prize:'$2,500', slots:48, filled:38, status:'running', format:'Club', game:'eFootball 2025', startDate:'Apr 28', endDate:'Jun 1', groups:6, color:'#ff6b00' },
-  { id:4, name:'Summer Cup 2025', prize:'$1,500', slots:32, filled:12, status:'reg-open', format:'Solo', game:'eFootball 2025', startDate:'Jun 20', endDate:'Jul 15', groups:4, color:'#00ff88' },
-  { id:5, name:'Club World Series', prize:'$4,000', slots:16, filled:6, status:'reg-open', format:'Club', game:'eFootball 2025', startDate:'Jul 1', endDate:'Jul 31', groups:2, color:'#ffd700' },
-  { id:6, name:'Youth Esports League', prize:'$800', slots:64, filled:18, status:'reg-open', format:'Solo', game:'eFootball 2025', startDate:'Jun 25', endDate:'Jul 20', groups:8, color:'#00d4ff' },
-  { id:7, name:'Ramadan Tournament', prize:'$2,000', slots:32, filled:24, status:'reg-open', format:'Solo', game:'eFootball 2025', startDate:'Jul 5', endDate:'Jul 25', groups:4, color:'#b400ff' },
-  { id:8, name:'Pro Series Qualifier', prize:'$1,200', slots:48, filled:10, status:'reg-open', format:'Solo', game:'eFootball 2025', startDate:'Jul 10', endDate:'Aug 1', groups:6, color:'#ff6b00' },
-  { id:9, name:'Spring Classic', prize:'$3,500', slots:32, filled:32, status:'upcoming', format:'Solo', game:'eFootball 2025', startDate:'Aug 1', endDate:'Aug 31', groups:4, color:'#00ff88' },
-  { id:10, name:'Winter Championship', prize:'$6,000', slots:64, filled:64, status:'completed', format:'Solo', game:'eFootball 2025', startDate:'Dec 1', endDate:'Jan 15', groups:8, color:'#ffd700', winner:'CyberKings FC', runner:'Dragon Squad', mvp:'StrikerX99' },
-  { id:11, name:'Season 6 Grand Prix', prize:'$4,500', slots:32, filled:32, status:'completed', format:'Club', game:'eFootball 2025', startDate:'Sep 1', endDate:'Oct 15', groups:4, color:'#00d4ff', winner:'Phantom XI', runner:'eFC Warriors', mvp:'GoldenBoot77' },
-  { id:12, name:'October Showdown', prize:'$2,000', slots:32, filled:32, status:'completed', format:'Solo', game:'eFootball 2025', startDate:'Oct 20', endDate:'Nov 10', groups:4, color:'#b400ff', winner:'NightHawks', runner:'ZeroHour FC', mvp:'NightOwl_88' },
-];
+  // ================== WEDDING DATE (fixed) ==================
+  // September 11, 2026, 6:00 PM (Bangladesh time, UTC+6)
+  const targetTime = new Date("2026-09-11T18:00:00+06:00").getTime();
+  const startTime = Date.now();
+  const totalDuration = targetTime - startTime;
+  // =============================================================
 
-const teams = [
-  { name:'CyberKings FC', emoji:'⚡', color:'#0066cc' },
-  { name:'Dragon Squad', emoji:'🐉', color:'#cc3300' },
-  { name:'Phantom XI', emoji:'👻', color:'#6600cc' },
-  { name:'eFC Warriors', emoji:'⚔️', color:'#00aa44' },
-  { name:'NightHawks', emoji:'🦅', color:'#aa6600' },
-  { name:'ZeroHour FC', emoji:'💥', color:'#cc0066' },
-  { name:'StrikerX99', emoji:'🎯', color:'#00aacc' },
-  { name:'Galaxy Stars', emoji:'🌟', color:'#6600aa' },
-  { name:'ProPlayer_X', emoji:'🎮', color:'#0044aa' },
-  { name:'IronClaw FC', emoji:'🦾', color:'#aa4400' },
-  { name:'Digital FC', emoji:'📱', color:'#004488' },
-  { name:'Elite Squad', emoji:'🏆', color:'#888800' },
-  { name:'TurboFC', emoji:'🚀', color:'#aa0044' },
-  { name:'Shadow XI', emoji:'🌑', color:'#444444' },
-  { name:'BlasterFC', emoji:'💫', color:'#0088aa' },
-  { name:'Thunder FC', emoji:'⛈️', color:'#330066' }
-];
+  function updateCountdown() {
+    const now = Date.now();
+    const distance = targetTime - now;
 
-const groupData = [
-  { grp:'A', teams:[{n:'CyberKings FC',mp:5,w:4,d:0,l:1,gf:12,ga:4,pts:12,q:true},{n:'Dragon Squad',mp:5,w:3,d:1,l:1,gf:9,ga:6,pts:10,q:true},{n:'ProPlayer_X',mp:5,w:2,d:0,l:3,gf:7,ga:9,pts:6,q:false},{n:'NightHawks',mp:5,w:0,d:1,l:4,gf:3,ga:12,pts:1,q:false}] },
-  { grp:'B', teams:[{n:'Phantom XI',mp:5,w:4,d:1,l:0,gf:14,ga:3,pts:13,q:true},{n:'eFC Warriors',mp:5,w:3,d:0,l:2,gf:10,ga:7,pts:9,q:true},{n:'ZeroHour FC',mp:5,w:1,d:2,l:2,gf:6,ga:9,pts:5,q:false},{n:'Thunder FC',mp:5,w:0,d:1,l:4,gf:2,ga:13,pts:1,q:false}] },
-  { grp:'C', teams:[{n:'Galaxy Stars',mp:5,w:3,d:2,l:0,gf:10,ga:4,pts:11,q:true},{n:'StrikerX99',mp:5,w:3,d:0,l:2,gf:9,ga:6,pts:9,q:true},{n:'TurboFC',mp:5,w:1,d:1,l:3,gf:5,ga:8,pts:4,q:false},{n:'BlasterFC',mp:5,w:0,d:1,l:4,gf:3,ga:9,pts:1,q:false}] },
-  { grp:'D', teams:[{n:'Digital FC',mp:4,w:3,d:1,l:0,gf:9,ga:3,pts:10,q:true},{n:'Elite Squad',mp:4,w:2,d:1,l:1,gf:7,ga:5,pts:7,q:true},{n:'Shadow XI',mp:4,w:1,d:0,l:3,gf:4,ga:8,pts:3,q:false},{n:'IronClaw FC',mp:4,w:0,d:0,l:4,gf:2,ga:6,pts:0,q:false}] }
-];
+    if (distance <= 0) {
+      document.getElementById('countdown').innerHTML =
+        "<div class='celebration' style='grid-column: 1 / -1;'>💍 Today is the Day! 💍</div>";
+      document.getElementById('progressFill').style.width = "100%";
+      document.getElementById('progressText').innerText = "100% — Forever begins today! 🎉";
+      clearInterval(timer);
+      return;
+    }
 
-const bracketData = [
-  { round:'Round of 16', matches:[
-    {a:'CyberKings FC',b:'BlasterFC',sa:3,sb:0,done:true},
-    {a:'Phantom XI',b:'TurboFC',sa:2,sb:1,done:true},
-    {a:'Dragon Squad',b:'Shadow XI',sa:4,sb:0,done:true},
-    {a:'Galaxy Stars',b:'IronClaw FC',sa:2,sb:0,done:true},
-    {a:'eFC Warriors',b:'Digital FC',sa:1,sb:1,done:true},
-    {a:'StrikerX99',b:'NightHawks',sa:3,sb:2,done:true},
-    {a:'Elite Squad',b:'ZeroHour FC',sa:0,sb:1,done:true},
-    {a:'Thunder FC',b:'ProPlayer_X',sa:1,sb:2,done:true},
-  ]},
-  { round:'Quarter Final', matches:[
-    {a:'CyberKings FC',b:'Phantom XI',sa:2,sb:1,done:true},
-    {a:'Dragon Squad',b:'Galaxy Stars',sa:3,sb:2,done:true},
-    {a:'eFC Warriors',b:'StrikerX99',sa:0,sb:2,done:true},
-    {a:'ZeroHour FC',b:'ProPlayer_X',sa:1,sb:1,done:false},
-  ]},
-  { round:'Semi Final', matches:[
-    {a:'CyberKings FC',b:'Dragon Squad',sa:null,sb:null,done:false},
-    {a:'StrikerX99',b:'???',sa:null,sb:null,done:false},
-  ]},
-  { round:'Final', matches:[
-    {a:'???',b:'???',sa:null,sb:null,done:false},
-  ]}
-];
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
+    const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+    const seconds = Math.floor((distance % (1000*60)) / 1000);
 
-const fixtures = [
-  {id:'F001',comp:'Premier League S7',grp:'A',ta:'CyberKings FC',tb:'Dragon Squad',time:'20:00',date:'Today',status:'live',sa:2,sb:1},
-  {id:'F002',comp:'Premier League S7',grp:'B',ta:'Phantom XI',tb:'eFC Warriors',time:'18:30',date:'Today',status:'upcoming',sa:null,sb:null},
-  {id:'F003',comp:'eKickHub Super Cup',grp:'A',ta:'Galaxy Stars',tb:'ProPlayer_X',time:'21:00',date:'Today',status:'upcoming',sa:null,sb:null},
-  {id:'F004',comp:'Premier League S7',grp:'C',ta:'StrikerX99',tb:'NightHawks',time:'19:00',date:'Yesterday',status:'completed',sa:3,sb:1},
-  {id:'F005',comp:'Champions Challenge',grp:'D',ta:'Digital FC',tb:'Elite Squad',time:'17:00',date:'Yesterday',status:'completed',sa:2,sb:0},
-  {id:'F006',comp:'Premier League S7',grp:'A',ta:'TurboFC',tb:'BlasterFC',time:'22:00',date:'Tomorrow',status:'upcoming',sa:null,sb:null},
-  {id:'F007',comp:'eKickHub Super Cup',grp:'B',ta:'ZeroHour FC',tb:'Thunder FC',time:'20:30',date:'Tomorrow',status:'upcoming',sa:null,sb:null},
-  {id:'F008',comp:'Champions Challenge',grp:'C',ta:'Shadow XI',tb:'IronClaw FC',time:'16:00',date:'Yesterday',status:'completed',sa:1,sb:1},
-];
+    document.getElementById('days').innerText = String(days).padStart(2,'0');
+    document.getElementById('hours').innerText = String(hours).padStart(2,'0');
+    document.getElementById('minutes').innerText = String(minutes).padStart(2,'0');
+    document.getElementById('seconds').innerText = String(seconds).padStart(2,'0');
 
-const matchLogs = [
-  {id:'ML-2401',comp:'Premier League S7',p1:'ProPlayer_X',p2:'CyberKings FC',s1:2,s2:3,by:'ProPlayer_X',time:'2h ago',status:'approved'},
-  {id:'ML-2400',comp:'Super Cup',p1:'Phantom XI',p2:'Dragon Squad',s1:4,s2:0,by:'PhantomXI',time:'4h ago',status:'approved'},
-  {id:'ML-2399',comp:'Premier League S7',p1:'Galaxy Stars',p2:'TurboFC',s1:1,s2:1,by:'GalaxyStars',time:'6h ago',status:'pending'},
-  {id:'ML-2398',comp:'Champions Challenge',p1:'Digital FC',p2:'Shadow XI',s1:3,s2:0,by:'DigitalFC',time:'8h ago',status:'approved'},
-  {id:'ML-2397',comp:'Super Cup',p1:'ZeroHour FC',p2:'eFC Warriors',s1:2,s2:1,by:'ZeroHour',time:'Yesterday',status:'disputed'},
-  {id:'ML-2396',comp:'Premier League S7',p1:'StrikerX99',p2:'NightHawks',s1:5,s2:2,by:'StrikerX99',time:'Yesterday',status:'approved'},
-  {id:'ML-2395',comp:'Champions Challenge',p1:'Thunder FC',p2:'BlasterFC',s1:0,s2:3,by:'BlasterFC',time:'2 days ago',status:'approved'},
-  {id:'ML-2394',comp:'Premier League S7',p1:'IronClaw FC',p2:'Elite Squad',s1:1,s2:2,by:'EliteSquad',time:'2 days ago',status:'pending'},
-];
-
-const rankingsData = [
-  {rank:1,name:'StrikerX99',pts:1840,wins:62,goal:184,div:1},
-  {rank:2,name:'CyberGhost99',pts:1790,wins:58,goal:162,div:1},
-  {rank:3,name:'Phantom_XI',pts:1720,wins:55,goal:149,div:2},
-  {rank:4,name:'DigitalNinja',pts:1680,wins:52,goal:137,div:2},
-  {rank:5,name:'NeonStriker',pts:1640,wins:49,goal:126,div:2},
-  {rank:6,name:'DragonLord77',pts:1590,wins:46,goal:115,div:3},
-  {rank:7,name:'ProPlayer_X',pts:1540,wins:47,goal:138,div:3},
-  {rank:8,name:'TurboKing',pts:1500,wins:44,goal:108,div:3},
-  {rank:9,name:'GoldBoot88',pts:1460,wins:41,goal:99,div:4},
-  {rank:10,name:'HeavenFC',pts:1420,wins:38,goal:91,div:4},
-];
-
-const clubRankings = [
-  {rank:1,name:'CyberKings FC',pts:4200,wins:78,emoji:'⚡'},
-  {rank:2,name:'Phantom XI',pts:4050,wins:74,emoji:'👻'},
-  {rank:3,name:'Dragon Squad',pts:3920,wins:71,emoji:'🐉'},
-  {rank:4,name:'eFC Warriors',pts:3780,wins:67,emoji:'⚔️'},
-  {rank:5,name:'Galaxy Stars',pts:3640,wins:64,emoji:'🌟'},
-];
-
-const divisionData = [
-  {div:9,wins:15,maxMatches:30,players:2840,color:'#555',unlocked:true},
-  {div:8,wins:20,maxMatches:28,players:1920,color:'#666',unlocked:true},
-  {div:7,wins:25,maxMatches:26,players:1340,color:'#00aa66',unlocked:true},
-  {div:6,wins:30,maxMatches:24,players:980,color:'#0066cc',unlocked:true},
-  {div:5,wins:35,maxMatches:22,players:720,color:'#6600cc',unlocked:true},
-  {div:4,wins:40,maxMatches:20,players:520,color:'#cc6600',unlocked:false},
-  {div:3,wins:45,maxMatches:18,players:380,color:'#cc0033',unlocked:false},
-  {div:2,wins:50,maxMatches:16,players:240,color:'#9900cc',unlocked:false},
-  {div:1,wins:60,maxMatches:14,players:100,color:'#ffd700',unlocked:false},
-];
-
-const participantData = [
-  {name:'ProPlayer_X',id:'#KNM-4921',device:'PS5',comp:'Premier League S7',status:'approved',emoji:'🎮'},
-  {name:'StrikerX99',id:'#KNM-3812',device:'PC',comp:'Super Cup',status:'approved',emoji:'🎯'},
-  {name:'CyberGhost99',id:'#KNM-5534',device:'Xbox',comp:'Premier League S7',status:'pending',emoji:'👤'},
-  {name:'NeonStriker',id:'#KNM-2201',device:'PS5',comp:'Champions Challenge',status:'pending',emoji:'💫'},
-  {name:'DigitalNinja',id:'#KNM-7743',device:'PC',comp:'Summer Cup',status:'rejected',emoji:'🥷'},
-  {name:'GoldBoot88',id:'#KNM-9921',device:'Mobile',comp:'Premier League S7',status:'approved',emoji:'🥅'},
-  {name:'DragonLord77',id:'#KNM-1128',device:'PS5',comp:'Super Cup',status:'pending',emoji:'🐉'},
-  {name:'TurboKing',id:'#KNM-6674',device:'Xbox',comp:'Champions Challenge',status:'approved',emoji:'🚀'},
-];
-
-const activityMessages = [
-  '⚽ CyberKings FC scored vs Dragon Squad',
-  '🏆 ProPlayer_X qualified for QF',
-  '✅ Match ML-2401 score approved',
-  '🎮 GoldBoot88 joined Summer Cup',
-  '📊 Group A standings updated',
-  '🔴 Live: Phantom XI vs eFC Warriors',
-  '⬆️ NeonStriker promoted to Div 4',
-  '⚡ ZeroHour FC filed a complaint',
-  '🎯 StrikerX99 scored 4 goals',
-  '🏅 Digital FC qualified — Group D',
-  '🔥 New record: 5-0 by Phantom XI',
-  '🌟 Galaxy Stars win Group C',
-];
-
-// ============================
-// PAGE NAVIGATION
-// ============================
-function showPage(name, navEl) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  const pg = document.getElementById('page-' + name);
-  if(pg) { pg.classList.add('active'); renderPage(name); }
-
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  if(navEl) navEl.classList.add('active');
-
-  const labels = {
-    dashboard:'Dashboard',
-    'competition-center':'Competition Center',
-    running:'Running Competition',
-    registration:'Registration On',
-    upcoming:'Upcoming Competition',
-    completed:'Completed Competition',
-    friendly:'Friendly Challenge',
-    fixtures:'Match Fixtures',
-    'score-submit':'Score Submit',
-    'match-logs':'Match Logs',
-    rankings:'Rankings',
-    settings:'Settings'
-  };
-  document.getElementById('page-breadcrumb').innerHTML = `<span style="color:var(--neon-blue);">Home</span> › ${labels[name]||name}`;
-  window.scrollTo(0,0);
-  closeSidebar();
-}
-
-let pagesRendered = {};
-function renderPage(name) {
-  if(pagesRendered[name]) return;
-  pagesRendered[name] = true;
-  switch(name) {
-    case 'dashboard': renderDashboard(); break;
-    case 'competition-center': renderCompetitionCenter(); break;
-    case 'running': renderRunning(); break;
-    case 'registration': renderRegistration(); break;
-    case 'upcoming': renderUpcoming(); break;
-    case 'completed': renderCompleted(); break;
-    case 'friendly': renderFriendly(); break;
-    case 'fixtures': renderFixtures(); break;
-    case 'match-logs': renderMatchLogs(); break;
-    case 'rankings': renderRankings(); break;
-  }
-}
-
-// ============================
-// DASHBOARD
-// ============================
-function renderDashboard() {
-  renderLineChart();
-  renderDoughnutChart();
-  startActivityFeed();
-  animateCounters();
-}
-
-function animateCounters() {
-  document.getElementById('season-prog').style.width = '63%';
-}
-
-function renderLineChart() {
-  const ctx = document.getElementById('lineChart');
-  if(!ctx) return;
-  new Chart(ctx, {
-    type:'line',
-    data:{
-      labels:['Week 1','Week 2','Week 3','Week 4','Week 5','Week 6'],
-      datasets:[
-        {label:'Wins',data:[6,9,7,12,10,14],borderColor:'#00d4ff',backgroundColor:'rgba(0,212,255,0.08)',tension:0.4,fill:true,pointBackgroundColor:'#00d4ff'},
-        {label:'Losses',data:[4,3,5,2,4,3],borderColor:'#b400ff',backgroundColor:'rgba(180,0,255,0.06)',tension:0.4,fill:true,pointBackgroundColor:'#b400ff'},
-      ]
-    },
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'rgba(226,232,240,0.6)',font:{size:11}}}},scales:{x:{ticks:{color:'rgba(226,232,240,0.4)',font:{size:10}},grid:{color:'rgba(255,255,255,0.04)'}},y:{ticks:{color:'rgba(226,232,240,0.4)',font:{size:10}},grid:{color:'rgba(255,255,255,0.04)'}}}}
-  });
-}
-
-function renderDoughnutChart() {
-  const ctx = document.getElementById('doughnutChart');
-  if(!ctx) return;
-  new Chart(ctx, {
-    type:'doughnut',
-    data:{
-      labels:['Solo','Club','Friendly'],
-      datasets:[{data:[45,30,25],backgroundColor:['rgba(0,212,255,0.7)','rgba(180,0,255,0.7)','rgba(0,255,136,0.7)'],borderColor:'#0d1117',borderWidth:3}]
-    },
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:'rgba(226,232,240,0.6)',font:{size:10},padding:10}}},cutout:'65%'}
-  });
-}
-
-function startActivityFeed() {
-  const feed = document.getElementById('activity-feed');
-  if(!feed) return;
-  let idx = 0;
-  const addActivity = () => {
-    const msg = activityMessages[idx % activityMessages.length];
-    idx++;
-    const div = document.createElement('div');
-    div.className = 'activity-item';
-    div.innerHTML = `<div class="activity-dot" style="background:${['#00d4ff','#b400ff','#00ff88','#ff6b00'][Math.floor(Math.random()*4)]};"></div><div style="font-size:12px;line-height:1.4;">${msg}<div style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:2px;">just now</div></div>`;
-    div.style.opacity = '0';
-    div.style.transform = 'translateY(-8px)';
-    div.style.transition = 'all 0.3s';
-    feed.insertBefore(div, feed.firstChild);
-    requestAnimationFrame(() => { div.style.opacity = '1'; div.style.transform = 'none'; });
-    if(feed.children.length > 6) feed.removeChild(feed.lastChild);
-  };
-  for(let i=0;i<4;i++) addActivity();
-  setInterval(addActivity, 3500);
-}
-
-// ============================
-// COMPETITION CENTER
-// ============================
-function renderCompetitionCenter() {
-  renderCompCards('all');
-  // Fill competition filter
-  const sel = document.getElementById('fixture-comp-filter');
-  competitions.forEach(c => { const o = document.createElement('option'); o.textContent = c.name; sel.appendChild(o); });
-}
-
-function renderCompCards(filter) {
-  const grid = document.getElementById('comp-cards-grid');
-  if(!grid) return;
-  const filtered = filter==='all' ? competitions : competitions.filter(c=>c.status===filter);
-  grid.innerHTML = filtered.map(c => buildCompCard(c)).join('');
-}
-
-function switchCompTab(filter, el) {
-  document.querySelectorAll('#comp-tab-bar .tab-btn').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  renderCompCards(filter);
-}
-
-function buildCompCard(c) {
-  const pct = Math.round((c.filled/c.slots)*100);
-  const statusBadge = {running:'<span class="badge badge-live">● LIVE</span>','reg-open':'<span class="badge badge-reg-open">REG OPEN</span>',upcoming:'<span class="badge badge-upcoming">UPCOMING</span>',completed:'<span class="badge badge-completed">COMPLETED</span>'}[c.status];
-  return `<div class="comp-card">
-    <div class="comp-card-header" style="background:linear-gradient(135deg,${c.color}22,${c.color}11);">
-      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:48px;opacity:0.12;">🏆</div>
-      <div style="position:relative;z-index:1;text-align:center;">
-        <div class="font-orbitron" style="font-size:11px;color:${c.color};letter-spacing:2px;">${c.format} MODE</div>
-        <div style="font-size:28px;font-weight:900;font-family:'Orbitron',monospace;color:#fff;margin-top:4px;">${c.prize}</div>
-        <div style="font-size:11px;color:rgba(255,255,255,0.4);">Prize Pool</div>
-      </div>
-      <div style="position:absolute;top:10px;left:10px;">${statusBadge}</div>
-    </div>
-    <div class="comp-card-body">
-      <div class="font-orbitron" style="font-size:13px;font-weight:700;color:#fff;margin-bottom:8px;">${c.name}</div>
-      <div style="display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:10px;">
-        <span><i class="fas fa-calendar"></i> ${c.startDate}</span>
-        <span><i class="fas fa-layer-group"></i> ${c.groups} Groups</span>
-        <span><i class="fas fa-users"></i> ${c.slots} slots</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px;">
-        <span style="color:rgba(255,255,255,0.4);">Slots Filled</span>
-        <span style="color:${c.color};">${c.filled}/${c.slots}</span>
-      </div>
-      <div class="slot-bar"><div class="slot-fill" style="width:${pct}%;"></div></div>
-      ${c.status==='completed' ? `<div style="margin-top:12px;padding:10px;background:rgba(255,215,0,0.06);border-radius:8px;border:1px solid rgba(255,215,0,0.1);">
-        <div style="font-size:11px;color:rgba(255,255,255,0.4);">🏆 Champion</div>
-        <div style="font-size:13px;font-weight:700;color:#ffd700;">${c.winner}</div>
-      </div>` : ''}
-      <div style="display:flex;gap:8px;margin-top:12px;">
-        <button class="btn-neon" style="flex:1;font-size:10px;" onclick="openCompModal(${c.id})">Details</button>
-        ${c.status==='reg-open'?`<button class="btn-solid" style="flex:1;font-size:10px;" onclick="openParticipate('${c.name}')">Participate</button>`:''}
-        ${c.status==='running'?`<button class="btn-purple" style="flex:1;font-size:10px;" onclick="openCompModal(${c.id})">View Live</button>`:''}
-        ${c.status==='completed'?`<button class="btn-solid" style="flex:1;font-size:10px;background:linear-gradient(135deg,#ffd700,#ff8c00);" onclick="showResult('${c.winner}','${c.runner||'N/A'}','${c.mvp||'N/A'}')">Results</button>`:''}
-      </div>
-    </div>
-  </div>`;
-}
-
-// ============================
-// RUNNING COMPETITIONS
-// ============================
-function renderRunning() {
-  const container = document.getElementById('running-cards');
-  if(!container) return;
-  const runningComps = competitions.filter(c=>c.status==='running');
-  container.innerHTML = runningComps.map(c => buildCompCard(c)).join('');
-  renderGroupTables();
-  renderBracket();
-}
-
-function renderGroupTables() {
-  const container = document.getElementById('group-tables-container');
-  if(!container) return;
-  container.innerHTML = groupData.map(g => `
-    <div class="card" style="overflow:hidden;">
-      <div style="padding:12px 16px;border-bottom:1px solid rgba(0,212,255,0.1);display:flex;align-items:center;justify-content:space-between;">
-        <div class="font-orbitron" style="font-size:13px;font-weight:900;color:var(--neon-blue);">GROUP ${g.grp}</div>
-        <span class="badge badge-live">● IN PROGRESS</span>
-      </div>
-      <div style="overflow-x:auto;">
-        <table class="group-table">
-          <thead><tr><th style="text-align:left;">TEAM</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr></thead>
-          <tbody>
-            ${g.teams.map((t,i)=>`<tr style="${t.q?'border-left:2px solid var(--neon-blue);':''}">
-              <td style="display:flex;align-items:center;gap:8px;">
-                <span class="team-rank-pos" style="${i===0?'background:rgba(0,212,255,0.2);color:var(--neon-blue);':i===1?'background:rgba(0,255,136,0.15);color:var(--neon-green);':'background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.4);'}">${i+1}</span>
-                <span style="font-size:13px;">${t.n}</span>
-                ${t.q?'<span class="badge badge-qualified" style="font-size:9px;">Q</span>':'<span class="badge badge-eliminated" style="font-size:9px;">E</span>'}
-              </td>
-              <td>${t.mp}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td>
-              <td>${t.gf}</td><td>${t.ga}</td>
-              <td style="color:${t.gf-t.ga>0?'var(--neon-green)':t.gf-t.ga<0?'#ff3333':'rgba(255,255,255,0.4)'}">${t.gf-t.ga>0?'+':''}${t.gf-t.ga}</td>
-              <td><strong style="color:${t.q?'var(--neon-blue)':'rgba(255,255,255,0.6)'};font-family:'Orbitron',monospace;">${t.pts}</strong></td>
-            </tr>`).join('')}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  `).join('');
-}
-
-function renderBracket() {
-  const container = document.getElementById('bracket-container');
-  if(!container) return;
-  container.innerHTML = bracketData.map(round => `
-    <div class="bracket-round">
-      <div class="bracket-round-label">${round.round}</div>
-      ${round.matches.map(m => `
-        <div class="bracket-match">
-          <div class="bracket-team ${m.done&&m.sa>m.sb?'winner':'loser'}">
-            <span style="font-size:11px;">${m.a}</span>
-            <span class="bracket-score">${m.sa!==null?m.sa:'-'}</span>
-          </div>
-          <div style="height:1px;background:rgba(0,212,255,0.15);"></div>
-          <div class="bracket-team ${m.done&&m.sb>m.sa?'winner':'loser'}">
-            <span style="font-size:11px;">${m.b}</span>
-            <span class="bracket-score">${m.sb!==null?m.sb:'-'}</span>
-          </div>
-        </div>
-      `).join('')}
-    </div>
-  `).join('<div style="display:flex;align-items:center;"><div style="width:20px;height:1px;background:rgba(0,212,255,0.2);"></div></div>');
-}
-
-// ============================
-// REGISTRATION
-// ============================
-function renderRegistration() {
-  const container = document.getElementById('reg-cards');
-  if(!container) return;
-  container.innerHTML = competitions.filter(c=>c.status==='reg-open').map(c=>buildCompCard(c)).join('');
-  renderParticipantTable();
-}
-
-function renderParticipantTable() {
-  const tbody = document.getElementById('participant-tbody');
-  if(!tbody) return;
-  tbody.innerHTML = participantData.map(p => `<tr>
-    <td>
-      <div style="display:flex;align-items:center;gap:10px;">
-        <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#0066aa,var(--neon-purple));display:flex;align-items:center;justify-content:center;font-size:14px;">${p.emoji}</div>
-        <span style="font-weight:600;">${p.name}</span>
-      </div>
-    </td>
-    <td><code style="color:var(--neon-blue);font-family:'Share Tech Mono';">${p.id}</code></td>
-    <td>${p.device}</td>
-    <td style="font-size:12px;">${p.comp}</td>
-    <td><span class="badge badge-${p.status}">${p.status.charAt(0).toUpperCase()+p.status.slice(1)}</span></td>
-    <td>
-      <div style="display:flex;gap:6px;">
-        ${p.status==='pending'?`<button class="btn-green" style="font-size:9px;padding:5px 10px;" onclick="approveParticipant(this,'${p.name}')">Approve</button>
-        <button class="btn-danger" style="font-size:9px;padding:5px 10px;" onclick="rejectParticipant(this,'${p.name}')">Reject</button>`:''}
-        ${p.status!=='pending'?`<button class="btn-neon" style="font-size:9px;padding:5px 10px;" onclick="openCardModal('${p.name}','${p.id}','${p.comp}','${p.device}')">Card</button>`:''}
-      </div>
-    </td>
-  </tr>`).join('');
-}
-
-function approveParticipant(btn, name) {
-  const row = btn.closest('tr');
-  row.querySelector('td:nth-child(5)').innerHTML = '<span class="badge badge-approved">Approved</span>';
-  row.querySelector('td:last-child').innerHTML = `<button class="btn-neon" style="font-size:9px;padding:5px 10px;" onclick="openCardModal('${name}','#KNM-XXXX','Premier League S7','PS5')">Card</button>`;
-}
-
-function rejectParticipant(btn, name) {
-  const row = btn.closest('tr');
-  row.querySelector('td:nth-child(5)').innerHTML = '<span class="badge badge-rejected">Rejected</span>';
-  row.querySelector('td:last-child').innerHTML = '';
-}
-
-// ============================
-// UPCOMING
-// ============================
-function renderUpcoming() {
-  const container = document.getElementById('upcoming-cards');
-  if(!container) return;
-  container.innerHTML = competitions.filter(c=>c.status==='upcoming'||c.status==='reg-open').slice(0,4).map(c=>buildCompCard(c)).join('');
-}
-
-// ============================
-// COMPLETED
-// ============================
-function renderCompleted() {
-  const container = document.getElementById('completed-cards');
-  if(!container) return;
-  const comps = competitions.filter(c=>c.status==='completed');
-  container.innerHTML = comps.concat(comps).slice(0,6).map((c,i) => {
-    const names = ['Winter Championship','Season 6 Grand Prix','October Showdown','Spring Battle','Elite League S5','Pro Series S4'];
-    const winners = ['CyberKings FC','Phantom XI','NightHawks','Dragon Squad','StrikerX99','eFC Warriors'];
-    const prizes = ['$6,000','$4,500','$2,000','$3,200','$5,000','$1,800'];
-    return `<div class="comp-card">
-      <div class="comp-card-header" style="background:linear-gradient(135deg,#1a1200,#0a0a00);">
-        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:48px;opacity:0.15;">🏆</div>
-        <div style="position:relative;z-index:1;text-align:center;">
-          <div class="font-orbitron" style="font-size:20px;font-weight:900;color:#ffd700;">${prizes[i]}</div>
-          <div style="font-size:11px;color:rgba(255,255,255,0.4);">Total Prize</div>
-        </div>
-        <div style="position:absolute;top:10px;left:10px;"><span class="badge badge-completed">COMPLETED</span></div>
-      </div>
-      <div class="comp-card-body">
-        <div class="font-orbitron" style="font-size:13px;font-weight:700;color:#fff;margin-bottom:8px;">${names[i]}</div>
-        <div style="padding:10px;background:rgba(255,215,0,0.06);border-radius:8px;border:1px solid rgba(255,215,0,0.12);margin-bottom:12px;">
-          <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:4px;">🏆 CHAMPION</div>
-          <div style="font-size:14px;font-weight:700;color:#ffd700;">${winners[i]}</div>
-        </div>
-        <div style="display:flex;gap:8px;">
-          <button class="btn-neon" style="flex:1;font-size:10px;">Statistics</button>
-          <button class="btn-solid" style="flex:1;font-size:10px;background:linear-gradient(135deg,#ffd700,#ff8c00);" onclick="showResult('${winners[i]}','${winners[(i+1)%winners.length]}','MVP_Player')">Results</button>
-        </div>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-// ============================
-// FRIENDLY / DIVISIONS
-// ============================
-function renderFriendly() {
-  renderDivisions();
-}
-
-function setFriendlyMode(mode) {
-  document.getElementById('mode-solo').className = mode==='solo'?'btn-solid':'btn-neon';
-  document.getElementById('mode-club').className = mode==='club'?'btn-solid':'btn-neon';
-}
-
-function renderDivisions() {
-  // Path
-  const path = document.getElementById('division-path');
-  if(path) {
-    path.innerHTML = divisionData.map((d,i) => `
-      <div style="display:flex;align-items:center;gap:0;flex-shrink:0;">
-        <div style="text-align:center;padding:8px 12px;background:${d.unlocked?d.color+'22':'rgba(255,255,255,0.03)'};border:1px solid ${d.unlocked?d.color+'44':'rgba(255,255,255,0.08)'};border-radius:8px;min-width:70px;">
-          <div style="font-family:'Orbitron',monospace;font-size:14px;font-weight:900;color:${d.unlocked?d.color:'rgba(255,255,255,0.2)'};">DIV ${d.div}</div>
-          <div style="font-size:10px;color:rgba(255,255,255,0.3);">${d.wins}+ wins</div>
-          ${!d.unlocked?'<i class="fas fa-lock" style="font-size:10px;color:rgba(255,255,255,0.2);"></i>':''}
-        </div>
-        ${i<divisionData.length-1?`<div style="width:20px;height:2px;background:${d.unlocked&&divisionData[i+1].unlocked?'var(--neon-blue)':'rgba(255,255,255,0.1)'};flex-shrink:0;"></div>`:''}
-      </div>
-    `).join('');
+    const elapsed = totalDuration - distance;
+    let percent = (elapsed / totalDuration) * 100;
+    percent = Math.max(0, Math.min(100, percent));
+    document.getElementById('progressFill').style.width = percent.toFixed(2) + "%";
+    document.getElementById('progressText').innerText =
+      percent.toFixed(1) + "% of the journey to \"I Do\" 💗";
   }
 
-  const grid = document.getElementById('division-grid');
-  if(!grid) return;
-  grid.innerHTML = divisionData.map(d => `
-    <div class="division-card ${d.unlocked?'':'locked'}" onclick="${d.unlocked?`openDivision(${d.div})`:'showLocked()'}">
-      <div class="division-badge" style="background:${d.color}22;border:2px solid ${d.color}44;color:${d.color};">${d.div}</div>
-      <div class="font-orbitron" style="font-size:13px;font-weight:900;color:${d.unlocked?'#fff':'rgba(255,255,255,0.3)'};">Division ${d.div}</div>
-      <div style="font-size:11px;color:rgba(255,255,255,0.4);margin:8px 0;">${d.wins}+ wins required</div>
-      <div style="font-size:11px;color:${d.color};">Max ${d.maxMatches} matches/mo</div>
-      <div style="margin-top:10px;font-size:11px;color:rgba(255,255,255,0.3);">👥 ${d.players.toLocaleString()} players</div>
-      ${!d.unlocked?'<div style="margin-top:8px;"><span class="badge" style="background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.3);border:1px solid rgba(255,255,255,0.1);"><i class="fas fa-lock"></i> LOCKED</span></div>':''}
-    </div>
-  `).join('');
-}
+  updateCountdown();
+  const timer = setInterval(updateCountdown, 1000);
 
-function openDivision(div) {
-  alert(`Division ${div} selected! Join matches and climb the ladder.`);
-}
-function showLocked() {
-  alert('Complete more wins to unlock this division!');
-}
-
-// ============================
-// FIXTURES
-// ============================
-function renderFixtures() {
-  renderFixtureList(fixtures);
-}
-
-function renderFixtureList(data) {
-  const list = document.getElementById('fixtures-list');
-  if(!list) return;
-  list.innerHTML = data.map(f => {
-    const isLive = f.status==='live';
-    const isDone = f.status==='completed';
-    return `<div class="fixture-card">
-      <div style="min-width:80px;text-align:center;">
-        <div style="font-size:10px;color:rgba(255,255,255,0.3);">${f.date}</div>
-        <div style="font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:var(--neon-blue);">${f.time}</div>
-        <div style="font-size:10px;color:rgba(255,255,255,0.3);">Grp ${f.grp}</div>
-      </div>
-      <div style="display:flex;align-items:center;gap:14px;flex:1;">
-        <div style="flex:1;text-align:right;">
-          <div style="font-size:13px;font-weight:700;${isDone&&f.sa>f.sb?'color:var(--neon-green);':''}">${f.ta}</div>
-        </div>
-        <div style="text-align:center;min-width:80px;">
-          ${isDone||isLive ? `<div style="font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:#fff;">${f.sa} <span style="color:rgba(255,255,255,0.3);">-</span> ${f.sb}</div>` : '<div class="vs-badge">VS</div>'}
-        </div>
-        <div style="flex:1;text-align:left;">
-          <div style="font-size:13px;font-weight:700;${isDone&&f.sb>f.sa?'color:var(--neon-green);':''}">${f.tb}</div>
-        </div>
-      </div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;min-width:110px;">
-        ${isLive?'<span class="badge badge-live">● LIVE</span>':isDone?'<span class="badge badge-completed">FT</span>':'<span class="badge badge-upcoming">Soon</span>'}
-        <div style="font-size:11px;color:rgba(255,255,255,0.3);">${f.comp}</div>
-        <div style="font-size:10px;color:rgba(255,255,255,0.2);">${f.id}</div>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-function filterFixtures(status, btn) {
-  document.querySelectorAll('#fixture-status-tabs button').forEach(b=>{b.className='btn-neon';});
-  btn.className='btn-solid';
-  const filtered = status==='all' ? fixtures : fixtures.filter(f=>f.status===status);
-  renderFixtureList(filtered);
-}
-
-// ============================
-// MATCH LOGS
-// ============================
-function renderMatchLogs() {
-  renderLogTable(matchLogs);
-}
-
-function renderLogTable(data) {
-  const tbody = document.getElementById('match-logs-tbody');
-  if(!tbody) return;
-  tbody.innerHTML = data.map(m => `<tr>
-    <td><code style="color:var(--neon-blue);font-family:'Share Tech Mono';">${m.id}</code></td>
-    <td style="font-size:12px;">${m.comp}</td>
-    <td>
-      <div style="font-size:12px;font-weight:600;">${m.p1}</div>
-      <div style="font-size:11px;color:rgba(255,255,255,0.4);">vs ${m.p2}</div>
-    </td>
-    <td><span class="font-orbitron" style="font-size:14px;font-weight:900;">${m.s1} - ${m.s2}</span></td>
-    <td style="font-size:12px;">${m.by}</td>
-    <td style="font-size:11px;color:rgba(255,255,255,0.4);">${m.time}</td>
-    <td><span class="badge badge-${m.status==='disputed'?'pending':m.status}">${m.status.charAt(0).toUpperCase()+m.status.slice(1)}</span></td>
-    <td><button class="btn-danger" style="font-size:9px;padding:4px 10px;" onclick="document.getElementById('complaint-modal').classList.add('open')">Dispute</button></td>
-  </tr>`).join('');
-}
-
-function filterMatchLogs(val) {
-  const filtered = matchLogs.filter(m =>
-    m.p1.toLowerCase().includes(val.toLowerCase()) ||
-    m.p2.toLowerCase().includes(val.toLowerCase()) ||
-    m.id.toLowerCase().includes(val.toLowerCase())
-  );
-  renderLogTable(filtered);
-}
-
-function filterMatchLogsStatus(val) {
-  const filtered = val==='all' ? matchLogs : matchLogs.filter(m=>m.status===val);
-  renderLogTable(filtered);
-}
-
-// ============================
-// RANKINGS
-// ============================
-function renderRankings() {
-  const list = document.getElementById('rankings-list');
-  if(list) {
-    list.innerHTML = rankingsData.map(p => `
-      <div class="rank-row" style="${p.name==='ProPlayer_X'?'border-color:rgba(0,212,255,0.3);background:rgba(0,212,255,0.05);':''}">
-        <div class="rank-number ${p.rank<=3?'rank-'+p.rank:'rank-other'}">${p.rank}</div>
-        <div style="flex:1;">
-          <div style="font-size:13px;font-weight:700;${p.name==='ProPlayer_X'?'color:var(--neon-blue);':''}">${p.name} ${p.name==='ProPlayer_X'?'<span style="font-size:10px;color:var(--neon-blue);font-family:Orbitron,monospace;">(YOU)</span>':''}</div>
-          <div style="font-size:11px;color:rgba(255,255,255,0.4);">Div ${p.div} • ${p.wins} wins • ${p.goal} goals</div>
-        </div>
-        <div class="font-orbitron" style="font-size:14px;font-weight:900;color:${p.rank===1?'#ffd700':p.rank===2?'#c0c0c0':p.rank===3?'#cd7f32':'rgba(226,232,240,0.7)'};">${p.pts}</div>
-      </div>
-    `).join('');
+  // ================== Floating Sparkles ==================
+  const sparkleChars = ['✦','✧','⭐','✨'];
+  function createSparkle() {
+    const el = document.createElement('div');
+    el.classList.add('sparkle');
+    el.innerText = sparkleChars[Math.floor(Math.random() * sparkleChars.length)];
+    el.style.left = Math.random() * 100 + 'vw';
+    const duration = 7 + Math.random() * 6;
+    el.style.animationDuration = duration + 's';
+    el.style.fontSize = (10 + Math.random() * 14) + 'px';
+    el.style.color = '#f7c98e';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), duration * 1000);
   }
+  setInterval(createSparkle, 500);
 
-  const clubList = document.getElementById('club-rankings-list');
-  if(clubList) {
-    clubList.innerHTML = clubRankings.map(c => `
-      <div class="rank-row">
-        <div class="rank-number ${c.rank<=3?'rank-'+c.rank:'rank-other'}">${c.rank}</div>
-        <div style="font-size:22px;margin:0 4px;">${c.emoji}</div>
-        <div style="flex:1;">
-          <div style="font-size:13px;font-weight:700;">${c.name}</div>
-          <div style="font-size:11px;color:rgba(255,255,255,0.4);">${c.wins} wins</div>
-        </div>
-        <div class="font-orbitron" style="font-size:14px;font-weight:900;color:${c.rank===1?'#ffd700':c.rank===2?'#c0c0c0':c.rank===3?'#cd7f32':'rgba(226,232,240,0.7)'};">${c.pts}</div>
-      </div>
-    `).join('');
+  // ================== Falling Petals ==================
+  const petalChars = ['🌸','🌺','💮'];
+  function createPetal() {
+    const el = document.createElement('div');
+    el.classList.add('petal');
+    el.innerText = petalChars[Math.floor(Math.random() * petalChars.length)];
+    el.style.left = Math.random() * 100 + 'vw';
+    const duration = 8 + Math.random() * 6;
+    el.style.animationDuration = duration + 's';
+    el.style.fontSize = (14 + Math.random() * 12) + 'px';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), duration * 1000);
   }
-
-  // Bar chart
-  setTimeout(() => {
-    const ctx = document.getElementById('barChart');
-    if(!ctx) return;
-    new Chart(ctx, {
-      type:'bar',
-      data:{
-        labels:rankingsData.slice(0,7).map(p=>p.name.substring(0,8)),
-        datasets:[{label:'Goals',data:rankingsData.slice(0,7).map(p=>p.goal),backgroundColor:'rgba(0,212,255,0.5)',borderColor:'rgba(0,212,255,0.8)',borderWidth:1,borderRadius:4}]
-      },
-      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'rgba(226,232,240,0.4)',font:{size:9}},grid:{color:'rgba(255,255,255,0.04)'}},y:{ticks:{color:'rgba(226,232,240,0.4)',font:{size:9}},grid:{color:'rgba(255,255,255,0.04)'}}}}
-    });
-  }, 200);
-}
-
-// ============================
-// MODALS
-// ============================
-function openCompModal(id) {
-  const c = competitions.find(x=>x.id===id);
-  if(!c) return;
-  document.getElementById('modal-comp-title').textContent = c.name;
-  document.getElementById('modal-comp-status').innerHTML = `<span class="badge badge-${c.status==='running'?'live':c.status==='reg-open'?'reg-open':c.status}">${c.status.toUpperCase()}</span>`;
-  document.getElementById('modal-comp-body').innerHTML = `
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;">
-      <div style="padding:14px;background:rgba(0,212,255,0.05);border-radius:8px;border:1px solid rgba(0,212,255,0.1);">
-        <div style="font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:1px;margin-bottom:4px;">PRIZE POOL</div>
-        <div class="font-orbitron" style="font-size:22px;font-weight:900;color:var(--neon-blue);">${c.prize}</div>
-      </div>
-      <div style="padding:14px;background:rgba(180,0,255,0.05);border-radius:8px;border:1px solid rgba(180,0,255,0.1);">
-        <div style="font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:1px;margin-bottom:4px;">FORMAT</div>
-        <div class="font-orbitron" style="font-size:18px;font-weight:900;color:var(--neon-purple);">${c.format} Mode</div>
-      </div>
-    </div>
-    <div style="margin-bottom:16px;">
-      <div class="font-orbitron" style="font-size:11px;color:var(--neon-blue);margin-bottom:10px;letter-spacing:1px;">TOURNAMENT INFO</div>
-      <div style="display:grid;gap:6px;">
-        <div style="display:flex;justify-content:space-between;padding:8px;background:rgba(255,255,255,0.03);border-radius:6px;">
-          <span style="font-size:12px;color:rgba(255,255,255,0.4);">Game</span><span style="font-size:12px;">${c.game}</span>
-        </div>
-        <div style="display:flex;justify-content:space-between;padding:8px;background:rgba(255,255,255,0.03);border-radius:6px;">
-          <span style="font-size:12px;color:rgba(255,255,255,0.4);">Total Slots</span><span style="font-size:12px;">${c.slots} players</span>
-        </div>
-        <div style="display:flex;justify-content:space-between;padding:8px;background:rgba(255,255,255,0.03);border-radius:6px;">
-          <span style="font-size:12px;color:rgba(255,255,255,0.4);">Groups</span><span style="font-size:12px;">${c.groups} groups</span>
-        </div>
-        <div style="display:flex;justify-content:space-between;padding:8px;background:rgba(255,255,255,0.03);border-radius:6px;">
-          <span style="font-size:12px;color:rgba(255,255,255,0.4);">Start Date</span><span style="font-size:12px;">${c.startDate}</span>
-        </div>
-        <div style="display:flex;justify-content:space-between;padding:8px;background:rgba(255,255,255,0.03);border-radius:6px;">
-          <span style="font-size:12px;color:rgba(255,255,255,0.4);">End Date</span><span style="font-size:12px;">${c.endDate}</span>
-        </div>
-      </div>
-    </div>
-    <div style="margin-bottom:16px;">
-      <div class="font-orbitron" style="font-size:11px;color:var(--neon-orange);margin-bottom:10px;letter-spacing:1px;">PRIZE DISTRIBUTION</div>
-      <div style="display:grid;gap:6px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:rgba(255,215,0,0.06);border-radius:6px;border:1px solid rgba(255,215,0,0.1);">
-          <span>🥇 Champion</span><span class="font-orbitron" style="color:#ffd700;">50%</span>
-        </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:rgba(192,192,192,0.05);border-radius:6px;">
-          <span>🥈 Runner-Up</span><span class="font-orbitron" style="color:#c0c0c0;">25%</span>
-        </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:rgba(205,127,50,0.05);border-radius:6px;">
-          <span>🥉 3rd Place</span><span class="font-orbitron" style="color:#cd7f32;">15%</span>
-        </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:rgba(255,255,255,0.03);border-radius:6px;">
-          <span>⭐ MVP Award</span><span class="font-orbitron" style="color:rgba(255,255,255,0.6);">10%</span>
-        </div>
-      </div>
-    </div>
-    <div style="margin-bottom:16px;">
-      <div class="font-orbitron" style="font-size:11px;color:var(--neon-green);margin-bottom:10px;letter-spacing:1px;">RULES OVERVIEW</div>
-      <div style="font-size:12px;color:rgba(255,255,255,0.5);line-height:1.8;">
-        • All matches played on default eFootball settings<br>
-        • Submit scores within 30 minutes of match end<br>
-        • Screenshot proof required with all submissions<br>
-        • Disconnection: rematch with same teams & formations<br>
-        • Fair play violations result in immediate disqualification<br>
-        • Admin decisions are final on disputed matches
-      </div>
-    </div>
-    <div style="display:flex;gap:8px;">
-      ${c.status==='reg-open'?`<button class="btn-solid" style="flex:1;" onclick="closeModal('comp-modal');openParticipate('${c.name}')">Join Competition</button>`:''}
-      <button class="btn-neon" style="flex:1;" onclick="closeModal('comp-modal')">Close</button>
-    </div>
-  `;
-  document.getElementById('comp-modal').classList.add('open');
-}
-
-function openParticipate(compName) {
-  const body = document.getElementById('participate-body');
-  body.innerHTML = `
-    <div style="text-align:center;padding:10px 0 20px;">
-      <div style="font-size:40px;margin-bottom:12px;">⚡</div>
-      <div class="font-orbitron" style="font-size:15px;font-weight:900;color:#fff;margin-bottom:6px;">${compName}</div>
-      <div style="font-size:13px;color:rgba(255,255,255,0.5);">Confirm your participation in this tournament</div>
-    </div>
-    <div style="background:rgba(0,212,255,0.05);border:1px solid rgba(0,212,255,0.15);border-radius:10px;padding:16px;margin-bottom:16px;">
-      <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
-        <span style="font-size:12px;color:rgba(255,255,255,0.4);">Player</span>
-        <span style="font-size:12px;font-weight:600;">ProPlayer_X</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
-        <span style="font-size:12px;color:rgba(255,255,255,0.4);">Konami ID</span>
-        <span style="font-size:12px;font-family:'Share Tech Mono';color:var(--neon-blue);">#KNM-4921</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;">
-        <span style="font-size:12px;color:rgba(255,255,255,0.4);">Device</span>
-        <span style="font-size:12px;">PlayStation 5</span>
-      </div>
-    </div>
-    <div style="margin-bottom:14px;">
-      <label style="font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:1px;display:block;margin-bottom:6px;">FACEBOOK POST LINK (Required)</label>
-      <input type="url" class="form-input" id="fb-link" placeholder="https://facebook.com/posts/...">
-    </div>
-    <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:16px;">
-      <i class="fas fa-info-circle" style="color:var(--neon-blue);"></i> By joining, you agree to the tournament rules and fair play policy.
-    </div>
-    <div style="display:flex;gap:8px;">
-      <button class="btn-solid" style="flex:1;" onclick="confirmParticipation('${compName}')">Confirm & Join</button>
-      <button class="btn-neon" style="flex:1;" onclick="closeModal('participate-modal')">Cancel</button>
-    </div>
-  `;
-  document.getElementById('participate-modal').classList.add('open');
-}
-
-function confirmParticipation(compName) {
-  closeModal('participate-modal');
-  setTimeout(() => openCardModal('ProPlayer_X','#KNM-4921',compName,'PlayStation 5'), 300);
-}
-
-function openCardModal(name, id, comp, device) {
-  const body = document.getElementById('card-body');
-  body.innerHTML = `
-    <div class="participation-card">
-      <div style="position:relative;z-index:1;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-          <div class="font-orbitron" style="font-size:10px;color:var(--neon-blue);letter-spacing:2px;">eCOMPETITOR CARD</div>
-          <div class="badge badge-approved">✓ VALID</div>
-        </div>
-        <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;">
-          <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#0066aa,var(--neon-purple));display:flex;align-items:center;justify-content:center;font-size:24px;border:2px solid rgba(0,212,255,0.3);">🎮</div>
-          <div>
-            <div class="font-orbitron" style="font-size:16px;font-weight:900;color:#fff;">${name}</div>
-            <div style="font-family:'Share Tech Mono';font-size:11px;color:var(--neon-blue);">${id}</div>
-          </div>
-        </div>
-        <div style="background:rgba(0,0,0,0.3);border-radius:8px;padding:12px;margin-bottom:14px;">
-          <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:4px;">COMPETITION</div>
-          <div style="font-size:13px;font-weight:700;">${comp}</div>
-          <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px;">Device: ${device}</div>
-        </div>
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-          <div>
-            <div style="font-size:10px;color:rgba(255,255,255,0.3);">Issued</div>
-            <div style="font-family:'Share Tech Mono';font-size:11px;color:rgba(255,255,255,0.6);">${new Date().toLocaleDateString()}</div>
-          </div>
-          <div style="width:56px;height:56px;background:rgba(255,255,255,0.08);border-radius:8px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(0,212,255,0.2);">
-            <div style="display:grid;grid-template-columns:repeat(4,8px);gap:2px;">
-              ${Array(16).fill(0).map(()=>`<div style="width:8px;height:8px;background:${Math.random()>0.4?'rgba(0,212,255,0.8)':'transparent'};border-radius:1px;"></div>`).join('')}
-            </div>
-          </div>
-        </div>
-        <div style="text-align:center;padding:6px;background:rgba(0,212,255,0.08);border-radius:6px;border:1px solid rgba(0,212,255,0.2);">
-          <div class="font-orbitron" style="font-size:10px;color:var(--neon-blue);letter-spacing:3px;">⚡ eKickHub Official ⚡</div>
-        </div>
-      </div>
-    </div>
-    <button class="btn-solid" style="width:100%;margin-top:14px;" onclick="closeModal('card-modal')">
-      <i class="fas fa-download" style="margin-right:6px;"></i>Save Card
-    </button>
-  `;
-  document.getElementById('card-modal').classList.add('open');
-}
-
-function showResult(champion, runner, mvp) {
-  const body = document.getElementById('result-body');
-  body.innerHTML = `
-    <div style="font-size:64px;margin-bottom:16px;animation:popIn 0.5s cubic-bezier(0.68,-0.55,0.265,1.55);">🏆</div>
-    <div class="font-orbitron" style="font-size:22px;font-weight:900;color:#ffd700;margin-bottom:6px;">CHAMPION</div>
-    <div class="font-orbitron" style="font-size:20px;font-weight:900;color:#fff;margin-bottom:20px;">${champion}</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;">
-      <div style="padding:14px;background:rgba(192,192,192,0.07);border-radius:8px;border:1px solid rgba(192,192,192,0.15);">
-        <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:4px;">🥈 RUNNER-UP</div>
-        <div style="font-size:13px;font-weight:700;color:#c0c0c0;">${runner}</div>
-      </div>
-      <div style="padding:14px;background:rgba(255,215,0,0.07);border-radius:8px;border:1px solid rgba(255,215,0,0.15);">
-        <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:4px;">⭐ MVP</div>
-        <div style="font-size:13px;font-weight:700;color:#ffd700;">${mvp}</div>
-      </div>
-    </div>
-    <button class="btn-solid" onclick="closeModal('result-modal');triggerConfetti();" style="margin-right:8px;">🎊 Celebrate!</button>
-    <button class="btn-neon" onclick="closeModal('result-modal')">Close</button>
-  `;
-  document.getElementById('result-modal').classList.add('open');
-}
-
-function closeModal(id) {
-  document.getElementById(id).classList.remove('open');
-}
-
-// Close modal on overlay click
-document.querySelectorAll('.modal-overlay').forEach(m => {
-  m.addEventListener('click', e => { if(e.target===m) m.classList.remove('open'); });
-});
-
-// ============================
-// SCORE SUBMIT
-// ============================
-function submitScore() {
-  const match = document.getElementById('match-select').value;
-  if(!match) { alert('Please select a match!'); return; }
-  document.getElementById('score-form-container').style.display = 'none';
-  document.getElementById('score-success').style.display = 'block';
-}
-
-function resetScoreForm() {
-  pagesRendered['score-submit'] = false;
-  document.getElementById('score-form-container').style.display = 'block';
-  document.getElementById('score-success').style.display = 'none';
-  document.getElementById('match-select').value = '';
-  document.getElementById('my-score').value = '0';
-  document.getElementById('opp-score').value = '0';
-}
-
-// ============================
-// CONFETTI
-// ============================
-function triggerConfetti() {
-  const colors = ['#00d4ff','#b400ff','#ffd700','#00ff88','#ff6b00'];
-  for(let i=0;i<60;i++) {
-    const piece = document.createElement('div');
-    piece.className = 'confetti-piece';
-    piece.style.cssText = `
-      left:${Math.random()*100}vw;
-      background:${colors[Math.floor(Math.random()*colors.length)]};
-      animation-duration:${1.5+Math.random()*2}s;
-      animation-delay:${Math.random()*0.5}s;
-      transform:rotate(${Math.random()*360}deg);
-      width:${4+Math.random()*8}px;
-      height:${4+Math.random()*8}px;
-    `;
-    document.body.appendChild(piece);
-    setTimeout(() => piece.remove(), 3000);
-  }
-}
-
-// ============================
-// UI HELPERS
-// ============================
-function toggleSidebar() {
-  document.getElementById('sidebar').classList.toggle('open');
-  document.getElementById('sidebar-overlay').classList.toggle('open');
-}
-
-function closeSidebar() {
-  document.getElementById('sidebar').classList.remove('open');
-  document.getElementById('sidebar-overlay').classList.remove('open');
-}
-
-function toggleNotifications() {
-  const panel = document.getElementById('notif-panel');
-  panel.style.display = panel.style.display==='block' ? 'none' : 'block';
-  document.getElementById('notif-badge').style.display = 'none';
-}
-
-document.addEventListener('click', e => {
-  const panel = document.getElementById('notif-panel');
-  if(!e.target.closest('[onclick*="toggleNotifications"]') && !e.target.closest('#notif-panel')) {
-    panel.style.display = 'none';
-  }
-});
-
-let isDark = true;
-function toggleDark() {
-  isDark = !isDark;
-  document.getElementById('theme-icon').className = isDark ? 'fas fa-moon' : 'fas fa-sun';
-  if(!isDark) {
-    document.documentElement.style.setProperty('--bg-dark','#f0f2f5');
-    document.documentElement.style.setProperty('--bg-card','#ffffff');
-    document.documentElement.style.setProperty('--bg-panel','#f8fafc');
-    document.body.style.color = '#1a1a2e';
-  } else {
-    document.documentElement.style.setProperty('--bg-dark','#030712');
-    document.documentElement.style.setProperty('--bg-card','#0d1117');
-    document.documentElement.style.setProperty('--bg-panel','#111827');
-    document.body.style.color = '#e2e8f0';
-  }
-}
-
-// ============================
-// FAKE ONLINE COUNT
-// ============================
-function updateOnlineCount() {
-  const base = 847;
-  const count = base + Math.floor(Math.random()*40 - 20);
-  const el = document.getElementById('online-count');
-  if(el) el.textContent = count.toLocaleString() + ' players online';
-}
-setInterval(updateOnlineCount, 5000);
-updateOnlineCount();
-
-// ============================
-// INIT
-// ============================
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    document.getElementById('loading-screen').classList.add('hidden');
-    renderPage('dashboard');
-    // Animate season progress
-    setTimeout(() => { const el = document.getElementById('season-prog'); if(el) el.style.width='63%'; }, 500);
-  }, 2200);
-});
+  setInterval(createPetal, 1400);
 </script>
+
 </body>
 </html>
