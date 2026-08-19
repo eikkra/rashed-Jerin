@@ -39,9 +39,17 @@
   a{color:inherit;}
   ::selection{background:var(--gold-bright); color:var(--cream);}
 
-  /* ---------- background wheat / botanical line art (shared) ---------- */
-  .bg-botanical{
-    position:absolute; inset:0; pointer-events:none; opacity:0.55; z-index:0;
+  /* ---------- ambient texture ---------- */
+  body::before{
+    content:'';
+    position:fixed; inset:0;
+    background-image:
+      radial-gradient(circle at 15% 8%, rgba(180,134,63,0.07), transparent 40%),
+      radial-gradient(circle at 85% 15%, rgba(122,35,49,0.06), transparent 38%),
+      radial-gradient(circle at 20% 92%, rgba(122,35,49,0.06), transparent 40%),
+      radial-gradient(circle at 90% 85%, rgba(180,134,63,0.07), transparent 40%);
+    pointer-events:none;
+    z-index:0;
   }
 
   /* ================= ENVELOPE SCREEN ================= */
@@ -53,6 +61,42 @@
     transition:opacity 0.9s ease, visibility 0.9s ease;
   }
   #envelope-screen.opened{opacity:0; visibility:hidden; pointer-events:none;}
+  #envelope-screen::before{
+    content:'';
+    position:absolute; inset:16px;
+    border:1px solid var(--line);
+    pointer-events:none;
+  }
+
+  .env-frame-corner{
+    position:absolute; width:34px; height:34px; z-index:1; pointer-events:none;
+  }
+  .env-frame-corner svg{width:100%; height:100%;}
+  .env-frame-corner.tl{top:26px; left:26px;}
+  .env-frame-corner.tr{top:26px; right:26px; transform:scaleX(-1);}
+  .env-frame-corner.bl{bottom:26px; left:26px; transform:scaleY(-1);}
+  .env-frame-corner.br{bottom:26px; right:26px; transform:scale(-1);}
+
+  .env-monogram{
+    width:60px; height:60px;
+    border-radius:50%;
+    border:1px solid var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:18px;
+    position:relative;
+  }
+  .env-monogram::before{
+    content:'';
+    position:absolute; inset:5px;
+    border-radius:50%;
+    border:1px solid rgba(180,134,63,0.4);
+  }
+  .env-monogram span{
+    font-family:'Marcellus', serif;
+    font-size:1rem;
+    letter-spacing:0.06em;
+    color:var(--maroon-deep);
+  }
 
   .env-eyebrow{
     font-family:'Noto Serif Bengali', serif;
@@ -67,13 +111,27 @@
     color:var(--gold);
     letter-spacing:0.28em;
     text-transform:uppercase;
-    margin:0 0 34px;
+    margin:0 0 8px;
     text-align:center;
+  }
+  .env-title-rule{
+    width:46px; height:1px;
+    background:linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin:0 auto 34px;
   }
 
   .envelope-wrap{
     perspective:1400px;
     width:min(78vw, 300px);
+    position:relative;
+  }
+  .envelope-shadow{
+    position:absolute;
+    left:50%; bottom:-18px;
+    transform:translateX(-50%);
+    width:82%; height:18px;
+    background:radial-gradient(ellipse, rgba(90,50,20,0.28), transparent 72%);
+    z-index:-1;
   }
   .envelope{
     position:relative;
@@ -189,6 +247,16 @@
     width:64px; height:1px;
     background:linear-gradient(90deg, transparent, var(--gold), transparent);
     margin:22px auto;
+    position:relative;
+  }
+  .divider::after{
+    content:'✦';
+    position:absolute; top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    font-size:0.65rem;
+    color:var(--gold);
+    background:var(--cream);
+    padding:0 8px;
   }
   .divider.wide{width:120px;}
 
@@ -226,18 +294,27 @@
     margin-bottom:6px;
   }
   .names{
-    font-size:2.5rem;
-    line-height:1.25;
-    margin:14px 0;
+    line-height:1.35;
+    margin:16px 0;
     color:var(--maroon-deep);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+  .names .name-line{
+    display:block;
+    white-space:nowrap;
+    font-size:clamp(1.05rem, 6.2vw, 1.5rem);
+    letter-spacing:0.01em;
   }
   .names .amp{
     display:block;
     font-family:'EB Garamond', serif;
     font-style:italic;
-    font-size:1.5rem;
+    font-weight:400;
+    font-size:1.15rem;
     color:var(--gold);
-    margin:2px 0;
+    margin:7px 0;
   }
   .hero .invite-line{
     font-family:'Noto Serif Bengali', serif;
@@ -328,6 +405,10 @@
   .countdown .unit{
     display:flex; flex-direction:column; align-items:center;
     min-width:50px;
+    padding:10px 6px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:rgba(254,252,245,0.6);
   }
   .countdown .val{
     font-family:'Marcellus', serif;
@@ -349,7 +430,16 @@
     border:1px solid var(--line);
     border-radius:6px;
     background:#FEFCF5;
+    position:relative;
   }
+  .couple-card::before, .couple-card::after{
+    content:'';
+    position:absolute; width:18px; height:18px;
+    border:1px solid var(--gold);
+    opacity:0.7;
+  }
+  .couple-card::before{top:8px; left:8px; border-right:none; border-bottom:none;}
+  .couple-card::after{bottom:8px; right:8px; border-left:none; border-top:none;}
   .couple-card .role{
     font-family:'Noto Serif Bengali', serif;
     font-size:0.75rem;
@@ -359,14 +449,20 @@
     margin-bottom:8px;
   }
   .couple-card .who{
-    font-size:1.55rem;
+    font-size:1.5rem;
     color:var(--maroon-deep);
-    margin:0 0 4px;
+    margin:0 0 12px;
   }
-  .couple-card .rel{
+  .couple-card .parents{
     font-family:'Noto Serif Bengali', serif;
-    font-size:0.85rem;
+    font-size:0.88rem;
+    color:var(--ink);
+    line-height:1.9;
+  }
+  .couple-card .parents .p-label{
     color:var(--muted);
+    font-size:0.78rem;
+    margin-right:4px;
   }
   .couple-quote{
     font-family:'EB Garamond', serif;
@@ -387,10 +483,11 @@
     margin-top:10px;
   }
   .detail-item{
-    padding:20px;
+    padding:22px 20px;
     border:1px solid var(--line);
     border-radius:6px;
     background:rgba(254,252,245,0.7);
+    text-align:left;
   }
   .detail-item .dt-label{
     font-family:'Noto Serif Bengali', serif;
@@ -398,17 +495,37 @@
     color:var(--gold);
     letter-spacing:0.1em;
     margin-bottom:6px;
+    text-align:center;
   }
   .detail-item .dt-value{
     font-size:1.2rem;
     color:var(--maroon-deep);
+    text-align:center;
   }
   .detail-item .dt-sub{
     font-family:'Noto Serif Bengali', serif;
     font-size:0.85rem;
     color:var(--muted);
     margin-top:4px;
+    text-align:center;
+    line-height:1.7;
   }
+  .map-link{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    margin-top:14px;
+    font-family:'Noto Serif Bengali', serif;
+    font-size:0.8rem;
+    color:var(--maroon);
+    text-decoration:none;
+    border:1px solid var(--line);
+    padding:8px 16px;
+    border-radius:20px;
+    transition:background 0.2s ease;
+  }
+  .map-link:active{background:rgba(180,134,63,0.12);}
+  .map-link-wrap{text-align:center; margin-top:4px;}
 
   /* ---- Footer ---- */
   .footer{
@@ -447,8 +564,15 @@
 
 <!-- ================= ENVELOPE INTRO ================= -->
 <div id="envelope-screen">
+  <div class="env-frame-corner tl"><svg viewBox="0 0 40 40" fill="none"><path d="M2 2H20M2 2V20" stroke="#B4863F" stroke-width="1.2"/><path d="M2 2L14 2" stroke="#B4863F" stroke-width="1.2"/></svg></div>
+  <div class="env-frame-corner tr"><svg viewBox="0 0 40 40" fill="none"><path d="M2 2H20M2 2V20" stroke="#B4863F" stroke-width="1.2"/></svg></div>
+  <div class="env-frame-corner bl"><svg viewBox="0 0 40 40" fill="none"><path d="M2 2H20M2 2V20" stroke="#B4863F" stroke-width="1.2"/></svg></div>
+  <div class="env-frame-corner br"><svg viewBox="0 0 40 40" fill="none"><path d="M2 2H20M2 2V20" stroke="#B4863F" stroke-width="1.2"/></svg></div>
+
+  <div class="env-monogram"><span>R&amp;A</span></div>
   <div class="env-eyebrow bn">আপনাকে আন্তরিকভাবে আমন্ত্রণ জানানো হচ্ছে</div>
   <div class="env-title">The Wedding Invitation</div>
+  <div class="env-title-rule"></div>
 
   <div class="envelope-wrap">
     <div class="envelope" id="envelope" role="button" aria-label="Open invitation" tabindex="0">
@@ -460,9 +584,10 @@
       <div class="env-flap"></div>
       <div class="wax-seal"><span>R&amp;A</span></div>
     </div>
+    <div class="envelope-shadow"></div>
   </div>
 
-  <p class="tap-hint bn">সিলে ট্যাপ করে খামটি খুলুন</p>
+  <p class="tap-hint bn">✦ সিলে ট্যাপ করে খামটি খুলুন ✦</p>
 </div>
 
 <!-- ================= MAIN INVITATION ================= -->
@@ -474,9 +599,9 @@
       <div class="bn-line bn">বিসমিল্লাহির রাহমানির রাহিম</div>
       <div class="eyebrow bn">শুভ বিবাহ</div>
       <h1 class="names display">
-        Rashedul Hasan
+        <span class="name-line">Md Rashedul Hasan</span>
         <span class="amp">&amp;</span>
-        Afifa Jerin
+        <span class="name-line">Afifa Akter Jerin</span>
       </h1>
       <div class="divider"></div>
       <p class="invite-line bn">
@@ -525,13 +650,19 @@
     <div class="couple-card">
       <div class="role bn">বর</div>
       <h3 class="who display">Md Rashedul Hasan</h3>
-      <div class="rel bn">পুত্র — [পিতার নাম] &amp; [মাতার নাম]</div>
+      <div class="parents bn">
+        <span class="p-label">পিতা</span> মোঃ আব্দুর রহিম<br>
+        <span class="p-label">মাতা</span> নাজমা আক্তার
+      </div>
     </div>
     <div class="divider wide"></div>
     <div class="couple-card">
       <div class="role bn">কনে</div>
-      <h3 class="who display">Afifa Jerin</h3>
-      <div class="rel bn">কন্যা — [পিতার নাম] &amp; [মাতার নাম]</div>
+      <h3 class="who display">Afifa Akter Jerin</h3>
+      <div class="parents bn">
+        <span class="p-label">পিতা</span> মোঃ জাকির হোসেন<br>
+        <span class="p-label">মাতা</span> রায়হানা বেগম
+      </div>
     </div>
     <p class="couple-quote">
       "Two souls, one heart — beginning a journey of love, patience, and togetherness."
@@ -555,8 +686,17 @@
       </div>
       <div class="detail-item">
         <div class="dt-label bn">স্থান</div>
-        <div class="dt-value display">Venue to be announced</div>
-        <div class="dt-sub bn">[এখানে অনুষ্ঠানস্থলের নাম ও ঠিকানা যোগ করুন]</div>
+        <div class="dt-value display">Buffet Heaven</div>
+        <div class="dt-sub bn">
+          প্যারাডাইস ভবন, লেভেল-০১, ৫০ লালবাগ রোড<br>
+          (ফোর্ট মসজিদ গেটের বিপরীতে), লালবাগ, ঢাকা<br>
+          বাংলাদেশ — ১২১১
+        </div>
+        <div class="map-link-wrap">
+          <a class="map-link bn" href="https://www.google.com/maps/search/?api=1&query=Buffet+Heaven+Paradise+Bhaban+Lalbagh+Road+Dhaka" target="_blank" rel="noopener">
+            📍 গুগল ম্যাপে দেখুন
+          </a>
+        </div>
       </div>
     </div>
   </section>
@@ -567,7 +707,7 @@
     <p class="bn-thanks bn">
       আপনাদের উপস্থিতি ও দোয়া<br>আমাদের নতুন জীবনের পথচলাকে<br>আরও সুন্দর করে তুলবে।
     </p>
-    <p class="sign display">Rashedul &amp; Afifa</p>
+    <p class="sign display">Rashed &amp; Afifa</p>
     <p class="fine bn">১০ সেপ্টেম্বর, ২০২৬ — সন্ধ্যায়</p>
   </section>
 
